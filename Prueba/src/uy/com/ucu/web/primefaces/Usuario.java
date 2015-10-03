@@ -21,6 +21,7 @@ import org.hibernate.*;
 @NamedQuery(name="Usuario.findByUsername", query="SELECT u FROM Usuario u WHERE u.username = :username"),
 @NamedQuery(name="Usuario.control", query="SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password")
 })
+
 public class Usuario implements Serializable {
 	//EntityManager em = Persistence.createEntityManagerFactory("Prueba").createEntityManager();
 	public String hardcodeUsername(){
