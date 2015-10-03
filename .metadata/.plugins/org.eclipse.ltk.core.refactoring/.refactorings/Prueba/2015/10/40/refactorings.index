@@ -1,0 +1,16 @@
+1443839722814	Delete element
+1443839729748	Delete element
+1443850840133	Delete element
+1443852475808	Delete element
+1443860364365	Encapsulate field 'username'
+1443860391433	Encapsulate field 'idusuario'
+1443860404767	Encapsulate field 'password'
+1443900857811	Rename compilation unit 'Util.java'
+1443901603867	Encapsulate field 'username'
+1443901649406	Encapsulate field 'password'
+1443905835541	Copy file
+1443905848184	Delete element
+1443905855015	Copy file
+1443906981278	Delete element
+1443908128485	Move 'persistence.xml' to 'WEB-INF'
+1443908180873	Move 'persistence.xml' to 'META-INF'

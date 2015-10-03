@@ -1,0 +1,9 @@
+INDEX VERSION 1.3+C:\Users\Lorena Pacheco\Documents\Workspace\farmaciaya\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3787558238.index
+2298930795.index
+4255535760.index
+480402793.index
+3582288895.index
+43597614.index
+1548468268.index
+3604964217.index

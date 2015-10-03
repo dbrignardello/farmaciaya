@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.core.builder.resourceCopyExclusionFilter=
+org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
+org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8
+org.eclipse.jdt.core.compiler.compliance=1.8
+org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
+org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+org.eclipse.jdt.core.compiler.source=1.8
+org.eclipse.jdt.core.userLibrary.jsf=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="2">\r\n\t<archive path\="C\:/Users/Lorena Pacheco/Downloads/javax.faces.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/antlr-2.7.7.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/hibernate-commons-annotations-5.0.0.Final.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/hibernate-core-5.0.2.Final.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/jandex-1.2.2.Final.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/javassist-3.18.1-GA.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/jboss-logging-3.3.0.Final.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/primefaces-5.2.jar"/>\r\n\t<archive path\="/Prueba/WebContent/WEB-INF/lib/mysql-connector-java-5.1.36-bin.jar"/>\r\n</userlibrary>\r\n
