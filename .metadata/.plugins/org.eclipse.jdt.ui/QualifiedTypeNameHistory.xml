@@ -2,12 +2,22 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javax.annotation.ManagedBean"/>
 <fullyQualifiedTypeName name="javax.faces.bean.ManagedBean"/>
-<fullyQualifiedTypeName name="javax.faces.bean.ApplicationScoped"/>
-<fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
-<fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
-<fullyQualifiedTypeName name="javax.persistence.Persistence"/>
 <fullyQualifiedTypeName name="javax.persistence.spi.PersistenceProviderResolverHolder"/>
 <fullyQualifiedTypeName name="javax.persistence.spi.PersistenceProvider"/>
 <fullyQualifiedTypeName name="org.hibernate.Session"/>
 <fullyQualifiedTypeName name="org.hibernate.Hibernate"/>
+<fullyQualifiedTypeName name="javax.faces.bean.SessionScoped"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
+<fullyQualifiedTypeName name="uy.com.ucu.web.primefaces.Usuario"/>
+<fullyQualifiedTypeName name="uy.com.ucu.web.primefaces.DataQuery"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.ws.client.RequestContext"/>
+<fullyQualifiedTypeName name="org.primefaces.context.RequestContext"/>
+<fullyQualifiedTypeName name="javax.faces.view.facelets.FaceletContext"/>
+<fullyQualifiedTypeName name="javax.faces.context.FacesContext"/>
+<fullyQualifiedTypeName name="javax.faces.application.FacesMessage"/>
+<fullyQualifiedTypeName name="javax.persistence.Persistence"/>
+<fullyQualifiedTypeName name="javax.xml.bind.annotation.XmlRootElement"/>
+<fullyQualifiedTypeName name="javax.faces.bean.ApplicationScoped"/>
 </qualifiedTypeNameHistroy>

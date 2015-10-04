@@ -39,11 +39,4 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/WEB-INF/lib/primefaces-5.2.jar</name>
-			<type>1</type>
-			<locationURI>PROJECT_LOC/primefaces-5.2.jar</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

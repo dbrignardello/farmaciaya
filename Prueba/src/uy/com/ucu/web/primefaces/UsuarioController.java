@@ -19,43 +19,48 @@ import org.primefaces.context.RequestContext;
 public class UsuarioController implements Serializable{
 	private String username;
 	private String password;
-	
 	EntityManagerFactory emf;
 	EntityManager em;
 	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String loginControl(){
-		//emf = Persistence.createEntityManagerFactory("Prueba");
-		
-		
-		
-		
+	
+	public String loginControl(){		
 		em = Persistence.createEntityManagerFactory("prueba").createEntityManager();
 		em.getTransaction().begin();
 		try{
 			Usuario u = em.createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", password).getSingleResult();
 			if(u!=null){
-				RequestContext.getCurrentInstance().update("growl");
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 				em.getTransaction().commit();
 				return "home.xhtml?faces-redirect=true";
 			}
+			RequestContext.getCurrentInstance().update("msg");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
+		
+			em.getTransaction().commit();
 			return "";
 		}catch(Exception e){
+			RequestContext.getCurrentInstance().update("msg");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
+		
+			em.getTransaction().commit();
 			return "";
 		}
-		
 	}
 }
+

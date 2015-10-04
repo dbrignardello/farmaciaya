@@ -6,22 +6,23 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
       
- 
+	<h:head>
+		<title>Login</title>
+	</h:head>
     <h:body>
-    	<h1>Ingrese el nombre de usuario</h1>
- 		<p:growl id="growl" sticky="true" showDetail="true"/>
  		
-	  <h:form>
-		  <p:panelGrid columns="2">
-		  	<h:outputText value=""/>
-		  	<p:inputText value="#{usuario.username}"/>
-		  	<h:outputText value=""/>
-		  	<p:password value="#{usuario.password}"/>
-		  	<f:facet name="footer">
-		  		<p:commandButton value="Usuario" action="#{usuario.loginControl()}"></p:commandButton>
-		  	</f:facet>
-		  </p:panelGrid>
-   	  </h:form>
- 
-    </h:body>
+		<h:form>
+		 		<p:growl id="msg" showDetail="true" sticky="true" /> 
+			<p:panelGrid columns="2" >
+			  	<f:facet name="header" >Login de usuario</f:facet>
+			  	<h:outputText value=""/>
+			  	<p:inputText value="#{usuario.username}"/>
+			  	<h:outputText value=""/>
+			  	<p:password value="#{usuario.password}"/>
+			  	<f:facet name="footer">
+			  		<p:commandButton value="Usuario" action="#{usuario.loginControl()}" update="msg"  immediate="false"/>
+			  	</f:facet>
+			</p:panelGrid>
+		</h:form>
+ 		</h:body>
 </html>
