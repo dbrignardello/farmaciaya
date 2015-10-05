@@ -23,17 +23,7 @@ import org.hibernate.*;
 })
 
 public class Usuario implements Serializable {
-	//EntityManager em = Persistence.createEntityManagerFactory("Prueba").createEntityManager();
-	public String hardcodeUsername(){
-		/*
-		em.getTransaction().begin();
-		Usuario u = em.find(Usuario.class, 1);
-		em.getTransaction().commit();
-		
-		return u.getUsername();
-		*/
-		return getUsername();
-	}
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="idusuario")
@@ -45,11 +35,27 @@ public class Usuario implements Serializable {
 
 	@Column(name="username")
 	String username;
+	
+	@Column(name="email")
+	String email;
 
+	@Column(name="nombreCompleto")
+	private
+	String nombreCompleto;
+	
+	@Column(name="direccion")
+	private
+	String direccion;
+	
+	@Column(name="celular")
+	private
+	String celular;
+	
+	
+	
+	
 	public Usuario() {
 	}
-
-	
 
 	public String getUsername() {
 		return username;
@@ -81,6 +87,42 @@ public class Usuario implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+
+	String getEmail() {
+		return email;
+	}
+
+
+
+	void setEmail(String email) {
+		this.email = email;
+	}
+
+	String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
+	String getDireccion() {
+		return direccion;
+	}
+
+	void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	String getCelular() {
+		return celular;
+	}
+
+	void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	

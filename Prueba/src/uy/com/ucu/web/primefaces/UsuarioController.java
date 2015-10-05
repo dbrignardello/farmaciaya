@@ -19,6 +19,11 @@ import org.primefaces.context.RequestContext;
 public class UsuarioController implements Serializable{
 	private String username;
 	private String password;
+	private String email;
+	private String nombreCompleto;
+	private String direccion;
+	private String celular;
+	
 	EntityManagerFactory emf;
 	EntityManager em;
 	
@@ -61,6 +66,58 @@ public class UsuarioController implements Serializable{
 			em.getTransaction().commit();
 			return "";
 		}
+	}
+	
+	public String userRegistration(){
+		em = Persistence.createEntityManagerFactory("prueba").createEntityManager();
+		em.getTransaction().begin();
+		try{
+			Usuario toInsert = new Usuario();
+			toInsert.setCelular(getCelular());
+			toInsert.setDireccion(getDireccion());
+			toInsert.setEmail(getEmail());
+			toInsert.setNombreCompleto(getNombreCompleto());
+			toInsert.setPassword(getPassword());
+			toInsert.setUsername(getUsername());
+			em.persist(toInsert);
+			em.getTransaction().commit();
+			return "Hello.xhtml?faces-redirect=true";
+		}catch(Exception e){
+			em.getTransaction().commit();
+			return "";
+		}
+	}
+
+	private String getEmail() {
+		return email;
+	}
+
+	private void setEmail(String email) {
+		this.email = email;
+	}
+
+	private String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	private void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
+	private String getDireccion() {
+		return direccion;
+	}
+
+	private void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	private String getCelular() {
+		return celular;
+	}
+
+	private void setCelular(String celular) {
+		this.celular = celular;
 	}
 }
 
