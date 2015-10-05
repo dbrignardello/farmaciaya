@@ -88,35 +88,35 @@ public class UsuarioController implements Serializable{
 		}
 	}
 
-	private String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	private String getNombreCompleto() {
+	public String getNombreCompleto() {
 		return nombreCompleto;
 	}
 
-	private void setNombreCompleto(String nombreCompleto) {
+	public void setNombreCompleto(String nombreCompleto) {
 		this.nombreCompleto = nombreCompleto;
 	}
 
-	private String getDireccion() {
+	public String getDireccion() {
 		return direccion;
 	}
 
-	private void setDireccion(String direccion) {
+	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
 
-	private String getCelular() {
+	public String getCelular() {
 		return celular;
 	}
 
-	private void setCelular(String celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 }

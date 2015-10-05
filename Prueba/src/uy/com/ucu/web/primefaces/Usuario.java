@@ -40,15 +40,12 @@ public class Usuario implements Serializable {
 	String email;
 
 	@Column(name="nombreCompleto")
-	private
 	String nombreCompleto;
 	
 	@Column(name="direccion")
-	private
 	String direccion;
 	
 	@Column(name="celular")
-	private
 	String celular;
 	
 	
@@ -91,37 +88,37 @@ public class Usuario implements Serializable {
 
 
 
-	String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
 
 
-	void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	String getNombreCompleto() {
+	public String getNombreCompleto() {
 		return nombreCompleto;
 	}
 
-	void setNombreCompleto(String nombreCompleto) {
+	public void setNombreCompleto(String nombreCompleto) {
 		this.nombreCompleto = nombreCompleto;
 	}
 
-	String getDireccion() {
+	public String getDireccion() {
 		return direccion;
 	}
 
-	void setDireccion(String direccion) {
+	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
 
-	String getCelular() {
+	public String getCelular() {
 		return celular;
 	}
 
-	void setCelular(String celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 
