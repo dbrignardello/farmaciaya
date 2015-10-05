@@ -25,8 +25,16 @@ public class UsuarioController implements Serializable{
 	private String celular;
 	
 	EntityManagerFactory emf;
-	EntityManager em;
+	private EntityManager em;
 	
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -44,33 +52,33 @@ public class UsuarioController implements Serializable{
 	}
 	
 	public String loginControl(){		
-		em = Persistence.createEntityManagerFactory("prueba").createEntityManager();
-		em.getTransaction().begin();
+		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
+		getEm().getTransaction().begin();
 		try{
-			Usuario u = em.createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", password).getSingleResult();
+			Usuario u = getEm().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", password).getSingleResult();
 			if(u!=null){
-				em.getTransaction().commit();
+				getEm().getTransaction().commit();
 				return "home.xhtml?faces-redirect=true";
 			}
 			RequestContext.getCurrentInstance().update("msg");
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 		
-			em.getTransaction().commit();
+			getEm().getTransaction().commit();
 			return "";
 		}catch(Exception e){
 			RequestContext.getCurrentInstance().update("msg");
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 		
-			em.getTransaction().commit();
+			getEm().getTransaction().commit();
 			return "";
 		}
 	}
 	
 	public String userRegistration(){
-		em = Persistence.createEntityManagerFactory("prueba").createEntityManager();
-		em.getTransaction().begin();
+		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
+		getEm().getTransaction().begin();
 		try{
 			Usuario toInsert = new Usuario();
 			toInsert.setCelular(getCelular());
@@ -79,11 +87,11 @@ public class UsuarioController implements Serializable{
 			toInsert.setNombreCompleto(getNombreCompleto());
 			toInsert.setPassword(getPassword());
 			toInsert.setUsername(getUsername());
-			em.persist(toInsert);
-			em.getTransaction().commit();
+			getEm().persist(toInsert);
+			getEm().getTransaction().commit();
 			return "Hello.xhtml?faces-redirect=true";
 		}catch(Exception e){
-			em.getTransaction().commit();
+			getEm().getTransaction().commit();
 			return "";
 		}
 	}
