@@ -10,19 +10,20 @@
 		<title>Login</title>
 	</h:head>
     <h:body>
- 		
-		<h:form>
-		 		<p:growl id="msg" showDetail="true" sticky="true" /> 
-			<p:panelGrid columns="2" >
-			  	<f:facet name="header" >Login de usuario</f:facet>
-			  	<h:outputText value=""/>
-			  	<p:inputText value="#{usuario.username}"/>
-			  	<h:outputText value=""/>
-			  	<p:password value="#{usuario.password}"/>
-			  	<f:facet name="footer">
-			  		<p:commandButton value="Ingresar" action="#{usuario.loginControl()}" update="msg"  immediate="false"/>
-			  	</f:facet>
-			</p:panelGrid>
+		<h:form style="margin: auto;">
+	 		<p:growl id="msg" showDetail="true" sticky="true" /> 
+			<p:panel header="Login de usuario" style="margin-bottom:10px;" styleClass="mini-panel panel-grid tr panel-grid td panel-hover panel-header-title-small">
+				<h:panelGrid columns="2" cellpadding="5" style="margin: auto;">
+				  	<h:outputLabel for="username" value="Usuario:" />
+				  	<p:inputText id="username" value="#{usuario.username}"/>
+				  	<h:outputLabel for="password" value="Contraseña:" />
+				  	<p:password id="password" value="#{usuario.password}"/>
+				  	<f:facet name="footer" >
+				  		<p:commandButton value="Login" action="#{usuario.loginControl()}" update="msg"  immediate="false" />
+				  	</f:facet>
+				</h:panelGrid>
+			</p:panel>
 		</h:form>
- 		</h:body>
+		<p:link href="UserInfo.xhtml">Registrarse</p:link>
+	</h:body>
 </html>
