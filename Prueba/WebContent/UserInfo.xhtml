@@ -68,7 +68,8 @@
 				  	<p:inputText id="celular" required="true" 
 						requiredMessage="Por favor, ingrese su celular"
 						validatorMessage="Formato inválido" value="#{usuario.celular}">
-				  		
+				  		<f:validateRegex
+							pattern="^[0-9]+" />
 						<p:ajax update="msgCelular" event="blur" />
 					</p:inputText>
 				  	<p:message for="celular" id="msgCelular"/>
