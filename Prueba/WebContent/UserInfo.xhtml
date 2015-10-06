@@ -10,26 +10,70 @@
 		<title>Registro de usuario</title>
 	</h:head>
     <h:body>
-		<h:form style="margin: auto;">
-	 		<p:growl id="msg" showDetail="true" sticky="true" /> 
+		<h:form style="margin: auto;"> 
 			<p:panel header="Registro de usuario" style="margin-bottom:10px;">
-				<h:panelGrid columns="2" cellpadding="5" style="margin: auto;">
+				<h:panelGrid columns="3" cellpadding="5" style="margin: auto;">
 				  	<h:outputLabel for="usuario" value="Usuario:" />
-				  	<p:inputText id="usuario" value="#{usuario.username}"/>
+				  	<p:inputText id="usuario" required="true" 
+						requiredMessage="Por favor, ingrese un nombre de usuario"
+						validatorMessage="Formato inválido" value="#{usuario.username}">
+						<p:ajax update="msgUsuario" event="blur" />
+					</p:inputText>
+				  	<p:message for="usuario" id="msgUsuario"/>
+				  	
 				  	<h:outputLabel for="contrasena" value="Contraseña:" />
-				  	<p:password id="contrasena" value="#{usuario.password}"/>
+				  	<p:password id="contrasena" required="true" match="repContrasena"
+						requiredMessage="Por favor, ingrese una contraseña"
+						validatorMessage="Las contraseñas no coinciden" value="#{usuario.password}">
+						<p:ajax process="contrasena repContrasena" update="msgContrasena" event="blur"/>
+					</p:password>
+				  	<p:message for="contrasena" id="msgContrasena"  showDetail="true" autoUpdate="true"/>
+				  	
 				  	<h:outputLabel for="repContrasena" value="Repetir contraseña:" />
-				  	<p:password id="repContrasena" value="#{usuario.password}"/>
+				  	<p:password id="repContrasena" required="true"
+						requiredMessage="Por favor, ingrese nuevamente la contraseña">
+						<p:ajax process="contrasena repContrasena" update="msgContrasena" event="blur"/>
+					</p:password>
+				  	<p:message for="repContrasena" id="msgRepContrasena"/>
+				  	
 				  	<h:outputLabel for="email" value="E-mail:" />
-				  	<p:inputText id="email" value="#{usuario.email}"/>
+				  	<p:inputText id="email" label="email" required="true" 
+						requiredMessage="Por favor, ingrese un e-mail"
+						validatorMessage="Formato inválido"
+						value="#{usuario.email}">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						<p:ajax update="msgEmail" event="blur" />
+					</p:inputText>
+				  	<p:message for="email" id="msgEmail"/>
+				  	
 				  	<h:outputLabel for="nombreCompleto" value="Nombre completo:" />
-				  	<p:inputText id="nombreCompleto" value="#{usuario.nombreCompleto}"/>
+				  	<p:inputText id="nombreCompleto" required="true" 
+						requiredMessage="Por favor, ingrese su nombre completo"
+						validatorMessage="Formato inválido" value="#{usuario.nombreCompleto}">
+						<p:ajax update="msgNombreCompleto" event="blur" />
+					</p:inputText>
+				  	<p:message for="nombreCompleto" id="msgNombreCompleto"/>
+				  	
 				  	<h:outputLabel for="direccion" value="Dirección:" />
-				  	<p:inputText id="direccion" value="#{usuario.direccion}"/>
+				  	<p:inputText id="direccion" required="true" 
+						requiredMessage="Por favor, ingrese su dirección"
+						validatorMessage="Formato inválido" value="#{usuario.direccion}">
+						<p:ajax update="msgDireccion" event="blur" />
+					</p:inputText>
+				  	<p:message for="direccion" id="msgDireccion"/>
+				  	
 				  	<h:outputLabel for="celular" value="Celular:" />
-				  	<p:inputText id="celular" value="#{usuario.celular}"/>
+				  	<p:inputText id="celular" required="true" 
+						requiredMessage="Por favor, ingrese su celular"
+						validatorMessage="Formato inválido" value="#{usuario.celular}">
+				  		
+						<p:ajax update="msgCelular" event="blur" />
+					</p:inputText>
+				  	<p:message for="celular" id="msgCelular"/>
+				  	
 				  	<f:facet name="footer" >
-				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" update="msg"  immediate="false" />
+				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" immediate="false" />
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>
