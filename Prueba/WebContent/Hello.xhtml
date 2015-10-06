@@ -10,6 +10,7 @@
 		<title>Login</title>
 	</h:head>
     <h:body>
+<<<<<<< HEAD
 		<h:form style="margin: auto;">
 	 		<p:growl id="msg" showDetail="true" sticky="true" /> 
 			<p:panel header="Login de usuario" style="margin-bottom:10px;" styleClass="mini-panel panel-grid tr panel-grid td panel-hover panel-header-title-small">
@@ -23,6 +24,21 @@
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>
+=======
+ 		
+		<h:form>
+		 		<p:growl id="msg" showDetail="true" sticky="true" /> 
+			<p:panelGrid columns="2" >
+			  	<f:facet name="header" >Login de usuario</f:facet>
+			  	<h:outputText value=""/>
+			  	<p:inputText value="#{usuario.username}"/>
+			  	<h:outputText value=""/>
+			  	<p:password value="#{usuario.password}"/>
+			  	<f:facet name="footer">
+			  		<p:commandButton value="Ingresar" action="#{usuario.loginControl()}" update="msg"  immediate="false"/>
+			  	</f:facet>
+			</p:panelGrid>
+>>>>>>> f48c32caea0841a6f8a344c1985a0c2b70cc7a8c
 		</h:form>
 		<p:link href="UserInfo.xhtml">Registrarse</p:link>
 	</h:body>
