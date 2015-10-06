@@ -11,6 +11,7 @@
 	</h:head>
     <h:body>
 		<h:form style="margin: auto;"> 
+			<p:growl id="msgGeneral" showDetail="true" sticky="true" /> 
 			<p:panel header="Registro de usuario" style="margin-bottom:10px;">
 				<h:panelGrid columns="3" cellpadding="5" style="margin: auto;">
 				  	<h:outputLabel for="usuario" value="Usuario:" />
@@ -73,7 +74,7 @@
 				  	<p:message for="celular" id="msgCelular"/>
 				  	
 				  	<f:facet name="footer" >
-				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" immediate="false" />
+				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" update="msgGeneral" immediate="false" />
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>

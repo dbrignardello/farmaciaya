@@ -82,6 +82,15 @@ public class UsuarioController implements Serializable{
 		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
 		getEm().getTransaction().begin();
 		try{
+			Usuario aux = em.createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username", username).getSingleResult();
+
+				//Ya existe un usuario con el username
+				em.getTransaction().commit();
+				RequestContext.getCurrentInstance().update("msgGeneral");
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario en uso"));
+			return "";
+		}catch(Exception e){
 			Usuario toInsert = new Usuario();
 			toInsert.setCelular(getCelular());
 			toInsert.setDireccion(getDireccion());
@@ -92,9 +101,6 @@ public class UsuarioController implements Serializable{
 			getEm().persist(toInsert);
 			getEm().getTransaction().commit();
 			return "Hello.xhtml?faces-redirect=true";
-		}catch(Exception e){
-			getEm().getTransaction().commit();
-			return "";
 		}
 	}
 
