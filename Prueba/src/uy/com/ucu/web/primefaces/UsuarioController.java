@@ -5,14 +5,14 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.primefaces.context.RequestContext;
+
+import uy.com.ucu.web.utils.SecurityUtils;
 
 @ManagedBean(name="usuario") 
 @ApplicationScoped
@@ -26,6 +26,8 @@ public class UsuarioController implements Serializable{
 	
 	EntityManagerFactory emf;
 	private EntityManager em;
+	
+	private SecurityUtils su = new SecurityUtils();
 	
 	public EntityManager getEm() {
 		return em;
@@ -55,7 +57,7 @@ public class UsuarioController implements Serializable{
 		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
 		getEm().getTransaction().begin();
 		try{
-			Usuario u = getEm().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", password).getSingleResult();
+			Usuario u = getEm().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", getSu().hash(password)).getSingleResult();
 			if(u!=null){
 				getEm().getTransaction().commit();
 				return "home.xhtml?faces-redirect=true";
@@ -85,7 +87,7 @@ public class UsuarioController implements Serializable{
 			toInsert.setDireccion(getDireccion());
 			toInsert.setEmail(getEmail());
 			toInsert.setNombreCompleto(getNombreCompleto());
-			toInsert.setPassword(getPassword());
+			toInsert.setPassword(getSu().hash(getPassword()));
 			toInsert.setUsername(getUsername());
 			getEm().persist(toInsert);
 			getEm().getTransaction().commit();
@@ -126,6 +128,14 @@ public class UsuarioController implements Serializable{
 
 	public void setCelular(String celular) {
 		this.celular = celular;
+	}
+
+	public SecurityUtils getSu() {
+		return su;
+	}
+
+	public void setSu(SecurityUtils su) {
+		this.su = su;
 	}
 }
 

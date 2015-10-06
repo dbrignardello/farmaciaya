@@ -97,9 +97,26 @@ public class UsuarioTest {
 		usuarioBean.setPassword(u.getPassword());
 		usuarioBean.setUsername(u.getUsername());
 	}
+	
+	private static Usuario loadUser(UsuarioController usuarioBean, boolean hash){		
+		Usuario u = new Usuario();
+		u.setCelular(usuarioBean.getCelular());
+		u.setDireccion(usuarioBean.getDireccion());
+		u.setEmail(usuarioBean.getEmail());
+		u.setNombreCompleto(usuarioBean.getNombreCompleto());
+		u.setPassword(usuarioBean.getPassword());
+		u.setUsername(usuarioBean.getUsername());
+		
+		if (hash == true){
+			u.setPassword(usuarioBean.getSu().hash(u.getPassword()));
+		}
+		
+		return u;
+	}
 
 	@Test
 	public void testSuccessfulRegistration() {		
+		loadValidUser(usuarioBeanTest);
 		TypedQuery<Usuario> retrievedUsuarios = usuarioBeanTest.getEm().createNamedQuery("Usuario.findByUsername", Usuario.class)
 		.setParameter("username",testUsername);
 		List<Usuario> resultList = retrievedUsuarios.getResultList();
@@ -108,12 +125,13 @@ public class UsuarioTest {
 			fail();
 		}else{
 			Usuario retrievedUsuario = resultList.get(0);
-			assertTrue(testUsuario.equals(retrievedUsuario));
+			assertTrue(loadUser(usuarioBeanTest, true).equals(retrievedUsuario));
 		}		
 	}
 	
 	@Test
 	public void testFailedRegistration() {		
+		loadInvalidUser(usuarioBeanTest);
 		TypedQuery<Usuario> retrievedUsuarios = usuarioBeanTest.getEm().createNamedQuery("Usuario.findByUsername", Usuario.class)
 		.setParameter("username",testInvalidUsername);
 		List<Usuario> resultList = retrievedUsuarios.getResultList();
