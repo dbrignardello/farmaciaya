@@ -12,7 +12,8 @@ import javax.persistence.Persistence;
 
 import org.primefaces.context.RequestContext;
 
-import uy.com.ucu.web.utils.SecurityUtils;
+import uy.com.ucu.web.utils.SecurityUtilities;
+
 
 @ManagedBean(name="usuario") 
 @ApplicationScoped
@@ -26,7 +27,7 @@ public class UsuarioController implements Serializable{
 	
 	private EntityManager entityManager;
 	
-	private SecurityUtils securityUtils = new SecurityUtils();
+	private SecurityUtilities securityUtilities = new SecurityUtilities();
 	
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -56,17 +57,10 @@ public class UsuarioController implements Serializable{
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());
 		getEntityManager().getTransaction().begin();
 		try{
-			Usuario u = getEntityManager().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", getSecurityUtils().hash(password)).getSingleResult();
-			if(u!=null){
-				getEntityManager().getTransaction().commit();
-				return "home.xhtml?faces-redirect=true";
-			}
-			RequestContext.getCurrentInstance().update("msg");
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
-		
+			Usuario u = getEntityManager().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", getSecurityUtilities().hash(password)).getSingleResult();
 			getEntityManager().getTransaction().commit();
-			return "";
+			return "home.xhtml?faces-redirect=true";
+			
 		}catch(Exception e){
 			RequestContext.getCurrentInstance().update("msg");
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -95,7 +89,7 @@ public class UsuarioController implements Serializable{
 			toInsert.setDireccion(getDireccion());
 			toInsert.setEmail(getEmail());
 			toInsert.setNombreCompleto(getNombreCompleto());
-			toInsert.setPassword(getSecurityUtils().hash(getPassword()));
+			toInsert.setPassword(getSecurityUtilities().hash(getPassword()));
 			toInsert.setUsername(getUsername());
 			getEntityManager().persist(toInsert);
 			getEntityManager().getTransaction().commit();
@@ -135,12 +129,8 @@ public class UsuarioController implements Serializable{
 		this.celular = celular;
 	}
 
-	public SecurityUtils getSecurityUtils() {
-		return securityUtils;
-	}
-
-	public void setSecurityUtils(SecurityUtils securityUtils) {
-		this.securityUtils = securityUtils;
+	public SecurityUtilities getSecurityUtilities() {
+		return securityUtilities;
 	}
 }
 

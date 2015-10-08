@@ -49,9 +49,6 @@ public class Usuario implements Serializable {
 	@Column(name="celular")
 	String celular;
 	
-	
-	
-	
 	public Usuario() {
 	}
 
@@ -63,37 +60,17 @@ public class Usuario implements Serializable {
 		this.username = username;
 	}
 
-
-
-	public int getIdusuario() {
-		return idusuario;
-	}
-
-
-
-	public void setIdusuario(int idusuario) {
-		this.idusuario = idusuario;
-	}
-
-
-
 	public String getPassword() {
 		return password;
 	}
-
-
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
 
 	public void setEmail(String email) {
 		this.email = email;
@@ -144,61 +121,44 @@ public class Usuario implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof Usuario)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Usuario other = (Usuario) obj;
 		if (celular == null) {
-			if (other.celular != null) {
+			if (other.celular != null)
 				return false;
-			}
-		} else if (!celular.equals(other.celular)) {
+		} else if (!celular.equals(other.celular))
 			return false;
-		}
 		if (direccion == null) {
-			if (other.direccion != null) {
+			if (other.direccion != null)
 				return false;
-			}
-		} else if (!direccion.equals(other.direccion)) {
+		} else if (!direccion.equals(other.direccion))
 			return false;
-		}
 		if (email == null) {
-			if (other.email != null) {
+			if (other.email != null)
 				return false;
-			}
-		} else if (!email.equals(other.email)) {
+		} else if (!email.equals(other.email))
 			return false;
-		}
 		if (nombreCompleto == null) {
-			if (other.nombreCompleto != null) {
+			if (other.nombreCompleto != null)
 				return false;
-			}
-		} else if (!nombreCompleto.equals(other.nombreCompleto)) {
+		} else if (!nombreCompleto.equals(other.nombreCompleto))
 			return false;
-		}
 		if (password == null) {
-			if (other.password != null) {
+			if (other.password != null)
 				return false;
-			}
-		} else if (!password.equals(other.password)) {
+		} else if (!password.equals(other.password))
 			return false;
-		}
 		if (username == null) {
-			if (other.username != null) {
+			if (other.username != null)
 				return false;
-			}
-		} else if (!username.equals(other.username)) {
+		} else if (!username.equals(other.username))
 			return false;
-		}
 		return true;
 	}
-
-	
 
 }

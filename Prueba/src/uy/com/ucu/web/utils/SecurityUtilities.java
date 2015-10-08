@@ -1,12 +1,8 @@
 package uy.com.ucu.web.utils;
 
-import java.security.Key;
 import java.security.MessageDigest;
 
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.Cipher;
-
-public class SecurityUtils {
+public class SecurityUtilities {
 	
 	public String hash(String input){
 		String hashedPassword = null;
@@ -26,12 +22,12 @@ public class SecurityUtils {
             }
             //Get complete hashed password in hex format
             hashedPassword = sb.toString();
+            return hashedPassword;
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+        	return null;
         }
-        return hashedPassword;
 	}	
 	
 }
