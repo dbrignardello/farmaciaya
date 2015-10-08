@@ -123,6 +123,9 @@ public class Usuario implements Serializable {
 		this.celular = celular;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -136,45 +139,63 @@ public class Usuario implements Serializable {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Usuario)) {
 			return false;
+		}
 		Usuario other = (Usuario) obj;
 		if (celular == null) {
-			if (other.celular != null)
+			if (other.celular != null) {
 				return false;
-		} else if (!celular.equals(other.celular))
+			}
+		} else if (!celular.equals(other.celular)) {
 			return false;
+		}
 		if (direccion == null) {
-			if (other.direccion != null)
+			if (other.direccion != null) {
 				return false;
-		} else if (!direccion.equals(other.direccion))
+			}
+		} else if (!direccion.equals(other.direccion)) {
 			return false;
+		}
 		if (email == null) {
-			if (other.email != null)
+			if (other.email != null) {
 				return false;
-		} else if (!email.equals(other.email))
+			}
+		} else if (!email.equals(other.email)) {
 			return false;
+		}
 		if (nombreCompleto == null) {
-			if (other.nombreCompleto != null)
+			if (other.nombreCompleto != null) {
 				return false;
-		} else if (!nombreCompleto.equals(other.nombreCompleto))
+			}
+		} else if (!nombreCompleto.equals(other.nombreCompleto)) {
 			return false;
+		}
 		if (password == null) {
-			if (other.password != null)
+			if (other.password != null) {
 				return false;
-		} else if (!password.equals(other.password))
+			}
+		} else if (!password.equals(other.password)) {
 			return false;
+		}
 		if (username == null) {
-			if (other.username != null)
+			if (other.username != null) {
 				return false;
-		} else if (!username.equals(other.username))
+			}
+		} else if (!username.equals(other.username)) {
 			return false;
+		}
 		return true;
 	}
 

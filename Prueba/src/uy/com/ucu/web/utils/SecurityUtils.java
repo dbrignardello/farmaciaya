@@ -32,10 +32,6 @@ public class SecurityUtils {
             e.printStackTrace();
         }
         return hashedPassword;
-	}
-	
-	public boolean comparePasswords(String rawPassword, String hashedPassword){
-		return hash(rawPassword).equals(hashedPassword);
-	}
+	}	
 	
 }

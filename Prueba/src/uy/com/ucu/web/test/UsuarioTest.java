@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.TypedQuery;
 
 import org.junit.After;
@@ -23,132 +24,148 @@ import uy.com.ucu.web.primefaces.*;
  */
 public class UsuarioTest {
 
-	private static UsuarioController usuarioBeanTest;
+	//Variables internas
+	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
 	
-	private static Usuario testUsuario;
-	private static Usuario testUsuarioInvalido;
+	//Bean para manejar usuarios
+	private static UsuarioController usuarioBean;
 	
-	private static String testUsername = "test";
-	private static String testPassword = "password";
-	private static String testEmail = "example@test.com";
-	private static String testNombreCompleto = "Juan Pérez";
-	private static String testDireccion = "Avenida Siempreverde 742";
-	private static String testCelular = "09001234";	
+	//Usuario válido
+	private static Usuario usuarioValido;
+	private static Usuario usuarioInvalido;
 	
-	private static String testInvalidUsername = "invalid";
-	private static String testInvalidPassword = "invalid";
+	//Datos de usuario válido
+	private static String usernameValido = "test";
+	private static String passwordValido = "password";
+	private static String emailValido = "example@test.com";
+	private static String nombreCompletoValido = "Juan Pérez";
+	private static String direccionValido = "Avenida Siempreverde 742";
+	private static String celularValido = "09001234";	
 	
+	//Datos de usuario inválido
+	private static String usernameInvalido = "inválido";
+	private static String passwordInvalido = "inválido";
+	private static String emailInvalido = "inválido";
+	private static String nombreCompletoInvalido = "inválido";
+	private static String direccionInvalido = "inválido";
+	private static String celularInvalido = "inválido";
+	
+	//Mensaje de éxito de log
 	private String loginSuccessMessage = "home.xhtml?faces-redirect=true";
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		usuarioBeanTest = new UsuarioController();
 		
-		testUsuario = new Usuario();
-		testUsuario.setCelular(testCelular);
-		testUsuario.setDireccion(testDireccion);
-		testUsuario.setEmail(testEmail);
-		testUsuario.setNombreCompleto(testNombreCompleto);
-		testUsuario.setPassword(testPassword);
-		testUsuario.setUsername(testUsername);
+		//Inicialización de variables
+		usuarioBean = new UsuarioController();
 		
-		testUsuarioInvalido = new Usuario();
-		testUsuarioInvalido.setCelular(testCelular);
-		testUsuarioInvalido.setDireccion(testDireccion);
-		testUsuarioInvalido.setEmail(testEmail);
-		testUsuarioInvalido.setNombreCompleto(testNombreCompleto);
-		testUsuarioInvalido.setPassword(testPassword);
-		testUsuarioInvalido.setUsername(testUsername);
-		testUsuarioInvalido.setPassword(testInvalidPassword);
-		testUsuarioInvalido.setUsername(testInvalidUsername);
+		//Cargado de datos de usuario válido
+		usuarioValido = new Usuario();
+		usuarioValido.setCelular(celularValido);
+		usuarioValido.setDireccion(direccionValido);
+		usuarioValido.setEmail(emailValido);
+		usuarioValido.setNombreCompleto(nombreCompletoValido);
+		usuarioValido.setPassword(passwordValido);
+		usuarioValido.setUsername(usernameValido);
 		
-		loadValidUser(usuarioBeanTest);
-		usuarioBeanTest.userRegistration();									
+		//Cargado de datos de usuario inválido
+		usuarioInvalido = new Usuario();
+		usuarioInvalido.setCelular(celularInvalido);
+		usuarioInvalido.setDireccion(direccionInvalido);
+		usuarioInvalido.setEmail(emailInvalido);
+		usuarioInvalido.setNombreCompleto(nombreCompletoInvalido);
+		usuarioInvalido.setPassword(passwordInvalido);
+		usuarioInvalido.setUsername(usernameInvalido);
+		usuarioInvalido.setPassword(passwordInvalido);
+		usuarioInvalido.setUsername(usernameInvalido);
+		
+		//Carga el usuario válido en el bean y lo registra en la base de datos
+		loadValidUser(usuarioBean);
+		usuarioBean.userRegistration();		
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		usuarioBeanTest.getEm().getTransaction().begin();
-		usuarioBeanTest.getEm().createNamedQuery("Usuario.deleteByUsername")
-		.setParameter("username", testUsername)
-        .executeUpdate();
-		usuarioBeanTest.getEm().getTransaction().commit();
+		//Borra el usuario válido de prueba de la base de datos
+		
+		usuarioBean.getEntityManager().getTransaction().begin();
+		
+		usuarioBean.getEntityManager().createNamedQuery("Usuario.deleteByUsername")
+			.setParameter("username", usernameValido)
+			.executeUpdate();
+		
+		usuarioBean.getEntityManager().getTransaction().commit();
 	}
 	
+	//Carga un usuario válido en el bean
 	private static void loadValidUser(UsuarioController usuarioBean){
-		loadBean(usuarioBean, testUsuario);
+		loadBeanFromUser(usuarioBean, usuarioValido);
 	}
 	
+	//Carga un usuario inválido en el bean
 	private static void loadInvalidUser(UsuarioController usuarioBean){
-		loadBean(usuarioBean, testUsuarioInvalido);
+		loadBeanFromUser(usuarioBean, usuarioInvalido);
 	}
 	
-	private static void loadBean(UsuarioController usuarioBean, Usuario u){
-		usuarioBean.setCelular(u.getCelular());
-		usuarioBean.setDireccion(u.getDireccion());
-		usuarioBean.setEmail(u.getEmail());
-		usuarioBean.setNombreCompleto(u.getNombreCompleto());
-		usuarioBean.setPassword(u.getPassword());
-		usuarioBean.setUsername(u.getUsername());
+	//Carga un usuario en el bean
+	private static void loadBeanFromUser(UsuarioController usuarioBean, Usuario usuario){
+		usuarioBean.setCelular(usuario.getCelular());
+		usuarioBean.setDireccion(usuario.getDireccion());
+		usuarioBean.setEmail(usuario.getEmail());
+		usuarioBean.setNombreCompleto(usuario.getNombreCompleto());
+		usuarioBean.setPassword(usuario.getPassword());
+		usuarioBean.setUsername(usuario.getUsername());
 	}
 	
-	private static Usuario loadUser(UsuarioController usuarioBean, boolean hash){		
-		Usuario u = new Usuario();
-		u.setCelular(usuarioBean.getCelular());
-		u.setDireccion(usuarioBean.getDireccion());
-		u.setEmail(usuarioBean.getEmail());
-		u.setNombreCompleto(usuarioBean.getNombreCompleto());
-		u.setPassword(usuarioBean.getPassword());
-		u.setUsername(usuarioBean.getUsername());
+	//Crea un objeto Usuario en base a los datos cargados en el bean
+	private static Usuario extractUserFromBean(UsuarioController usuarioBean){		
+		Usuario usuario = new Usuario();
+		usuario.setCelular(usuarioBean.getCelular());
+		usuario.setDireccion(usuarioBean.getDireccion());
+		usuario.setEmail(usuarioBean.getEmail());
+		usuario.setNombreCompleto(usuarioBean.getNombreCompleto());
+		usuario.setPassword(usuarioBean.getPassword());
+		usuario.setUsername(usuarioBean.getUsername());
+		usuario.setPassword(usuarioBean.getPassword());
 		
-		if (hash == true){
-			u.setPassword(usuarioBean.getSu().hash(u.getPassword()));
-		}
-		
-		return u;
+		return usuario;
 	}
 
 	@Test
-	public void testSuccessfulRegistration() {		
-		loadValidUser(usuarioBeanTest);
-		TypedQuery<Usuario> retrievedUsuarios = usuarioBeanTest.getEm().createNamedQuery("Usuario.findByUsername", Usuario.class)
-		.setParameter("username",testUsername);
+	//
+	public void testSuccessfulRegistration_existingUser() {		
+		loadValidUser(usuarioBean);
+		TypedQuery<Usuario> retrievedUsuarios = usuarioBean.getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class)
+		.setParameter("username",usernameValido);
 		List<Usuario> resultList = retrievedUsuarios.getResultList();
 		
-		if (resultList.isEmpty()){
-			fail();
-		}else{
-			Usuario retrievedUsuario = resultList.get(0);
-			assertTrue(loadUser(usuarioBeanTest, true).equals(retrievedUsuario));
-		}		
+		Usuario retrievedUsuario = resultList.isEmpty() ? null : resultList.get(0);
+		Usuario usuarioInBean = extractUserFromBean(usuarioBean); 
+		usuarioInBean.setPassword(usuarioBean.getSecurityUtils().hash(usuarioInBean.getPassword()));
+		assertTrue(usuarioInBean.equals(retrievedUsuario));
 	}
 	
 	@Test
-	public void testFailedRegistration() {		
-		loadInvalidUser(usuarioBeanTest);
-		TypedQuery<Usuario> retrievedUsuarios = usuarioBeanTest.getEm().createNamedQuery("Usuario.findByUsername", Usuario.class)
-		.setParameter("username",testInvalidUsername);
+	//Reescribir este código, conceptualmente erróneo
+	public void testFailedRegistration_nonExistingUser() {		
+		loadInvalidUser(usuarioBean);
+		TypedQuery<Usuario> retrievedUsuarios = usuarioBean.getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class)
+		.setParameter("username",usernameInvalido);
 		List<Usuario> resultList = retrievedUsuarios.getResultList();
 		assertTrue(resultList.isEmpty());			
 	}
 	
 	@Test
 	public void testSuccessfulLogin() {
-		loadValidUser(usuarioBeanTest);
-		String returnMessage = usuarioBeanTest.loginControl();		
+		loadValidUser(usuarioBean);
+		String returnMessage = usuarioBean.loginControl();		
 		assertEquals(returnMessage, loginSuccessMessage);		
 	}
 	
 	@Test
 	public void testFailedLogin() {
-		loadInvalidUser(usuarioBeanTest);
-		String returnMessage = usuarioBeanTest.loginControl();
+		loadInvalidUser(usuarioBean);
+		String returnMessage = usuarioBean.loginControl();
 		assertNotEquals(returnMessage, loginSuccessMessage);		
 	}
 

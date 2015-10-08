@@ -24,17 +24,16 @@ public class UsuarioController implements Serializable{
 	private String direccion;
 	private String celular;
 	
-	EntityManagerFactory emf;
-	private EntityManager em;
+	private EntityManager entityManager;
 	
-	private SecurityUtils su = new SecurityUtils();
+	private SecurityUtils securityUtils = new SecurityUtils();
 	
-	public EntityManager getEm() {
-		return em;
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 	public String getUsername() {
@@ -54,38 +53,38 @@ public class UsuarioController implements Serializable{
 	}
 	
 	public String loginControl(){		
-		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
-		getEm().getTransaction().begin();
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());
+		getEntityManager().getTransaction().begin();
 		try{
-			Usuario u = getEm().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", getSu().hash(password)).getSingleResult();
+			Usuario u = getEntityManager().createNamedQuery("Usuario.control", Usuario.class).setParameter("username", username).setParameter("password", getSecurityUtils().hash(password)).getSingleResult();
 			if(u!=null){
-				getEm().getTransaction().commit();
+				getEntityManager().getTransaction().commit();
 				return "home.xhtml?faces-redirect=true";
 			}
 			RequestContext.getCurrentInstance().update("msg");
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 		
-			getEm().getTransaction().commit();
+			getEntityManager().getTransaction().commit();
 			return "";
 		}catch(Exception e){
 			RequestContext.getCurrentInstance().update("msg");
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 		
-			getEm().getTransaction().commit();
+			getEntityManager().getTransaction().commit();
 			return "";
 		}
 	}
 	
 	public String userRegistration(){
-		setEm(Persistence.createEntityManagerFactory("prueba").createEntityManager());
-		getEm().getTransaction().begin();
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());
+		getEntityManager().getTransaction().begin();
 		try{
-			Usuario aux = em.createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username", username).getSingleResult();
+			Usuario aux = entityManager.createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username", username).getSingleResult();
 
 				//Ya existe un usuario con el username
-				em.getTransaction().commit();
+				entityManager.getTransaction().commit();
 				RequestContext.getCurrentInstance().update("msgGeneral");
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario en uso"));
@@ -96,10 +95,10 @@ public class UsuarioController implements Serializable{
 			toInsert.setDireccion(getDireccion());
 			toInsert.setEmail(getEmail());
 			toInsert.setNombreCompleto(getNombreCompleto());
-			toInsert.setPassword(getSu().hash(getPassword()));
+			toInsert.setPassword(getSecurityUtils().hash(getPassword()));
 			toInsert.setUsername(getUsername());
-			getEm().persist(toInsert);
-			getEm().getTransaction().commit();
+			getEntityManager().persist(toInsert);
+			getEntityManager().getTransaction().commit();
 			return "Hello.xhtml?faces-redirect=true";
 		}
 	}
@@ -136,12 +135,12 @@ public class UsuarioController implements Serializable{
 		this.celular = celular;
 	}
 
-	public SecurityUtils getSu() {
-		return su;
+	public SecurityUtils getSecurityUtils() {
+		return securityUtils;
 	}
 
-	public void setSu(SecurityUtils su) {
-		this.su = su;
+	public void setSecurityUtils(SecurityUtils securityUtils) {
+		this.securityUtils = securityUtils;
 	}
 }
 
