@@ -28,7 +28,7 @@ public class UsuarioTest {
 	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
 	
 	//Bean para manejar usuarios
-	private static UsuarioController usuarioBean;
+	private static UsuarioController usuarioBean = new UsuarioController();
 	
 	//Usuario válido
 	private static Usuario usuarioValido;

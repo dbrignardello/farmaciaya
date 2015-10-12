@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,11 +22,18 @@ import uy.com.ucu.web.primefaces.UsuarioController;
 import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.agent.PowerMockAgent;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 
-@RunWith(PowerMockRunner.class)
 @PrepareForTest({ FacesContext.class, RequestContext.class })
 public class UsuarioBeanTest {
+	
+	@Rule
+	public PowerMockRule rule = new PowerMockRule();
+	static {
+	     PowerMockAgent.initializeIfNeeded();
+	}
 
 	//Variables internas
 	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
@@ -163,7 +171,7 @@ public class UsuarioBeanTest {
 		.setParameter("username",usernameValido);
 		List<Usuario> resultList = retrievedUsuarios.getResultList();
 		
-		Usuario retrievedUsuario = resultList.isEmpty() ? null : resultList.get(0);
+		Usuario retrievedUsuario = resultList.get(0);
 		Usuario usuarioInBean = extractUserFromBean(usuarioBean); 
 		usuarioInBean.setPassword(usuarioBean.getSecurityUtilities().hash(usuarioInBean.getPassword()));
 		assertTrue(usuarioInBean.equals(retrievedUsuario));
