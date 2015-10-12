@@ -4,15 +4,27 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.persistence.TypedQuery;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.primefaces.context.RequestContext;
 
 import uy.com.ucu.web.primefaces.Usuario;
 import uy.com.ucu.web.primefaces.UsuarioController;
+import static org.mockito.Mockito.when;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ FacesContext.class, RequestContext.class })
 public class UsuarioBeanTest {
 
 	//Variables internas
@@ -43,7 +55,29 @@ public class UsuarioBeanTest {
 	
 	//Mensaje de éxito de log
 	private String loginSuccessMessage = "home.xhtml?faces-redirect=true";
+	private String loginFailedMessage = "";
+	
+	@Mock
+    private FacesContext facesContext;
+	@Mock
+	private RequestContext requestContext;
+    @Mock
+    private ExternalContext externalContext;
 
+	@Before
+    public void setUp() throws Exception {
+
+        // mock all static methods of FacesContext using PowerMockito
+        PowerMockito.mockStatic(FacesContext.class);
+
+        when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+        //when(facesContext.getExternalContext()).thenReturn(externalContext);
+        
+        PowerMockito.mockStatic(RequestContext.class);
+        
+        when(RequestContext.getCurrentInstance()).thenReturn(requestContext);
+    }
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
@@ -153,10 +187,10 @@ public class UsuarioBeanTest {
 	}
 	
 	@Test
-	public void testFailedLogin() {
+	public void testFailedLogin() {	    
 		loadInvalidUser(usuarioBean);
 		String returnMessage = usuarioBean.loginControl();
-		assertNotEquals(returnMessage, loginSuccessMessage);		
+		assertEquals(returnMessage, loginFailedMessage);		
 	}
 
 }
