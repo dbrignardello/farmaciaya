@@ -19,7 +19,7 @@
 				  	<h:outputLabel for="password" value="Contraseña:" />
 				  	<p:password id="password" value="#{usuario.password}"/>
 				  	<f:facet name="footer" >
-				  		<p:commandButton value="Login" action="#{usuario.loginControl()}" update="msg"  immediate="false" />
+				  		<p:commandButton value="Login" action="#{usuario.login()}" update="msg" immediate="false" />
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>

@@ -1,4 +1,4 @@
-package uy.com.ucu.web.utils;
+package uy.com.ucu.web.utilities;
 
 import java.security.MessageDigest;
 
@@ -10,7 +10,7 @@ public class SecurityUtilities {
             // Create MessageDigest instance for MD5
             MessageDigest md = MessageDigest.getInstance("MD5");
             //Add password bytes to digest
-            md.update(input.getBytes());
+            md.update(input.getBytes("UTF-8"));
             //Get the hash's bytes
             byte[] bytes = md.digest();
             //This bytes[] has bytes in decimal format;

@@ -8,12 +8,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import uy.com.ucu.web.utils.SecurityUtilities;
+import uy.com.ucu.web.utilities.SecurityUtilities;
 
 public class SecurityUtilitiesTest {
 	
 	private String hashableString = "hashable";
-	private String unhashableString = null;
 	private String expectedHashResult = "dd16fe9f76604a7400d5e1fcf88afaca";
 	
 	private SecurityUtilities securityUtilities = new SecurityUtilities();
@@ -36,7 +35,7 @@ public class SecurityUtilitiesTest {
 	
 	@Test
 	public void testFailedHash(){
-		assertEquals(null,securityUtilities.hash(unhashableString));
+		assertEquals(null,securityUtilities.hash(null));
 	}
 
 }

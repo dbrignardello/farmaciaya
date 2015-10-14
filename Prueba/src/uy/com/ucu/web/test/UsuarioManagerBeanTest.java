@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,8 +18,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.primefaces.context.RequestContext;
 
-import uy.com.ucu.web.primefaces.Usuario;
-import uy.com.ucu.web.primefaces.UsuarioController;
+import uy.com.ucu.web.backoffice.Usuario;
+import uy.com.ucu.web.backoffice.UsuarioManagerBean;
+
 import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -27,10 +29,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 
 @PrepareForTest({ FacesContext.class, RequestContext.class })
-public class UsuarioBeanTest {
+public class UsuarioManagerBeanTest {
 	
 	@Rule
 	public PowerMockRule rule = new PowerMockRule();
+	
 	static {
 	     PowerMockAgent.initializeIfNeeded();
 	}
@@ -39,7 +42,7 @@ public class UsuarioBeanTest {
 	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
 	
 	//Bean para manejar usuarios
-	private static UsuarioController usuarioBean;
+	private static UsuarioManagerBean usuarioBean;
 	
 	//Usuario válido
 	private static Usuario usuarioValido;
@@ -71,6 +74,8 @@ public class UsuarioBeanTest {
 	private RequestContext requestContext;
     @Mock
     private ExternalContext externalContext;
+    @Mock
+    private HttpSession httpSession;
 
 	@Before
     public void setUp() throws Exception {
@@ -79,7 +84,8 @@ public class UsuarioBeanTest {
         PowerMockito.mockStatic(FacesContext.class);
 
         when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
-        //when(facesContext.getExternalContext()).thenReturn(externalContext);
+        when(facesContext.getExternalContext()).thenReturn(externalContext);
+        when(externalContext.getSession(false)).thenReturn(httpSession);
         
         PowerMockito.mockStatic(RequestContext.class);
         
@@ -90,7 +96,7 @@ public class UsuarioBeanTest {
 	public static void setUpBeforeClass() throws Exception {
 		
 		//Inicialización de variables
-		usuarioBean = new UsuarioController();
+		usuarioBean = new UsuarioManagerBean();
 		
 		//Cargado de datos de usuario válido
 		usuarioValido = new Usuario();
@@ -121,27 +127,27 @@ public class UsuarioBeanTest {
 	public static void tearDownAfterClass() throws Exception {
 		//Borra el usuario válido de prueba de la base de datos
 		
-		usuarioBean.getEntityManager().getTransaction().begin();
+		usuarioBean.connectToDatabase();
 		
 		usuarioBean.getEntityManager().createNamedQuery("Usuario.deleteByUsername")
 			.setParameter("username", usernameValido)
 			.executeUpdate();
 		
-		usuarioBean.getEntityManager().getTransaction().commit();
+		usuarioBean.disconnectFromDatabase();
 	}
 	
 	//Carga un usuario válido en el bean
-	private static void loadValidUser(UsuarioController usuarioBean){
+	private static void loadValidUser(UsuarioManagerBean usuarioBean){
 		loadBeanFromUser(usuarioBean, usuarioValido);
 	}
 	
 	//Carga un usuario inválido en el bean
-	private static void loadInvalidUser(UsuarioController usuarioBean){
+	private static void loadInvalidUser(UsuarioManagerBean usuarioBean){
 		loadBeanFromUser(usuarioBean, usuarioInvalido);
 	}
 	
 	//Carga un usuario en el bean
-	private static void loadBeanFromUser(UsuarioController usuarioBean, Usuario usuario){
+	private static void loadBeanFromUser(UsuarioManagerBean usuarioBean, Usuario usuario){
 		usuarioBean.setCelular(usuario.getCelular());
 		usuarioBean.setDireccion(usuario.getDireccion());
 		usuarioBean.setEmail(usuario.getEmail());
@@ -151,7 +157,7 @@ public class UsuarioBeanTest {
 	}
 	
 	//Crea un objeto Usuario en base a los datos cargados en el bean
-	private static Usuario extractUserFromBean(UsuarioController usuarioBean){		
+	private static Usuario extractUserFromBean(UsuarioManagerBean usuarioBean){		
 		Usuario usuario = new Usuario();
 		usuario.setCelular(usuarioBean.getCelular());
 		usuario.setDireccion(usuarioBean.getDireccion());
@@ -190,14 +196,14 @@ public class UsuarioBeanTest {
 	@Test
 	public void testSuccessfulLogin() {
 		loadValidUser(usuarioBean);
-		String returnMessage = usuarioBean.loginControl();		
+		String returnMessage = usuarioBean.login();		
 		assertEquals(returnMessage, loginSuccessMessage);		
 	}
 	
 	@Test
 	public void testFailedLogin() {	    
 		loadInvalidUser(usuarioBean);
-		String returnMessage = usuarioBean.loginControl();
+		String returnMessage = usuarioBean.login();
 		assertEquals(returnMessage, loginFailedMessage);		
 	}
 
