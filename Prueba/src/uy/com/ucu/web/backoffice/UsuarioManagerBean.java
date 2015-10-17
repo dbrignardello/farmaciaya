@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
+import util.mail;
 import uy.com.ucu.web.utilities.SecurityUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -110,6 +111,13 @@ public class UsuarioManagerBean implements Serializable{
 			toInsert.setPassword(getSecurityUtilities().hash(getPassword()));
 			toInsert.setUsername(getUsername());
 			getEntityManager().persist(toInsert);
+			mail.send(
+	                "login", "farmaciayaing3@gmail.com",
+	                "password", "putoelquelee",
+	                "to", getEmail(),
+	                "subject", "Confirmacion de e-mail",
+	                "body", "<h1>Hola " + getNombreCompleto() + ":</h1><p>Gracias por registrarte en FarmaciaYa! \n Para confirmar tu dirección de correo electrónico ingresa al siguiente link:</p>"
+	        );
 			
 			result = successfulRegistrationURL;
 		}
