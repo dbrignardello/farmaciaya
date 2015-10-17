@@ -8,7 +8,7 @@ import java.net.URL;
 import org.json.JSONObject;
 
 import uy.com.ucu.web.negocio.Farmacia;
-import uy.com.ucu.web.negocio.Geolocacion;
+import uy.com.ucu.web.negocio.Geolocalizacion;
 
 public class GeolocationUtilities {
 	
@@ -68,8 +68,8 @@ public class GeolocationUtilities {
 		return null;
 	}
 	
-	public Double distanciaEntreUbicacionYFarmacia(Geolocacion g, Farmacia f){
-		return calculateDistance(g.getLatitud(), g.getLongitud(), f.getDireccion().getLatitud(), f.getDireccion().getLongitud(), "K");		
+	public Double distanciaEntreUbicacionYFarmacia(Geolocalizacion g, Farmacia f){
+		return calculateDistance(g.getLatitud(), g.getLongitud(), f.getGeolocalizacion().getLatitud(), f.getGeolocalizacion().getLongitud(), "K");		
 	}
 	
 	//De aca para abajo obtenido de: http://www.geodatasource.com/developers/java

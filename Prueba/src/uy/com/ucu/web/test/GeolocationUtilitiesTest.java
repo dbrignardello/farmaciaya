@@ -9,8 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uy.com.ucu.web.negocio.Farmacia;
-import uy.com.ucu.web.negocio.Geolocacion;
-import uy.com.ucu.web.negocio.Inventario;
+
+import uy.com.ucu.web.negocio.Geolocalizacion;
+
 import uy.com.ucu.web.negocio.Producto;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.ParserUtilities;
@@ -59,7 +60,7 @@ public class GeolocationUtilitiesTest {
 		String ubicacionUsuario = gu.pedidoGeolocacion(direccionUsuario);
 		Double latitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "latitud");
 		Double longitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "longitud");
-		Geolocacion geolocacionUsuario = new Geolocacion(latitudUsuario, longitudUsuario);
+		Geolocalizacion geolocacionUsuario = new Geolocalizacion(latitudUsuario, longitudUsuario);
 		System.out.println("Lat usuario (UCU)");
 		System.out.println(latitudUsuario);
 		System.out.println("Lon usuario (UCU)");
@@ -70,7 +71,7 @@ public class GeolocationUtilitiesTest {
 		String ubicacionFarmacia1 = gu.pedidoGeolocacion(direccionFarmacia1);
 		Double latitudFarmacia1 = gu.coordenadaDeGeolocacion(ubicacionFarmacia1, "latitud");
 		Double longitudFarmacia1 = gu.coordenadaDeGeolocacion(ubicacionFarmacia1, "longitud");
-		Geolocacion geolocacion1 = new Geolocacion(latitudFarmacia1, longitudFarmacia1);
+		Geolocalizacion geolocacion1 = new Geolocalizacion(latitudFarmacia1, longitudFarmacia1);
 		System.out.println("Lat Farmacia1 (Casa de Marce)");
 		System.out.println(latitudFarmacia1);
 		System.out.println("Lon Farmacia1 (Casa de Marce)");
@@ -81,17 +82,17 @@ public class GeolocationUtilitiesTest {
 		String ubicacionFarmacia2 = gu.pedidoGeolocacion(direccionFarmacia2);
 		Double latitudFarmacia2 = gu.coordenadaDeGeolocacion(ubicacionFarmacia2, "latitud");
 		Double longitudFarmacia2 = gu.coordenadaDeGeolocacion(ubicacionFarmacia2, "longitud");
-		Geolocacion geolocacion2 = new Geolocacion(latitudFarmacia2, longitudFarmacia2);
+		Geolocalizacion geolocacion2 = new Geolocalizacion(latitudFarmacia2, longitudFarmacia2);
 		System.out.println("Lat Farmacia2 (Nuevocentro)");
 		System.out.println(latitudFarmacia2);
 		System.out.println("Lon Farmacia2 (Nuevocentro)");
 		System.out.println(longitudFarmacia2);
 		
 		Farmacia f1 = new Farmacia();
-		f1.setDireccion(geolocacion1);
+		f1.setGeolocalizacion(geolocacion1);
 		
 		Farmacia f2 = new Farmacia();
-		f2.setDireccion(geolocacion2);
+		f2.setGeolocalizacion(geolocacion2);
 		
 		System.out.println("Distancias");
 		System.out.println("Usuario y Farmacia 1 (UCU y casa de Marce)");

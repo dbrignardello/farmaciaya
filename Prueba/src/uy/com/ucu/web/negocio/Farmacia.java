@@ -1,68 +1,90 @@
 package uy.com.ucu.web.negocio;
 
-public class Farmacia {
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
 
-	//JPA?
-	private int id;
-	
-	private String nombre;
-	private Geolocacion direccion;
-	
-	private Inventario stock;
-	
-	public Farmacia(){
-		this.stock = new Inventario();
-	}
-	
-	//Ver comentarios de Inventario.java
-	//Farmacia no es mas que un wrapper de esos métodos + geolocación
 
-	public boolean registrarProducto(Producto producto){
-		return(stock.registrarProducto(producto));
-	}
-	
-	public boolean eliminarProducto(Producto producto){
-		return(stock.eliminarProducto(producto));
-	}
-	
-	public boolean modificarStock(String producto, int movimiento){
-		return(stock.modificarStock(producto, movimiento));
-	}
-	
-	public boolean modificarPrecio(String producto, Double nuevoPrecio){
-		return(stock.modificarPrecio(producto, nuevoPrecio));
-	}
-	
-	public int obtenerStock(String producto){
-		return(stock.obtenerStock(producto));
-	}
-	
-	public Double obtenerPrecio(String producto){
-		return(stock.obtenerPrecio(producto));
-	}	
+/**
+ * The persistent class for the farmacia database table.
+ * 
+ */
+@Entity
+@Table(name="farmacia")
+@NamedQuery(name="Farmacia.findAll", query="SELECT f FROM Farmacia f")
+public class Farmacia implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	public Inventario getStock() {
-		return stock;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int idFarmacia;
+
+	private String nombreFarmacia;
+	
+	private String direccion;
+	//bi-directional many-to-one association to EntradaInventario
+	@OneToMany(mappedBy="farmacia")
+	private List<EntradaInventario> entradaInventarios;
+
+	//bi-directional one-to-one association to Geolocalizacion
+	@OneToOne(mappedBy="farmacia")
+	private Geolocalizacion geolocalizacion;
+
+	public Farmacia() {
 	}
 
-	public void setStock(Inventario stock) {
-		this.stock = stock;
+	public int getIdFarmacia() {
+		return this.idFarmacia;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public void setIdFarmacia(int idFarmacia) {
+		this.idFarmacia = idFarmacia;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public String getNombreFarmacia() {
+		return this.nombreFarmacia;
 	}
 
-	public Geolocacion getDireccion() {
+	public void setNombreFarmacia(String nombreFarmacia) {
+		this.nombreFarmacia = nombreFarmacia;
+	}
+
+	public List<EntradaInventario> getEntradaInventarios() {
+		return this.entradaInventarios;
+	}
+
+	public void setEntradaInventarios(List<EntradaInventario> entradaInventarios) {
+		this.entradaInventarios = entradaInventarios;
+	}
+
+	public EntradaInventario addEntradaInventario(EntradaInventario entradaInventario) {
+		getEntradaInventarios().add(entradaInventario);
+		entradaInventario.setFarmacia(this);
+
+		return entradaInventario;
+	}
+
+	public EntradaInventario removeEntradaInventario(EntradaInventario entradaInventario) {
+		getEntradaInventarios().remove(entradaInventario);
+		entradaInventario.setFarmacia(null);
+
+		return entradaInventario;
+	}
+
+	public Geolocalizacion getGeolocalizacion() {
+		return this.geolocalizacion;
+	}
+
+	public void setGeolocalizacion(Geolocalizacion geolocalizacion) {
+		this.geolocalizacion = geolocalizacion;
+	}
+
+	public String getDireccion() {
 		return direccion;
 	}
 
-	public void setDireccion(Geolocacion direccion) {
+	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
+
 }
