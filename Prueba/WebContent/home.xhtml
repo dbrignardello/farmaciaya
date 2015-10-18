@@ -5,14 +5,34 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
+      
+      
+    <h:head>
+    	<title>
+    		Listado de farmacias
+   		</title>
+    </h:head>
     <h:body>
-    	<h:form id="form">
-		    <p:dataList value="#{listadoFarmaciaManagedBean.farmacias}" var="farmacia" type="ordered">
+		    <p:dataScroller value="#{listadoFarmaciaManagedBean.farmacias}" var="farmacia" chunkSize="10">
 		        <f:facet name="header">
-		            Basic
+		            Scroll Down to Load More Farmacias
 		        </f:facet>
-		        #{farmacia.nombreFarmacia}, #{farmacia.direccion}
-		    </p:dataList>
-		</h:form>
+		 
+		        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+		            <p:graphicImage name="images/farmaciaTrouville.png" /> 
+		 
+		            <p:outputPanel>
+		                <h:panelGrid columns="2" cellpadding="5">
+		                    <h:outputText value="Nombre:" />
+		                    <h:outputText value="#{farmacia.nombreFarmacia}" style="font-weight: bold"/>
+		 
+		                    <h:outputText value="Direccion:" />
+		                    <h:outputText value="#{farmacia.direccion}" style="font-weight: bold"/>
+		 
+		                    
+		                </h:panelGrid>
+		            </p:outputPanel>
+		        </h:panelGrid>
+	    </p:dataScroller>
  	</h:body>
 </html>
