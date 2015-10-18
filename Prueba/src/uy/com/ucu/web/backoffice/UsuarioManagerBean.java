@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 import util.mail;
+import uy.com.ucu.web.negocio.Geolocalizacion;
+import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SecurityUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -198,6 +200,16 @@ public class UsuarioManagerBean implements Serializable{
 	
 	public void setSessionUtilities(SessionUtilities sessionUtilities) {
 		this.sessionUtilities = sessionUtilities;
+	}
+	
+	public Geolocalizacion obtenerLatitudLongitudUsuario(){
+		GeolocationUtilities gu = new GeolocationUtilities();
+		String direccionUsuario = direccion;
+		String ubicacionUsuario = gu.pedidoGeolocacion(direccionUsuario);
+		Double latitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "latitud");
+		Double longitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "longitud");
+		Geolocalizacion g = new Geolocalizacion(latitudUsuario, longitudUsuario);
+		return g;
 	}
 }
 

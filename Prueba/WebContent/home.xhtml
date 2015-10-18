@@ -13,7 +13,7 @@
    		</title>
     </h:head>
     <h:body>
-		    <p:dataScroller value="#{listadoFarmaciaManagedBean.farmacias}" var="farmacia" chunkSize="10">
+		    <p:dataScroller value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu" chunkSize="10">
 		        <f:facet name="header">
 		            Scroll Down to Load More Farmacias
 		        </f:facet>
@@ -24,10 +24,14 @@
 		            <p:outputPanel>
 		                <h:panelGrid columns="2" cellpadding="5">
 		                    <h:outputText value="Nombre:" />
-		                    <h:outputText value="#{farmacia.nombreFarmacia}" style="font-weight: bold"/>
+		                    <h:outputText value="#{fu.farmacia.nombreFarmacia}" style="font-weight: bold"/>
 		 
 		                    <h:outputText value="Direccion:" />
-		                    <h:outputText value="#{farmacia.direccion}" style="font-weight: bold"/>
+		                    <h:outputText value="#{fu.farmacia.direccion}" style="font-weight: bold"/>
+		                    
+		                    <h:outputText value="Distancia:" />
+		                    <h:outputText value="#{fu.distancia}" style="font-weight: bold"/>
+		                    
 		 
 		                    
 		                </h:panelGrid>

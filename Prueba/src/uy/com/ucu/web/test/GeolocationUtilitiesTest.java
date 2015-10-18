@@ -99,6 +99,9 @@ public class GeolocationUtilitiesTest {
 		System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f1) + "km");
 		System.out.println("Usuario y Farmacia 2 (UCU y Nuevocentro)");
 		System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f2) + "km");
+		
+		
+		
 	}
 
 }
