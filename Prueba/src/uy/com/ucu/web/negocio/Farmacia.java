@@ -11,7 +11,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="farmacia")
-@NamedQuery(name="Farmacia.findAll", query="SELECT f FROM Farmacia f")
+@NamedQueries({
+	@NamedQuery(name="Farmacia.findByName", query="SELECT f FROM Farmacia f WHERE f.nombreFarmacia = :nombreFarmacia"),
+	@NamedQuery(name="Farmacia.findByNameLikeQuery", query="SELECT f FROM Farmacia f WHERE lower(f.nombreFarmacia) LIKE :nombreFarmacia"),
+	@NamedQuery(name="Farmacia.findAll", query="SELECT f FROM Farmacia f")
+})
+
 public class Farmacia implements Serializable {
 	private static final long serialVersionUID = 1L;
 

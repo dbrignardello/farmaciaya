@@ -1,8 +1,12 @@
 package uy.com.ucu.web.negocio;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -36,7 +40,8 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 	
 	private Usuario usuario;
 	private List<Double> distanciasToDisplay;
-
+	private String valorBusqueda;
+	
 	public ListadoFarmaciaManagedBean() {
 		farmaciasUsuario = new ArrayList<>();
 		 HttpSession session = SessionUtilities.getSession();
@@ -92,12 +97,151 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 		this.setDistanciasToDisplay(aux1);
 		
 		for (Farmacia f : this.getFarmacias()) {
-			FarmaciaVM faux = new FarmaciaVM(f, this.distanciasToDisplay.get(this.getFarmacias().indexOf(f)));
+			Double distanciaFarmacia = this.distanciasToDisplay.get(this.getFarmacias().indexOf(f));
+			
+		
+			Double distanciaFormateada = (Double)((int)(distanciaFarmacia*100)/100.0);
+			
+			FarmaciaVM faux = new FarmaciaVM(f, distanciaFormateada);
 			farmaciasUsuario.add(faux);
 		}
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public String buscar(){
+		//Reinicializar variables
+		setFarmaciasUsuario(new ArrayList<>());
+		setFarmacias(new ArrayList<>());
+		setDistanciasToDisplay(new ArrayList<>());
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
+		String valor = valorBusqueda;
+		connectToDatabase();
+		try{
+			//Obtener usuario logueado y todas las farmacias
+			this.setFarmacias(getEntityManager().createQuery("SELECT f FROM Farmacia f WHERE UPPER(f.nombreFarmacia) LIKE :nombreFarmacia").setParameter("nombreFarmacia", "%" + valor.toUpperCase() + "%").getResultList());
+			//this.setFarmacias(getEntityManager().createNamedQuery("Farmacia.findByNameLikeQuery").setParameter("nombreFarmacia",valor).getResultList());	
+			
+		}catch(Exception e){
+			
+		}
+
+		disconnectFromDatabase();
+		/*
+		 * Calcular distancias usuario-farmacias, ordenar la lista de farmacias según cercanía
+		 */
+		//Obtener Geolocalizacion del Usuario
+		
+		Map<Double, Farmacia> distancias = new TreeMap<Double, Farmacia>();
+		GeolocationUtilities gu = new GeolocationUtilities();
+
+		String ubicacionUser =gu.pedidoGeolocacion(this.getUsuario().getDireccion());
+		Double latUser = gu.coordenadaDeGeolocacion(ubicacionUser, "latitud");
+		Double longUser = gu.coordenadaDeGeolocacion(ubicacionUser, "longitud");
+		Geolocalizacion geolocacionUser = new Geolocalizacion(latUser, longUser);
+		for (Farmacia farmacia : this.getFarmacias()) {
+			String direccionFarmacia = farmacia.getDireccion();
+			String ubicacionFarmacia = gu.pedidoGeolocacion(direccionFarmacia);
+			Double latitudFarmacia = gu.coordenadaDeGeolocacion(ubicacionFarmacia, "latitud");
+			Double longitudFarmacia = gu.coordenadaDeGeolocacion(ubicacionFarmacia, "longitud");
+			Geolocalizacion geolocacion = new Geolocalizacion(latitudFarmacia, longitudFarmacia);
+			farmacia.setGeolocalizacion(geolocacion);
+			
+			Double distancia = gu.distanciaEntreUbicacionYFarmacia(geolocacionUser, farmacia);
+			distancias.put(distancia, farmacia);
+			
+			
+		}
+		List<Farmacia> aux = new ArrayList<Farmacia>();
+		for (Farmacia farmacia : distancias.values()) {
+			aux.add(farmacia);
+		}
+		this.setFarmacias(aux);
+		
+		List<Double> aux1 = new ArrayList<Double>();
+		for(Double d : distancias.keySet()){
+			aux1.add(d);
+		}
+		this.setDistanciasToDisplay(aux1);
+		
+		for (Farmacia f : this.getFarmacias()) {
+			Double distanciaFarmacia = this.distanciasToDisplay.get(this.getFarmacias().indexOf(f));
+			
+		
+			Double distanciaFormateada = (Double)((int)(distanciaFarmacia*100)/100.0);
+			
+			FarmaciaVM faux = new FarmaciaVM(f, distanciaFormateada);
+			farmaciasUsuario.add(faux);
+		}
+		return null;
+	}
+	
+	public String borrarBusqueda(){
+		//Reinicializar variables
+		setFarmaciasUsuario(new ArrayList<>());
+		setFarmacias(new ArrayList<>());
+		setDistanciasToDisplay(new ArrayList<>());
+		
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
+		connectToDatabase();
+		try{
+			this.setFarmacias(getEntityManager().createNamedQuery("Farmacia.findAll", Farmacia.class).getResultList());			
+			
+		}catch(Exception e){
+			
+		}
+		
+		disconnectFromDatabase();
+		
+		/*
+		 * Calcular distancias usuario-farmacias, ordenar la lista de farmacias según cercanía
+		 */
+		//Obtener Geolocalizacion del Usuario
+		
+		Map<Double, Farmacia> distancias = new TreeMap<Double, Farmacia>();
+		GeolocationUtilities gu = new GeolocationUtilities();
+
+		String ubicacionUser =gu.pedidoGeolocacion(this.getUsuario().getDireccion());
+		Double latUser = gu.coordenadaDeGeolocacion(ubicacionUser, "latitud");
+		Double longUser = gu.coordenadaDeGeolocacion(ubicacionUser, "longitud");
+		Geolocalizacion geolocacionUser = new Geolocalizacion(latUser, longUser);
+		for (Farmacia farmacia : this.getFarmacias()) {
+			String direccionFarmacia = farmacia.getDireccion();
+			String ubicacionFarmacia = gu.pedidoGeolocacion(direccionFarmacia);
+			Double latitudFarmacia = gu.coordenadaDeGeolocacion(ubicacionFarmacia, "latitud");
+			Double longitudFarmacia = gu.coordenadaDeGeolocacion(ubicacionFarmacia, "longitud");
+			Geolocalizacion geolocacion = new Geolocalizacion(latitudFarmacia, longitudFarmacia);
+			farmacia.setGeolocalizacion(geolocacion);
+			
+			Double distancia = gu.distanciaEntreUbicacionYFarmacia(geolocacionUser, farmacia);
+			distancias.put(distancia, farmacia);
+			
+			
+		}
+		List<Farmacia> aux = new ArrayList<Farmacia>();
+		for (Farmacia farmacia : distancias.values()) {
+			aux.add(farmacia);
+		}
+		this.setFarmacias(aux);
+		
+		List<Double> aux1 = new ArrayList<Double>();
+		for(Double d : distancias.keySet()){
+			aux1.add(d);
+		}
+		this.setDistanciasToDisplay(aux1);
+		
+		for (Farmacia f : this.getFarmacias()) {
+			Double distanciaFarmacia = this.distanciasToDisplay.get(this.getFarmacias().indexOf(f));
+			
+		
+			Double distanciaFormateada = (Double)((int)(distanciaFarmacia*100)/100.0);
+			
+			FarmaciaVM faux = new FarmaciaVM(f, distanciaFormateada);
+			farmaciasUsuario.add(faux);
+		}
+		return null;
+	}
+	
 	public void connectToDatabase(){
 		getEntityManager().getTransaction().begin();
 	}
@@ -145,6 +289,14 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 
 	public void setFarmaciasUsuario(List<FarmaciaVM> farmaciasUsuario) {
 		this.farmaciasUsuario = farmaciasUsuario;
+	}
+
+	public String getValorBusqueda() {
+		return valorBusqueda;
+	}
+
+	public void setValorBusqueda(String valorBusqueda) {
+		this.valorBusqueda = valorBusqueda;
 	}
 
 }

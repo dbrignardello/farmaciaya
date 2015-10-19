@@ -13,10 +13,37 @@
    		</title>
     </h:head>
     <h:body>
+    
+    
+		<h:form id="listado">      
+		   <p:panel id="panel" header="Buscar medicamento o farmacia" style="margin-bottom:10px;">
+		        <p:messages id="messages" />
+		 
+		        <h:panelGrid columns="4" cellpadding="5">
+		            <h:outputLabel for="txt1" value="Medicamento/Faramacia : " />
+		            <p:inputText id="txt1" value="#{listadoFarmaciaManagedBean.valorBusqueda}" required="true" label="Text 1">
+		                <f:validateLength minimum="2" />
+		            </p:inputText>
+		            <p:message for="txt1" />
+		            <h:outputText value="" />
+		        </h:panelGrid>
+		    </p:panel>
+		 
+		    <h:panelGrid columns="2">
+		        <p:commandButton action="#{listadoFarmaciaManagedBean.buscar}" value="Buscar" update=":listado:listaFarmacias" >
+		        	<f:param name="valorBusqueda" value="#{listadoFarmaciaManagedBean.valorBusqueda}" />
+		        </p:commandButton>
+		        <p:commandButton action="#{listadoFarmaciaManagedBean.borrarBusqueda}" value="X" update=":listado:listaFarmacias" >
+		        </p:commandButton>
+		        
+		    </h:panelGrid>
+		
+		
+		
 	    <h:outputStylesheet library="css" name="DataScroller.css"  />
-		    <p:dataScroller value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu" chunkSize="10">
+		    <p:dataScroller id="listaFarmacias" value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu" chunkSize="10">
 		        <f:facet name="header">
-		            Scroll Down to Load More Farmacias
+		            Farmacias próximas a su ubicación
 		        </f:facet>
 		 
 		        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
@@ -30,8 +57,8 @@
 		                    <h:outputText value="Direccion:" />
 		                    <h:outputText value="#{fu.farmacia.direccion}" style="font-weight: bold"/>
 		                    
-		                    <h:outputText value="Distancia:" />
-		                    <h:outputText value="#{fu.distancia}" style="font-weight: bold"/>
+		                    <h:outputText value="Estás a " />
+		                    <h:outputText value="#{fu.distancia} kms" style="font-weight: bold"/>
 		                    
 		 
 		                    
@@ -39,5 +66,6 @@
 		            </p:outputPanel>
 		        </h:panelGrid>
 	    </p:dataScroller>
+	    </h:form>
  	</h:body>
 </html>
