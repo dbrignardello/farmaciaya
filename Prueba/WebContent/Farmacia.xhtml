@@ -13,8 +13,40 @@
    		</title>
     </h:head>
     <h:body>
+	    	<h:form id="formBusqueda">
+			<p:panel id="panel" header="Buscar producto"
+				style="margin-bottom:10px;">
+				<p:messages id="messages" />
+	
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel for="txt1" value="Producto : " />
+					<p:inputText id="txt1"
+						value="#{farmaciaManagedBean.valorBusqueda}" required="true"
+						label="Text 1">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p:message for="txt1" />
+					<h:outputText value="" />
+				</h:panelGrid>
+			</p:panel>
+	
+			<h:panelGrid columns="2">
+				<p:commandButton action="#{farmaciaManagedBean.buscar}"
+					value="Buscar" update=":listaProd">
+					<f:param name="valorBusqueda"
+						value="#{farmaciaManagedBean.valorBusqueda}" />
+				</p:commandButton>
+				<p:commandButton
+				action="#{farmaciaManagedBean.borrarBusqueda}" value="Ver todos"
+				update=":listaProd">
+			</p:commandButton>
+			</h:panelGrid>
+	
+		</h:form>
+    
+    
         <h:outputStylesheet library="css" name="DataScroller.css"  />
-		    <p:dataScroller value="#{farmaciaManagedBean.farmacia.entradaInventarios}" var="inv" chunkSize="10">
+		    <p:dataScroller id="listaProd" value="#{farmaciaManagedBean.farmacia.entradaInventarios}" var="inv" chunkSize="10">
 		        <f:facet name="header">
 		            <h:outputText value="#{farmaciaManagedBean.farmacia.nombreFarmacia} - Lista de productos" style="font-weight: bold" />
 				</f:facet>

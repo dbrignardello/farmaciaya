@@ -15,8 +15,10 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
 import org.primefaces.context.RequestContext;
 
+import sun.java2d.pipe.AATextRenderer;
 import util.FarmaciaVM;
 import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.backoffice.UsuarioManagerBean;
@@ -31,6 +33,10 @@ public class farmaciaManagedBean implements Serializable {
 	private Farmacia farmacia;
 	private List<FarmaciaVM> farmaciasUsuario;
 	private List<Farmacia> farmacias;	
+	
+	private List<EntradaInventario> busquedaReciente; 
+	
+	private String valorBusqueda;
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -53,6 +59,42 @@ public class farmaciaManagedBean implements Serializable {
 		
 		disconnectFromDatabase();
 		
+	}
+	
+	public void recargarInventario(){
+		//Recargo datos de farmacia, entre ellos el inventario.
+				setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
+				connectToDatabase();
+				try{
+					
+					this.setFarmacia(getEntityManager().createNamedQuery("Farmacia.findByName", Farmacia.class).setParameter("nombreFarmacia", this.farmacia.getNombreFarmacia()).getSingleResult());
+				}catch(Exception e){
+					
+				}
+				disconnectFromDatabase();
+	}
+	public String buscar(){
+		recargarInventario();
+			//Obtener productos similares al buscado
+			List<EntradaInventario> resultado = new ArrayList<>();
+			for (EntradaInventario entradaInventario : farmacia.getEntradaInventarios()) {
+				String nombreProducto = entradaInventario.getProducto().getNombre();
+				String nombreLower = nombreProducto.toLowerCase();
+				if(nombreLower.contains(getValorBusqueda().toLowerCase())){
+					resultado.add(entradaInventario);
+				}
+			}
+			//Seteo al bean un nuevo inventario segun la busqueda, que luego, al llamarse nuevamente 
+			//a buscar será reinicializado segun la BDD.
+			this.farmacia.setEntradaInventarios(resultado);
+		return null;
+	}
+	
+	public String borrarBusqueda(){
+		//Recargo nuevamente los datos del inventario original de la farmacia, sobreescribiendo el inventario
+		//de busqueda 
+		recargarInventario();
+		return null;
 	}
 
 	public void connectToDatabase(){
@@ -109,6 +151,22 @@ public class farmaciaManagedBean implements Serializable {
 
 	public void setFarmacia(Farmacia farmacia) {
 		this.farmacia = farmacia;
+	}
+
+	public String getValorBusqueda() {
+		return valorBusqueda;
+	}
+
+	public void setValorBusqueda(String valorBusqueda) {
+		this.valorBusqueda = valorBusqueda;
+	}
+
+	public List<EntradaInventario> getBusquedaReciente() {
+		return busquedaReciente;
+	}
+
+	public void setBusquedaReciente(List<EntradaInventario> busquedaReciente) {
+		this.busquedaReciente = busquedaReciente;
 	}
 
 }
