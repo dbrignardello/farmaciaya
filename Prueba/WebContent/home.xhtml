@@ -1,71 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
-      
-      
-    <h:head>
-    	<title>
-    		Listado de farmacias
-   		</title>
-    </h:head>
-    <h:body>
-    
-    
-		<h:form id="listado">      
-		   <p:panel id="panel" header="Buscar medicamento o farmacia" style="margin-bottom:10px;">
-		        <p:messages id="messages" />
-		 
-		        <h:panelGrid columns="4" cellpadding="5">
-		            <h:outputLabel for="txt1" value="Medicamento/Faramacia : " />
-		            <p:inputText id="txt1" value="#{listadoFarmaciaManagedBean.valorBusqueda}" required="true" label="Text 1">
-		                <f:validateLength minimum="2" />
-		            </p:inputText>
-		            <p:message for="txt1" />
-		            <h:outputText value="" />
-		        </h:panelGrid>
-		    </p:panel>
-		 
-		    <h:panelGrid columns="2">
-		        <p:commandButton action="#{listadoFarmaciaManagedBean.buscar}" value="Buscar" update=":listado:listaFarmacias" >
-		        	<f:param name="valorBusqueda" value="#{listadoFarmaciaManagedBean.valorBusqueda}" />
-		        </p:commandButton>
-		        <p:commandButton action="#{listadoFarmaciaManagedBean.borrarBusqueda}" value="X" update=":listado:listaFarmacias" >
-		        </p:commandButton>
-		        
-		    </h:panelGrid>
-		
-		
-		
-	    <h:outputStylesheet library="css" name="DataScroller.css"  />
-		    <p:dataScroller id="listaFarmacias" value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu" chunkSize="10">
-		        <f:facet name="header">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+	<title>Listado de farmacias</title>
+</h:head>
+<h:body>
+
+
+	<h:form id="listado">
+		<p:panel id="panel" header="Buscar medicamento o farmacia"
+			style="margin-bottom:10px;">
+			<p:messages id="messages" />
+
+			<h:panelGrid columns="4" cellpadding="5">
+				<h:outputLabel for="txt1" value="Medicamento/Faramacia : " />
+				<p:inputText id="txt1"
+					value="#{listadoFarmaciaManagedBean.valorBusqueda}" required="true"
+					label="Text 1">
+					<f:validateLength minimum="2" />
+				</p:inputText>
+				<p:message for="txt1" />
+				<h:outputText value="" />
+			</h:panelGrid>
+		</p:panel>
+
+		<h:panelGrid columns="2">
+			<p:commandButton action="#{listadoFarmaciaManagedBean.buscar}"
+				value="Buscar" update=":listaFarmacias">
+				<f:param name="valorBusqueda"
+					value="#{listadoFarmaciaManagedBean.valorBusqueda}" />
+			</p:commandButton>
+			<p:commandButton
+				action="#{listadoFarmaciaManagedBean.borrarBusqueda}" value="X"
+				update=":listaFarmacias">
+			</p:commandButton>
+
+		</h:panelGrid>
+
+	</h:form>
+
+
+	<h:outputStylesheet library="css" name="DataScroller.css" />
+	<p:dataScroller id="listaFarmacias"
+		value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu"
+		chunkSize="10">
+		<f:facet name="header">
 		            Farmacias próximas a su ubicación
 		        </f:facet>
-		 
-		        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-		            <p:graphicImage name="images/farmaciaTrouville.png" /> 
-		 
-		            <p:outputPanel>
-		                <h:panelGrid columns="2" cellpadding="5">
-		                    <h:outputText value="Nombre:" />
-		                    <h:outputText value="#{fu.farmacia.nombreFarmacia}" style="font-weight: bold"/>
-		 
-		                    <h:outputText value="Direccion:" />
-		                    <h:outputText value="#{fu.farmacia.direccion}" style="font-weight: bold"/>
-		                    
-		                    <h:outputText value="Estás a " />
-		                    <h:outputText value="#{fu.distancia} kms" style="font-weight: bold"/>
-		                    
-		 
-		                    
-		                </h:panelGrid>
-		            </p:outputPanel>
-		        </h:panelGrid>
-	    </p:dataScroller>
-	    </h:form>
- 	</h:body>
+
+		<h:panelGrid columns="2" style="width:100%"
+			columnClasses="logo,detail">
+			<p:graphicImage name="images/farmaciaTrouville.png" width="120" height="120"/>
+
+			<p:outputPanel>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:form>
+						<h:outputText value="Nombre: " />
+						<p:commandLink
+							action="#{farmaciaManagedBean.seleccionarFarmacia(fu.farmacia)}">
+							<f:param name="nombreFarmacia"
+								value="#{fu.farmacia.nombreFarmacia}" />
+							<h:outputText value="#{fu.farmacia.nombreFarmacia}"
+								style="font-weight: bold" />
+						</p:commandLink>
+						<br></br>
+						
+						<h:outputText value="Dirección: " />
+						<h:outputText value="#{fu.farmacia.direccion}"
+							style="font-weight: bold" />
+						<br></br>
+						
+						<h:outputText value="Estás a " />
+						<h:outputText value="#{fu.distancia} kms"
+							style="font-weight: bold" />
+
+
+					</h:form>
+
+				</h:panelGrid>
+			</p:outputPanel>
+		</h:panelGrid>
+	</p:dataScroller>
+</h:body>
 </html>

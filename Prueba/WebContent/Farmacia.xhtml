@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+      
+    <h:head>
+    	<title>
+    		Listado de Productos
+   		</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="DataScroller.css"  />
+		    <p:dataScroller value="#{farmaciaManagedBean.farmacia.entradaInventarios}" var="inv" chunkSize="10">
+		        <f:facet name="header">
+		            <h:outputText value="#{farmaciaManagedBean.farmacia.nombreFarmacia} - Lista de productos" style="font-weight: bold" />
+				</f:facet>
+		 
+		        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+		            <p:graphicImage name="images/#{inv.producto.nombre}.png" width="60" height="60" /> 
+		 
+		            <p:outputPanel>
+		                <h:panelGrid columns="2" cellpadding="5">
+			                    <h:outputText value="Nombre:" />
+							        <h:outputText value="#{inv.producto.nombre}" style="font-weight: bold" />
+			 
+			                    <h:outputText value="Precio:" />
+			                    <h:outputText value="#{inv.precio}" style="font-weight: bold"/>
+			                    
+			                    <h:outputText value="Cantidad:" />
+			                    <h:outputText value="#{inv.cantidad}" style="font-weight: bold"/>
+			                </h:panelGrid>
+		            </p:outputPanel>
+		            
+		            <p:button icon="ui-icon-cart" title="Icon Only">
+					    <f:param name="productId" value="30" />
+					</p:button>
+		        </h:panelGrid>
+	    </p:dataScroller>                
+ 	</h:body>
+</html>
