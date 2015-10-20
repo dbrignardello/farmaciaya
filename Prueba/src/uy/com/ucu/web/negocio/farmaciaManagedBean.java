@@ -44,8 +44,8 @@ public class farmaciaManagedBean implements Serializable {
 
 	public farmaciaManagedBean() {
 		farmaciasUsuario = new ArrayList<>();
-		 HttpSession session = SessionUtilities.getSession();
-         String username=(String) session.getAttribute("username");
+		HttpSession session = SessionUtilities.getSession();
+        String username=(String) session.getAttribute("username");
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
 		connectToDatabase();
 		try{
