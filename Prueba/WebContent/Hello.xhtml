@@ -9,8 +9,8 @@
 	<h:head>
 		<title>Login</title>
 	</h:head>
-    <h:body>
-		<h:form style="margin: auto;">
+    <h:body style="background-image:url(http://localhost:8080/Prueba/resources/images/bg.jpg)">
+		<h:form style="margin: 10% auto; width: 50%;">
 	 		<p:growl id="msg" showDetail="true" sticky="true" /> 
 			<p:panel header="Login de usuario" style="margin-bottom:10px;" styleClass="mini-panel panel-grid tr panel-grid td panel-hover panel-header-title-small">
 				<h:panelGrid columns="2" cellpadding="5" style="margin: auto;">
@@ -18,12 +18,10 @@
 				  	<p:inputText id="username" value="#{usuario.username}"/>
 				  	<h:outputLabel for="password" value="Contraseña:" />
 				  	<p:password id="password" value="#{usuario.password}"/>
-				  	<f:facet name="footer" >
-				  		<p:commandButton value="Login" action="#{usuario.login()}" update="msg" immediate="false" />
-				  	</f:facet>
+					<p:link href="UserInfo.xhtml">Registrarse</p:link>
+			  		<p:commandButton style="text-align:right;" value="Login" action="#{usuario.login()}" update="msg" immediate="false" />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>
-		<p:link href="UserInfo.xhtml">Registrarse</p:link>
 	</h:body>
 </html>
