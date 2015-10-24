@@ -21,19 +21,19 @@
 			<h:panelGrid columns="6" cellpadding="5">
 				<h:outputLabel for="txt1" value="Medicamento/Faramacia : " />
 				<p:inputText id="txt1"
-					value="#{listadoFarmaciaManagedBean.valorBusqueda}" required="true"
+					value="#{listadoFarmacia.valorBusqueda}" required="true"
 					label="Text 1">
 					<f:validateLength minimum="2" />
 				</p:inputText>
 				<p:message for="txt1" />
 				<h:outputText value="" />
-				<p:commandButton action="#{listadoFarmaciaManagedBean.buscar}"
+				<p:commandButton action="#{listadoFarmacia.buscar}"
 					value="Buscar" update=":listaFarmacias" icon="ui-icon-search"> 
 					<f:param name="valorBusqueda"
-						value="#{listadoFarmaciaManagedBean.valorBusqueda}" />
+						value="#{listadoFarmacia.valorBusqueda}" />
 				</p:commandButton>
 				<p:commandButton
-					action="#{listadoFarmaciaManagedBean.borrarBusqueda}" value="Ver todas"
+					action="#{listadoFarmacia.borrarBusqueda}" value="Ver todas"
 					update=":listaFarmacias">
 				</p:commandButton>
 			</h:panelGrid>
@@ -44,7 +44,7 @@
 
 	<h:outputStylesheet library="css" name="DataScroller.css" />
 	<p:dataScroller id="listaFarmacias"
-		value="#{listadoFarmaciaManagedBean.farmaciasUsuario}" var="fu"
+		value="#{listadoFarmacia.farmaciasUsuario}" var="fu"
 		chunkSize="10">
 		<f:facet name="header">
 		            Farmacias próximas a su ubicación
@@ -59,7 +59,7 @@
 					<h:form>
 						<h:outputText value="Nombre: " />
 						<p:commandLink
-							action="#{farmaciaManagedBean.seleccionarFarmacia(fu.farmacia)}">
+							action="#{farmacia.seleccionarFarmacia(fu.farmacia)}">
 							<f:param name="nombreFarmacia"
 								value="#{fu.farmacia.nombreFarmacia}" />
 							<h:outputText value="#{fu.farmacia.nombreFarmacia}"
@@ -75,7 +75,6 @@
 						<h:outputText value="Estás a " />
 						<h:outputText value="#{fu.distancia} kms"
 							style="font-weight: bold" />
-
 
 					</h:form>
 

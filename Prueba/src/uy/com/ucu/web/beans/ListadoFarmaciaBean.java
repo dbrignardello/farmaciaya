@@ -1,4 +1,4 @@
-package uy.com.ucu.web.negocio;
+package uy.com.ucu.web.beans;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -23,31 +23,31 @@ import org.primefaces.context.RequestContext;
 
 import util.FarmaciaVM;
 import uy.com.ucu.web.backoffice.Usuario;
-import uy.com.ucu.web.backoffice.UsuarioManagerBean;
+import uy.com.ucu.web.negocio.Farmacia;
+import uy.com.ucu.web.negocio.Geolocalizacion;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
-@ManagedBean 
+@ManagedBean(name="listadoFarmacia") 
 @SessionScoped
-public class ListadoFarmaciaManagedBean implements Serializable {
+public class ListadoFarmaciaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
 	private List<FarmaciaVM> farmaciasUsuario;
-	private List<Farmacia> farmacias;	
-	@PersistenceContext
+	private List<Farmacia> farmacias;
 	private EntityManager entityManager;
 	
 	private Usuario usuario;
 	private List<Double> distanciasToDisplay;
 	private String valorBusqueda;
 	
-	public ListadoFarmaciaManagedBean() {
+	public ListadoFarmaciaBean() {
 		farmaciasUsuario = new ArrayList<>();
 		 HttpSession session = SessionUtilities.getSession();
          String username=(String) session.getAttribute("username");
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
-		connectToDatabase();
+		beginTransaction();
 		try{
 			//Obtener usuario logueado y todas las farmacias
 			this.setUsuario(getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult());
@@ -57,7 +57,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 			
 		}
 		
-		disconnectFromDatabase();
+		endTransaction();
 		
 		/*
 		 * Calcular distancias usuario-farmacias, ordenar la lista de farmacias según cercanía
@@ -108,7 +108,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public String buscar(){
 		//Reinicializar variables
 		setFarmaciasUsuario(new ArrayList<>());
@@ -116,7 +116,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 		setDistanciasToDisplay(new ArrayList<>());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
 		String valor = valorBusqueda;
-		connectToDatabase();
+		beginTransaction();
 		try{
 			//Obtener usuario logueado y todas las farmacias
 			this.setFarmacias(getEntityManager().createQuery("SELECT f FROM Farmacia f WHERE UPPER(f.nombreFarmacia) LIKE :nombreFarmacia").setParameter("nombreFarmacia", "%" + valor.toUpperCase() + "%").getResultList());
@@ -126,7 +126,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 			
 		}
 
-		disconnectFromDatabase();
+		endTransaction();
 		/*
 		 * Calcular distancias usuario-farmacias, ordenar la lista de farmacias según cercanía
 		 */
@@ -183,7 +183,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 		setDistanciasToDisplay(new ArrayList<>());
 		
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
-		connectToDatabase();
+		beginTransaction();
 		try{
 			this.setFarmacias(getEntityManager().createNamedQuery("Farmacia.findAll", Farmacia.class).getResultList());			
 			
@@ -191,7 +191,7 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 			
 		}
 		
-		disconnectFromDatabase();
+		endTransaction();
 		
 		/*
 		 * Calcular distancias usuario-farmacias, ordenar la lista de farmacias según cercanía
@@ -242,11 +242,11 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 		return null;
 	}
 	
-	public void connectToDatabase(){
+	public void beginTransaction(){
 		getEntityManager().getTransaction().begin();
 	}
 	
-	public void disconnectFromDatabase(){
+	public void endTransaction(){
 		getEntityManager().getTransaction().commit();
 	}
 	private EntityManager getEntityManager() {
@@ -257,13 +257,9 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 		this.entityManager = entityManager;
 	}
 
-
-
 	public List<Farmacia> getFarmacias() {
 		return farmacias;
 	}
-
-
 
 	public void setFarmacias(List<Farmacia> farmacias) {
 		this.farmacias = farmacias;
@@ -276,8 +272,6 @@ public class ListadoFarmaciaManagedBean implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-
 
 	public void setDistanciasToDisplay(List<Double> distancias) {
 		this.distanciasToDisplay = distancias;

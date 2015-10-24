@@ -17,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uy.com.ucu.web.backoffice.Usuario;
-import uy.com.ucu.web.backoffice.UsuarioManagerBean;
+import uy.com.ucu.web.beans.UsuarioBean;
 import uy.com.ucu.web.negocio.*;
 
 /**
@@ -30,7 +30,7 @@ public class UsuarioTest {
 	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
 	
 	//Bean para manejar usuarios
-	private static UsuarioManagerBean usuarioBean = new UsuarioManagerBean();
+	private static UsuarioBean usuarioBean = new UsuarioBean();
 	
 	//Usuario válido
 	private static Usuario usuarioValido;

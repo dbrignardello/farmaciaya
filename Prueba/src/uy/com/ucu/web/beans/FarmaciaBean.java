@@ -1,4 +1,4 @@
-package uy.com.ucu.web.negocio;
+package uy.com.ucu.web.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,33 +21,33 @@ import org.primefaces.context.RequestContext;
 import sun.java2d.pipe.AATextRenderer;
 import util.FarmaciaVM;
 import uy.com.ucu.web.backoffice.Usuario;
-import uy.com.ucu.web.backoffice.UsuarioManagerBean;
+import uy.com.ucu.web.negocio.Farmacia;
+import uy.com.ucu.web.negocio.ItemInventario;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
-@ManagedBean 
+@ManagedBean(name="farmacia")
 @SessionScoped
-public class farmaciaManagedBean implements Serializable {
+public class FarmaciaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Farmacia farmacia;
 	private List<FarmaciaVM> farmaciasUsuario;
 	private List<Farmacia> farmacias;	
 	
-	private List<EntradaInventario> busquedaReciente; 
+	private List<ItemInventario> busquedaReciente; 
 	
 	private String valorBusqueda;
-	@PersistenceContext
 	private EntityManager entityManager;
 	
 	private Usuario usuario;
 
-	public farmaciaManagedBean() {
+	public FarmaciaBean() {
 		farmaciasUsuario = new ArrayList<>();
 		HttpSession session = SessionUtilities.getSession();
         String username=(String) session.getAttribute("username");
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
-		connectToDatabase();
+		beginTransaction();
 		try{
 			//Obtener usuario logueado y todas las farmacias
 			this.setUsuario(getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult());
@@ -57,36 +57,36 @@ public class farmaciaManagedBean implements Serializable {
 			
 		}
 		
-		disconnectFromDatabase();
+		endTransaction();
 		
 	}
 	
 	public void recargarInventario(){
 		//Recargo datos de farmacia, entre ellos el inventario.
 				setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
-				connectToDatabase();
+				beginTransaction();
 				try{
 					
 					this.setFarmacia(getEntityManager().createNamedQuery("Farmacia.findByName", Farmacia.class).setParameter("nombreFarmacia", this.farmacia.getNombreFarmacia()).getSingleResult());
 				}catch(Exception e){
 					
 				}
-				disconnectFromDatabase();
+				endTransaction();
 	}
 	public String buscar(){
 		recargarInventario();
 			//Obtener productos similares al buscado
-			List<EntradaInventario> resultado = new ArrayList<>();
-			for (EntradaInventario entradaInventario : farmacia.getEntradaInventarios()) {
-				String nombreProducto = entradaInventario.getProducto().getNombre();
+			List<ItemInventario> resultado = new ArrayList<>();
+			for (ItemInventario itemInventario : farmacia.getInventario()) {
+				String nombreProducto = itemInventario.getProducto().getNombre();
 				String nombreLower = nombreProducto.toLowerCase();
 				if(nombreLower.contains(getValorBusqueda().toLowerCase())){
-					resultado.add(entradaInventario);
+					resultado.add(itemInventario);
 				}
 			}
 			//Seteo al bean un nuevo inventario segun la busqueda, que luego, al llamarse nuevamente 
 			//a buscar será reinicializado segun la BDD.
-			this.farmacia.setEntradaInventarios(resultado);
+			this.farmacia.setInventario(resultado);
 		return null;
 	}
 	
@@ -97,13 +97,21 @@ public class farmaciaManagedBean implements Serializable {
 		return null;
 	}
 
-	public void connectToDatabase(){
+	public void beginTransaction(){
 		getEntityManager().getTransaction().begin();
 	}
 	
-	public void disconnectFromDatabase(){
+	public void endTransaction(){
 		getEntityManager().getTransaction().commit();
 	}
+	
+	public String seleccionarFarmacia(Farmacia farmacia){
+		setFarmacia(farmacia);
+		return "Farmacia.xhtml?faces-redirect=true";
+	}
+	
+	//Getters & setters
+	
 	private EntityManager getEntityManager() {
 		return entityManager;
 	}
@@ -112,13 +120,9 @@ public class farmaciaManagedBean implements Serializable {
 		this.entityManager = entityManager;
 	}
 
-
-
 	public List<Farmacia> getFarmacias() {
 		return farmacias;
 	}
-
-
 
 	public void setFarmacias(List<Farmacia> farmacias) {
 		this.farmacias = farmacias;
@@ -140,11 +144,6 @@ public class farmaciaManagedBean implements Serializable {
 		this.farmaciasUsuario = farmaciasUsuario;
 	}
 	
-	public String seleccionarFarmacia(Farmacia farmacia){
-		setFarmacia(farmacia);
-		return "Farmacia.xhtml?faces-redirect=true";
-	}
-
 	public Farmacia getFarmacia() {
 		return farmacia;
 	}
@@ -161,11 +160,11 @@ public class farmaciaManagedBean implements Serializable {
 		this.valorBusqueda = valorBusqueda;
 	}
 
-	public List<EntradaInventario> getBusquedaReciente() {
+	public List<ItemInventario> getBusquedaReciente() {
 		return busquedaReciente;
 	}
 
-	public void setBusquedaReciente(List<EntradaInventario> busquedaReciente) {
+	public void setBusquedaReciente(List<ItemInventario> busquedaReciente) {
 		this.busquedaReciente = busquedaReciente;
 	}
 

@@ -4,7 +4,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>uy.com.ucu.web.backoffice.Usuario</class>
 		<class>uy.com.ucu.web.negocio.Producto</class>
-		<class>uy.com.ucu.web.negocio.EntradaInventario</class>
+		<class>uy.com.ucu.web.negocio.ItemInventario</class>
 		<class>uy.com.ucu.web.negocio.Farmacia</class>
 		<class>uy.com.ucu.web.negocio.Geolocalizacion</class>
 		<properties>

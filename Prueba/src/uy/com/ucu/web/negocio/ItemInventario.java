@@ -10,8 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="entradaInventario")
-@NamedQuery(name="EntradaInventario.findAll", query="SELECT e FROM EntradaInventario e")
-public class EntradaInventario implements Serializable {
+@NamedQuery(name="ItemInventario.findAll", query="SELECT e FROM ItemInventario e")
+public class ItemInventario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,9 +32,43 @@ public class EntradaInventario implements Serializable {
 	@JoinColumn(name="fk_producto")
 	private Producto producto;
 
-	public EntradaInventario() {
+	public ItemInventario() {
 	}
-
+	
+	public boolean hayStock(){
+		if (this.cantidad > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public boolean verificarStock(int cantidad){
+		if (this.cantidad >= cantidad){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	//Verdadero si es exitoso, falso sino
+	public boolean modificarStock(int movimiento){
+		
+		//El movimiento tiene que ser positivo o negativo
+		if (movimiento != 0){			
+			int stockFinal = cantidad + movimiento;
+				
+			//No se pueden remover más de los que hay
+			if (stockFinal > 0){
+				setCantidad(stockFinal);
+				return true;
+			}							
+		}		
+		return false;
+	}
+	
+	//Getters & Setters
+	
 	public int getIdEntradaInventario() {
 		return this.idEntradaInventario;
 	}

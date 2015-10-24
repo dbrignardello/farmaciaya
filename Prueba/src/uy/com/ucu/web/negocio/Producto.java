@@ -23,7 +23,7 @@ public class Producto implements Serializable {
 
 	//bi-directional many-to-one association to EntradaInventario
 	@OneToMany(mappedBy="producto")
-	private List<EntradaInventario> entradaInventarios;
+	private List<ItemInventario> entradaInventarios;
 
 	public Producto() {
 	}
@@ -44,22 +44,22 @@ public class Producto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<EntradaInventario> getEntradaInventarios() {
+	public List<ItemInventario> getEntradaInventarios() {
 		return this.entradaInventarios;
 	}
 
-	public void setEntradaInventarios(List<EntradaInventario> entradaInventarios) {
+	public void setEntradaInventarios(List<ItemInventario> entradaInventarios) {
 		this.entradaInventarios = entradaInventarios;
 	}
 
-	public EntradaInventario addEntradaInventario(EntradaInventario entradaInventario) {
+	public ItemInventario addEntradaInventario(ItemInventario entradaInventario) {
 		getEntradaInventarios().add(entradaInventario);
 		entradaInventario.setProducto(this);
 
 		return entradaInventario;
 	}
 
-	public EntradaInventario removeEntradaInventario(EntradaInventario entradaInventario) {
+	public ItemInventario removeEntradaInventario(ItemInventario entradaInventario) {
 		getEntradaInventarios().remove(entradaInventario);
 		entradaInventario.setProducto(null);
 

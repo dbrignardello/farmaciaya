@@ -29,13 +29,73 @@ public class Farmacia implements Serializable {
 	private String direccion;
 	//bi-directional many-to-one association to EntradaInventario
 	@OneToMany(mappedBy="farmacia")
-	private List<EntradaInventario> entradaInventarios;
+	private List<ItemInventario> inventario;
 
 	//bi-directional one-to-one association to Geolocalizacion
 	@OneToOne(mappedBy="farmacia")
 	private Geolocalizacion geolocalizacion;
 
 	public Farmacia() {
+	}
+	
+	public ItemInventario agregarItemInventario(ItemInventario itemInventario) {
+		getInventario().add(itemInventario);
+		itemInventario.setFarmacia(this);
+
+		return itemInventario;
+	}
+	
+	public ItemInventario buscarItemInventario(Producto p){
+		for (ItemInventario item : getInventario()){
+			if (item.getProducto().equals(p)){
+				return item;
+			}
+		}
+		return null;			
+	}
+
+	public ItemInventario quitarItemInventario(ItemInventario itemInventario) {
+		getInventario().remove(itemInventario);
+		itemInventario.setFarmacia(null);
+
+		return itemInventario;
+	}
+	
+	public boolean verificarStock(Producto p, int cantidad){
+		ItemInventario item = buscarItemInventario(p); 
+		return item.verificarStock(cantidad);
+	}
+	
+	public boolean modificarStock(Producto p, int cantidad){
+		ItemInventario item = buscarItemInventario(p); 
+		return item.modificarStock(cantidad);
+	}
+	
+	public String resultadoStock(Producto p){
+		String resultado = "Fuera de stock";
+		ItemInventario item = buscarItemInventario(p);
+		if (item.hayStock()){
+			resultado = "En stock";
+		}
+		return resultado;
+	}
+	
+	//Getters & Setters
+
+	public Geolocalizacion getGeolocalizacion() {
+		return this.geolocalizacion;
+	}
+
+	public void setGeolocalizacion(Geolocalizacion geolocalizacion) {
+		this.geolocalizacion = geolocalizacion;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public int getIdFarmacia() {
@@ -54,42 +114,11 @@ public class Farmacia implements Serializable {
 		this.nombreFarmacia = nombreFarmacia;
 	}
 
-	public List<EntradaInventario> getEntradaInventarios() {
-		return this.entradaInventarios;
+	public List<ItemInventario> getInventario() {
+		return this.inventario;
 	}
 
-	public void setEntradaInventarios(List<EntradaInventario> entradaInventarios) {
-		this.entradaInventarios = entradaInventarios;
+	public void setInventario(List<ItemInventario> inventario) {
+		this.inventario = inventario;
 	}
-
-	public EntradaInventario addEntradaInventario(EntradaInventario entradaInventario) {
-		getEntradaInventarios().add(entradaInventario);
-		entradaInventario.setFarmacia(this);
-
-		return entradaInventario;
-	}
-
-	public EntradaInventario removeEntradaInventario(EntradaInventario entradaInventario) {
-		getEntradaInventarios().remove(entradaInventario);
-		entradaInventario.setFarmacia(null);
-
-		return entradaInventario;
-	}
-
-	public Geolocalizacion getGeolocalizacion() {
-		return this.geolocalizacion;
-	}
-
-	public void setGeolocalizacion(Geolocalizacion geolocalizacion) {
-		this.geolocalizacion = geolocalizacion;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
 }

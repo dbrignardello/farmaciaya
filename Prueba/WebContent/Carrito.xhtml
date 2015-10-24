@@ -8,52 +8,54 @@
             
     <h:head>
     	<title>
-    		Carrito test
+    		Carrito de compras
    		</title>
     </h:head>
     <h:body style="padding:2% 15%; background-image:url(http://localhost:8080/Prueba/resources/images/bg.jpg)">
     		<h:form id="formCarrito">
-				<p:panel id="panel" header="Test carrito"
+				<p:panel id="panel" header="Carrito de compras"
 					style="margin-bottom:10px;">
-					<p:messages id="messages" />
-		
-						<p:commandButton
-							action="#{carritoBean.agregarAlCarrito(null)}" 
-							value="Cargar al carrito"
-							update=":itemsCarrito">
-						</p:commandButton>
-				</p:panel>
-			</h:form>
-    
-        <h:outputStylesheet library="css" name="DataScroller.css"  />
-		    <p:dataScroller id="itemsCarrito" value="#{carritoBean.itemsCarrito}" var="itemsCarrito" chunkSize="10">
-		        <f:facet name="header">
-		            <h:outputText value="Productos en el carrito" style="font-weight: bold" />
-				</f:facet>
-		 
-		        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
-		            <p:graphicImage name="images/#{itemsCarrito.producto.nombre}.png" width="60" height="60" /> 
-		 
-		            <p:outputPanel>
-		                <h:panelGrid columns="2" cellpadding="5">
-			                    <h:outputText value="Farmacia:" />
-							    <h:outputText value="#{itemsCarrito.farmacia.nombreFarmacia}" style="font-weight: bold" />
-			 
-			                    <h:outputText value="Producto:" />
-			                    <h:outputText value="#{itemsCarrito.producto.nombre}" style="font-weight: bold"/>
-			                    
-			                    <h:outputText value="Precio:" />
-			                    <h:outputText value="#{itemsCarrito.precio}" style="font-weight: bold"/>
-			                    
-			                    <h:outputText value="Cantidad:" />
-			                    <h:outputText value="#{itemsCarrito.cantidad}" style="font-weight: bold"/>
-			                </h:panelGrid>
-		            </p:outputPanel>
-		            
-		            <p:button icon="ui-icon-cart" title="Icon Only">
-					    <f:param name="productId" value="30" />
-					</p:button>
-		        </h:panelGrid>
-	    </p:dataScroller>                
+					<p:messages id="messages" />										
+			    
+			        <h:outputStylesheet library="css" name="DataScroller.css"  />
+					    <p:dataScroller id="itemsCarrito" value="#{carrito.itemsCarrito}" var="itemCarrito" chunkSize="10">
+					        <f:facet name="header">
+					            <h:outputText value="Productos en el carrito" style="font-weight: bold" />
+							</f:facet>
+					 
+					        <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+					            <p:graphicImage name="images/#{itemCarrito.producto.nombre}.png" width="60" height="60" /> 
+					 
+					            <p:outputPanel>
+					                <h:panelGrid columns="2" cellpadding="5">
+						                    <h:outputText value="Farmacia:" />
+										    <h:outputText value="#{itemCarrito.farmacia.nombreFarmacia}" style="font-weight: bold" />
+						 
+						                    <h:outputText value="Producto:" />
+						                    <h:outputText value="#{itemCarrito.producto.nombre}" style="font-weight: bold"/>
+						                    
+						                    <h:outputText value="Precio por unidad:" />
+						                    <h:outputText value="#{itemCarrito.precio}" style="font-weight: bold"/>
+						                    
+						                    <h:outputText value="Cantidad:" />
+						                    <h:outputText value="#{itemCarrito.cantidad}" style="font-weight: bold"/>
+						                    
+						                    <h:outputText value="Monto:" />
+						                    <h:outputText value="#{itemCarrito.calcularMonto()}" style="font-weight: bold"/>
+						            </h:panelGrid>
+					            </p:outputPanel>
+					        </h:panelGrid>
+				    </p:dataScroller>
+				    
+				    <h:outputText value="Monto total:" />
+				    <h:outputText value="#{carrito.calcularMontoTotal()}" style="font-weight: bold" />
+				    <br/>
+				    
+				    <p:commandButton
+						action="#{carrito.realizarCompra()}" 
+						value="Realizar compra">
+					</p:commandButton>
+			    </p:panel>			    	   
+	    </h:form>                
  	</h:body>
 </html>

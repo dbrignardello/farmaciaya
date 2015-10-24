@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.primefaces.context.RequestContext;
 
 import uy.com.ucu.web.backoffice.Usuario;
-import uy.com.ucu.web.backoffice.UsuarioManagerBean;
+import uy.com.ucu.web.beans.UsuarioBean;
 
 import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
@@ -29,7 +29,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 
 @PrepareForTest({ FacesContext.class, RequestContext.class })
-public class UsuarioManagerBeanTest {
+public class UsuarioBeanTest {
 	
 	@Rule
 	public PowerMockRule rule = new PowerMockRule();
@@ -42,7 +42,7 @@ public class UsuarioManagerBeanTest {
 	//En su mayoría son estáticas al ser utilizadas en el beforeClass y afterClass, los cuales son métodos estáticos por definición
 	
 	//Bean para manejar usuarios
-	private static UsuarioManagerBean usuarioBean;
+	private static UsuarioBean usuarioBean;
 	
 	//Usuario válido
 	private static Usuario usuarioValido;
@@ -96,7 +96,7 @@ public class UsuarioManagerBeanTest {
 	public static void setUpBeforeClass() throws Exception {
 		
 		//Inicialización de variables
-		usuarioBean = new UsuarioManagerBean();
+		usuarioBean = new UsuarioBean();
 		
 		//Cargado de datos de usuario válido
 		usuarioValido = new Usuario();
@@ -137,17 +137,17 @@ public class UsuarioManagerBeanTest {
 	}
 	
 	//Carga un usuario válido en el bean
-	private static void loadValidUser(UsuarioManagerBean usuarioBean){
+	private static void loadValidUser(UsuarioBean usuarioBean){
 		loadBeanFromUser(usuarioBean, usuarioValido);
 	}
 	
 	//Carga un usuario inválido en el bean
-	private static void loadInvalidUser(UsuarioManagerBean usuarioBean){
+	private static void loadInvalidUser(UsuarioBean usuarioBean){
 		loadBeanFromUser(usuarioBean, usuarioInvalido);
 	}
 	
 	//Carga un usuario en el bean
-	private static void loadBeanFromUser(UsuarioManagerBean usuarioBean, Usuario usuario){
+	private static void loadBeanFromUser(UsuarioBean usuarioBean, Usuario usuario){
 		usuarioBean.setCelular(usuario.getCelular());
 		usuarioBean.setDireccion(usuario.getDireccion());
 		usuarioBean.setEmail(usuario.getEmail());
@@ -157,7 +157,7 @@ public class UsuarioManagerBeanTest {
 	}
 	
 	//Crea un objeto Usuario en base a los datos cargados en el bean
-	private static Usuario extractUserFromBean(UsuarioManagerBean usuarioBean){		
+	private static Usuario extractUserFromBean(UsuarioBean usuarioBean){		
 		Usuario usuario = new Usuario();
 		usuario.setCelular(usuarioBean.getCelular());
 		usuario.setDireccion(usuarioBean.getDireccion());

@@ -1,4 +1,4 @@
-package uy.com.ucu.web.backoffice;
+package uy.com.ucu.web.beans;
 
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 import util.mail;
+import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Geolocalizacion;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SecurityUtilities;
@@ -20,7 +21,7 @@ import uy.com.ucu.web.utilities.SessionUtilities;
 
 @ManagedBean(name="usuario") 
 @SessionScoped
-public class UsuarioManagerBean implements Serializable{
+public class UsuarioBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -36,13 +37,12 @@ public class UsuarioManagerBean implements Serializable{
 	private String successfulRegistrationURL = "Hello.xhtml?faces-redirect=true";
 	private String failedRegistrationURL = "";
 	
-	@PersistenceContext
 	private EntityManager entityManager;
 	
 	private SecurityUtilities securityUtilities;
 	private SessionUtilities sessionUtilities;
 	
-	public UsuarioManagerBean(){		
+	public UsuarioBean(){		
 		setSecurityUtilities(new SecurityUtilities());
 		setSessionUtilities(new SessionUtilities());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
@@ -65,8 +65,7 @@ public class UsuarioManagerBean implements Serializable{
 		try{
 			getEntityManager().createNamedQuery("Usuario.control", Usuario.class)
 				.setParameter("username", username)
-				.setParameter("password", getSecurityUtilities().hash(password))
-				.getSingleResult();
+				.setParameter("password", getSecurityUtilities().hash(password)).getSingleResult();//getResultList().size();
 			
 			// get Http Session and store username
             HttpSession session = SessionUtilities.getSession();

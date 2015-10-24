@@ -7,6 +7,12 @@ public class ItemCarrito {
 	double precio;
 	int cantidad;
 	
+	public double calcularMonto(){
+		return cantidad*precio;
+	}
+	
+	//Getters & Setters
+	
 	public Farmacia getFarmacia() {
 		return farmacia;
 	}
@@ -38,4 +44,5 @@ public class ItemCarrito {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}	
+	
 }
