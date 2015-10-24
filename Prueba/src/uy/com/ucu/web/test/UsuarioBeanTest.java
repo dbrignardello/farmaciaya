@@ -127,13 +127,13 @@ public class UsuarioBeanTest {
 	public static void tearDownAfterClass() throws Exception {
 		//Borra el usuario válido de prueba de la base de datos
 		
-		usuarioBean.connectToDatabase();
+		usuarioBean.beginTransaction();
 		
 		usuarioBean.getEntityManager().createNamedQuery("Usuario.deleteByUsername")
 			.setParameter("username", usernameValido)
 			.executeUpdate();
 		
-		usuarioBean.disconnectFromDatabase();
+		usuarioBean.endTransaction();
 	}
 	
 	//Carga un usuario válido en el bean

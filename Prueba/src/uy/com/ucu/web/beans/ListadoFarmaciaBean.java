@@ -21,9 +21,9 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
-import util.FarmaciaVM;
 import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Farmacia;
+import uy.com.ucu.web.negocio.FarmaciaVM;
 import uy.com.ucu.web.negocio.Geolocalizacion;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;

@@ -19,9 +19,9 @@ import org.hibernate.Criteria;
 import org.primefaces.context.RequestContext;
 
 import sun.java2d.pipe.AATextRenderer;
-import util.FarmaciaVM;
 import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Farmacia;
+import uy.com.ucu.web.negocio.FarmaciaVM;
 import uy.com.ucu.web.negocio.ItemInventario;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;

@@ -5,7 +5,7 @@ public class ItemCarrito {
 	Farmacia farmacia;
 	Producto producto;
 	double precio;
-	int cantidad;
+	Integer cantidad;
 	
 	public double calcularMonto(){
 		return cantidad*precio;
@@ -29,11 +29,11 @@ public class ItemCarrito {
 		this.precio = precio;
 	}
 	
-	public int getCantidad() {
+	public Integer getCantidad() {
 		return cantidad;
 	}
 	
-	public void setCantidad(int cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 

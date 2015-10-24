@@ -12,10 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
-import util.mail;
 import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Geolocalizacion;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
+import uy.com.ucu.web.utilities.MailUtilities;
 import uy.com.ucu.web.utilities.SecurityUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -48,11 +48,11 @@ public class UsuarioBean implements Serializable{
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 	}
 	
-	public void connectToDatabase(){
+	public void beginTransaction(){
 		getEntityManager().getTransaction().begin();
 	}
 	
-	public void disconnectFromDatabase(){
+	public void endTransaction(){
 		getEntityManager().getTransaction().commit();
 	}
 	
@@ -60,7 +60,7 @@ public class UsuarioBean implements Serializable{
 		
 		String result = failedLoginURL;
 		
-		connectToDatabase();
+		beginTransaction();
 		
 		try{
 			getEntityManager().createNamedQuery("Usuario.control", Usuario.class)
@@ -78,7 +78,7 @@ public class UsuarioBean implements Serializable{
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
 		}
 		
-		disconnectFromDatabase();
+		endTransaction();
 		return result;
 	}
 	
@@ -92,8 +92,28 @@ public class UsuarioBean implements Serializable{
 		
 		String result = failedRegistrationURL;
 		
-		connectToDatabase();
+		beginTransaction();
 
+		//Verificar email
+		try{
+			getEntityManager().createNamedQuery("Usuario.findByEmail", Usuario.class)
+				.setParameter("email", email)
+				.getSingleResult();
+
+			//Ya existe un usuario con el email
+			RequestContext.getCurrentInstance().update("msgGeneral");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Email ya registrado"));
+			
+			//Abortar registro
+			endTransaction();
+			return result;
+			
+		}catch(Exception e){		
+			// OK
+		}
+		
+		//Si el email no está en uso, pasa a verificar username		
 		try{
 			getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class)
 				.setParameter("username", username)
@@ -102,7 +122,7 @@ public class UsuarioBean implements Serializable{
 			//Ya existe un usuario con el username
 			RequestContext.getCurrentInstance().update("msgGeneral");
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario en uso"));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario ya registrado"));
 		}catch(Exception e){
 			Usuario toInsert = new Usuario();
 			toInsert.setCelular(getCelular());
@@ -112,19 +132,19 @@ public class UsuarioBean implements Serializable{
 			toInsert.setPassword(getSecurityUtilities().hash(getPassword()));
 			toInsert.setUsername(getUsername());
 			getEntityManager().persist(toInsert);
-			mail.send(
+			
+			MailUtilities.send(
 	                "login", "farmaciayaing3@gmail.com",
 	                "password", "putoelquelee",
 	                "to", getEmail(),
-	                "subject", "Confirmacion de e-mail",
-	                "body", "<h1>Hola " + getNombreCompleto() + ":</h1><p>Gracias por registrarte en FarmaciaYa! \n Para confirmar tu dirección de correo electrónico ingresa al siguiente link:</p>"
+	                "subject", "Confirmacion de e-Mail",
+	                "body", "<h1>Hola " + getNombreCompleto() + ":</h1><p>Gracias por registrarte en FarmaciaYa! <br /><br /> Para confirmar tu dirección de correo electrónico ingresa al siguiente link:</p>"
 	        );
 			
 			result = successfulRegistrationURL;
 		}
 		
-		disconnectFromDatabase();
-		
+		endTransaction();		
 		return result;
 	}
 

@@ -1,6 +1,4 @@
-package util;
-
-import uy.com.ucu.web.negocio.Farmacia;
+package uy.com.ucu.web.negocio;
 
 public class FarmaciaVM {
 	private Farmacia farmacia;

@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u"),
 @NamedQuery(name="Usuario.findByUsername", query="SELECT u FROM Usuario u WHERE u.username = :username"),
+@NamedQuery(name="Usuario.findByEmail", query="SELECT u FROM Usuario u WHERE u.email = :email"),
 @NamedQuery(name="Usuario.deleteByUsername", query="DELETE FROM Usuario u WHERE u.username = :username"),
 @NamedQuery(name="Usuario.control", query="SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password")
 })
