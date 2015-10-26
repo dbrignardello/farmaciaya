@@ -3,8 +3,11 @@ package uy.com.ucu.web.beans;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
@@ -35,7 +38,7 @@ public class CarritoBean {
 	}
     
     public void agregarAlCarrito(Producto p, Farmacia f, int c) {
-    	
+    	System.out.println(c);
     	int cantidadFinal = c;
     	
     	ItemInventario itemInventario = f.buscarItemInventario(p);
@@ -137,11 +140,14 @@ public class CarritoBean {
 	                		+ "por el monto total de $" + montoTotal + ". <br />"	                		
 	                		+ "</p>"
 	        );
-			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Compra realizada.", "Se ha enviado un resumen de compras a su dirección de e-mail."));
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			//Desplegar mensaje de exito y volver a home
 			return "home.xhtml?faces-redirect=true";
 		}else{
 			//Ocurrio un error, volver a cargar el carrito con mensaje de error y sin los items problematicos
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Algunos de los productos seleccionados ya no están disponibles y se han removido del carrito."));
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			return "Carrito.xhtml?faces-redirect=true";
 		}
 	}

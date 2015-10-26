@@ -61,10 +61,12 @@
 			                    
 			                    <h:outputText value="Disponibilidad:" />
 			                    <h:outputText value="#{farmacia.farmacia.resultadoStock(inv.producto)}" style="font-weight: bold"/>
-			                </h:panelGrid>
-		            </p:outputPanel>
-		            
-		            
+			             
+			             		<p:outputLabel for="minMax" value="Cantidad: " />
+        						<p:spinner id="minMax" var="minMax" min="0" max="#{inv.cantidad}" />
+			             </h:panelGrid>
+		            </p:outputPanel>            
+        
 			            <p:commandButton 
 			            	icon="ui-icon-cart" 
 			            	title="Agregar al carrito"
@@ -73,7 +75,7 @@
 						</p:commandButton>
 					
 		        </h:panelGrid>
-	    </p:dataScroller>
+	    </p:dataScroller>z
 	    
 	    <br/>
 	    <h:commandButton 
