@@ -27,6 +27,8 @@ public class Farmacia implements Serializable {
 	private String nombreFarmacia;
 	
 	private String direccion;
+	
+	private Integer rating;
 	//bi-directional many-to-one association to EntradaInventario
 	@OneToMany(mappedBy="farmacia")
 	private List<ItemInventario> inventario;
@@ -120,5 +122,13 @@ public class Farmacia implements Serializable {
 
 	public void setInventario(List<ItemInventario> inventario) {
 		this.inventario = inventario;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 }

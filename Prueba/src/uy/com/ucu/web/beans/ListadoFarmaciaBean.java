@@ -122,8 +122,8 @@ public class ListadoFarmaciaBean implements Serializable {
 	public String buscar(){
 		//Reinicializar variables
 		this.busqueda = new ArrayList<>();
-		setFarmaciasUsuario(new ArrayList<>());
-		setDistanciasToDisplay(new ArrayList<>());
+		setFarmaciasUsuario(new ArrayList<FarmaciaVM>());
+		setDistanciasToDisplay(new ArrayList<Double>());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
 		
 		
@@ -160,7 +160,7 @@ public class ListadoFarmaciaBean implements Serializable {
 	public String borrarBusqueda(){
 		//Reinicializar variables
 		setFarmaciasUsuario(getAllFarmaciasUsuario());
-		setDistanciasToDisplay(new ArrayList<>());
+		setDistanciasToDisplay(new ArrayList<Double>());
 		busqueda = getFarmacias();
 		
 		return null;
