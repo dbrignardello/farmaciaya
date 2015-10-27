@@ -21,10 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u"),
+@NamedQuery(name="Usuario.findByCode", query="SELECT u FROM Usuario u WHERE u.codigo = :codigo"),
 @NamedQuery(name="Usuario.findByUsername", query="SELECT u FROM Usuario u WHERE u.username = :username"),
 @NamedQuery(name="Usuario.findByEmail", query="SELECT u FROM Usuario u WHERE u.email = :email"),
 @NamedQuery(name="Usuario.deleteByUsername", query="DELETE FROM Usuario u WHERE u.username = :username"),
-@NamedQuery(name="Usuario.control", query="SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password")
+@NamedQuery(name="Usuario.control", query="SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password and u.validado = true")
 })
 
 public class Usuario implements Serializable {
@@ -52,6 +53,12 @@ public class Usuario implements Serializable {
 	
 	@Column(name="celular")
 	String celular;
+	
+	@Column(name="codigo")
+	String codigo;
+	
+	@Column(name="validado")
+	Boolean validado;
 	
 	public Usuario() {
 	}
@@ -172,6 +179,22 @@ public class Usuario implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public Boolean getValidado() {
+		return validado;
+	}
+
+	public void setValidado(Boolean validado) {
+		this.validado = validado;
 	}
 
 }

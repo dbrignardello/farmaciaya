@@ -31,11 +31,14 @@ public class UsuarioBean implements Serializable{
 	private String nombreCompleto;
 	private String direccion;
 	private String celular;
+	private String codigo;
+	private Boolean validado;
 	
 	private String successfulLoginURL = "home.xhtml?faces-redirect=true";
 	private String failedLoginURL = "";
 	private String successfulRegistrationURL = "Hello.xhtml?faces-redirect=true";
 	private String failedRegistrationURL = "";
+	private String validationURL = "http://localhost:8080/Prueba/Validacion.xhtml?codigo="; //Cambiar dependiendo del servidor a utilizar
 	
 	private EntityManager entityManager;
 	
@@ -131,6 +134,8 @@ public class UsuarioBean implements Serializable{
 			toInsert.setNombreCompleto(getNombreCompleto());
 			toInsert.setPassword(getSecurityUtilities().hash(getPassword()));
 			toInsert.setUsername(getUsername());
+			toInsert.setValidado(false);
+			toInsert.setCodigo(getSecurityUtilities().hash(getUsername()));
 			getEntityManager().persist(toInsert);
 			
 			MailUtilities.send(
@@ -138,7 +143,7 @@ public class UsuarioBean implements Serializable{
 	                "password", "putoelquelee",
 	                "to", getEmail(),
 	                "subject", "Confirmacion de e-Mail",
-	                "body", "<h1>Hola " + getNombreCompleto() + ":</h1><p>Gracias por registrarte en FarmaciaYa! <br /><br /> Para confirmar tu dirección de correo electrónico ingresa al siguiente link:</p>"
+	                "body", "<h1>Hola " + getNombreCompleto() + ":</h1><p>Gracias por registrarte en FarmaciaYa! <br /><br /> Para confirmar tu dirección de correo electrónico haz click <a href="+ validationURL + toInsert.getCodigo() + ">aqui</a>.</p>"
 	        );
 			
 			result = successfulRegistrationURL;
@@ -229,6 +234,22 @@ public class UsuarioBean implements Serializable{
 		Double longitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "longitud");
 		Geolocalizacion g = new Geolocalizacion(latitudUsuario, longitudUsuario);
 		return g;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public Boolean getValidado() {
+		return validado;
+	}
+
+	public void setValidado(Boolean validado) {
+		this.validado = validado;
 	}
 }
 

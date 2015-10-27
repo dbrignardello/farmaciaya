@@ -17,6 +17,7 @@ public class AuthorizationUtilities implements Filter {
 	
 	private String loginURL = "/Hello.xhtml";
 	private String registrationURL = "/UserInfo.xhtml";
+	private String validationURL = "/Validacion.xhtml";
      
     public AuthorizationUtilities() {
     }
@@ -36,7 +37,7 @@ public class AuthorizationUtilities implements Filter {
             HttpSession ses = req.getSession(false);
             //  allow user to proccede if url is login.xhtml or user logged in or user is accessing any page in //public folder
             String reqURI = req.getRequestURI();
-            if ( reqURI.indexOf(loginURL) >= 0 || reqURI.indexOf(registrationURL) >= 0 || (ses != null && ses.getAttribute("username") != null)
+            if ( reqURI.indexOf(loginURL) >= 0 || reqURI.indexOf(registrationURL) >= 0 ||  reqURI.indexOf(validationURL) >= 0  ||(ses != null && ses.getAttribute("username") != null)
                                        || reqURI.indexOf("/public/") >= 0 || reqURI.contains("javax.faces.resource") )
                    chain.doFilter(request, response);
             else   // user didn't log in but asking for a page that is not allowed so take user to login page
