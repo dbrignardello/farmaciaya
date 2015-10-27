@@ -1,4 +1,7 @@
 body{
-	padding:2% 15%; 
+	margin: 0px;
 	background-image:url("#{resource['images/bg.jpg']}");
+}
+.ui-panel, .ui-datascroller{
+	margin:2% 15%; 
 }

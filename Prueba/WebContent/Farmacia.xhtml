@@ -14,6 +14,29 @@
     </h:head>
 	<h:outputStylesheet library="css" name="Global.css"  />
     <h:body>
+	    <h:form id="formBanner">
+			<p:toolbar>
+		        <f:facet name="left">
+		            <p:outputLabel>FarmaciaYaaaaaaaa!</p:outputLabel>
+		            <p:graphicImage></p:graphicImage><!-- Aca iria el logo -->
+		 
+		            <span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		            </span>
+		 			<p:button type="button" value="Mi carrito (#{carrito.obtenerCantidadItemsCarrito()})" icon="ui-icon-cart" action="Carrito.xhtml?faces-redirect=true"/>
+		            <!-- Aca podria ir el carrito -->
+		        </f:facet>
+		 
+		        <f:facet name="right">
+		            <p:menuButton value="Hola #{listadoFarmacia.usuario.nombreCompleto}!">
+		                <p:menuitem value="Mi carrito (#{carrito.obtenerCantidadItemsCarrito()})" icon="ui-icon-cart" action="Carrito.xhtml?faces-redirect=true"/>
+		                <p:menuitem value="Cerrar sesión" icon="ui-icon-power" />
+		            </p:menuButton>
+		        </f:facet>
+		 
+		    </p:toolbar>
+	    </h:form>
+	    
 	    	<h:form id="formBusqueda">
 			<p:panel id="panel" header="Buscar producto"
 				style="margin-bottom:10px;">
@@ -84,17 +107,13 @@
         	<p:spinner id="minMax" value="#{carrito.cantidadAComprar}" min="0" max="100" />
         	<br/>
         	<br/>
-        	<p:commandButton value="Agregar al carrito" action="#{carrito.agregarAlCarrito()}" oncomplete="PF('dlg').hide()" update="formDataScroller"/>
-        	<p:commandButton value="Cancelar" oncomplete="PF('dlg').hide()" update="formDataScroller">
+        	<p:commandButton value="Agregar al carrito" action="#{carrito.agregarAlCarrito()}" oncomplete="PF('dlg').hide()" update="formBanner"/>
+        	<p:commandButton value="Cancelar" oncomplete="PF('dlg').hide()" update="formBanner">
         		<f:setPropertyActionListener value="0" target="#{carrito.cantidadAComprar}" />
         	</p:commandButton>	
  		</p:dialog>					
 	    
-	    <br/>
-	    <h:commandButton 
-	    	id="verCarrito"
-	    	value="Ver carrito (#{carrito.obtenerCantidadItemsCarrito()})" 
-	    	action="Carrito.xhtml?faces-redirect=true" />	    	
+	    <br/>    	
 	    </h:form>             
  	</h:body>
 </html>

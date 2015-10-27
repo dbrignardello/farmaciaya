@@ -13,6 +13,27 @@
 
 <h:outputStylesheet library="css" name="Global.css"  />
 <h:body>
+	<h:form>
+		<p:toolbar>
+	        <f:facet name="left">
+	            <p:outputLabel>FarmaciaYaaaaaaaa!</p:outputLabel>
+	            <p:graphicImage></p:graphicImage><!-- Aca iria el logo -->
+	 
+	            <span class="ui-separator">
+	                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+	            </span>
+	 
+	            <!-- Que hacer con los distintos carritos? -->
+	        </f:facet>
+	 
+	        <f:facet name="right">
+	            <p:menuButton value="Hola #{listadoFarmacia.usuario.nombreCompleto}!">
+	                <p:menuitem value="Cerrar sesión" icon="ui-icon-power" />
+	            </p:menuButton>
+	        </f:facet>
+	 
+	    </p:toolbar>
+    </h:form>
 	<h:form id="listado">
 		<p:panel id="panel" header="Buscar medicamento o farmacia"
 			style="margin-bottom:10px;">
