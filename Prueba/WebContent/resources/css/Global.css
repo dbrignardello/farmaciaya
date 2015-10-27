@@ -1,0 +1,4 @@
+body{
+	padding:2% 15%; 
+	background-image:url("#{resource['images/bg.jpg']}");
+}

@@ -47,7 +47,7 @@ public class ValidacionBean implements Serializable{
 			//Obtener usuario y marcarlo como validado
 			Usuario u = getEntityManager().createNamedQuery("Usuario.findByCode", Usuario.class).setParameter("codigo",codigo).getSingleResult();
 			u.setValidado(true);
-			this.setResultado("Su e-Mail ha sido validado. Redirigiendo a Login...");
+			this.setResultado("Su e-Mail ha sido validado. Redirigiendo a Login en 5 segundos.");
 			
 		}catch(Exception e){
 			this.setResultado("No se ha podido realizar la validacion. Parametro inesperado.");
