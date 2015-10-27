@@ -23,13 +23,14 @@
 		            <span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		            </span>
-		 			<p:button type="button" value="Mi carrito (#{carrito.obtenerCantidadItemsCarrito()})" icon="ui-icon-cart" action="Carrito.xhtml?faces-redirect=true"/>
-		            <!-- Aca podria ir el carrito -->
+		            <p:commandButton 
+			    	id="verCarrito"
+			    	value="Ver carrito (#{carrito.obtenerCantidadItemsCarrito()})" 
+			    	action="Carrito.xhtml?faces-redirect=true" icon="ui-icon-cart" />
 		        </f:facet>
 		 
 		        <f:facet name="right">
 		            <p:menuButton value="Hola #{listadoFarmacia.usuario.nombreCompleto}!">
-		                <p:menuitem value="Mi carrito (#{carrito.obtenerCantidadItemsCarrito()})" icon="ui-icon-cart" action="Carrito.xhtml?faces-redirect=true"/>
 		                <p:menuitem value="Cerrar sesión" icon="ui-icon-power" />
 		            </p:menuButton>
 		        </f:facet>
