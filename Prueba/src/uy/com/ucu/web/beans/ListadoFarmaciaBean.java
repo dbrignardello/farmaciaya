@@ -25,6 +25,7 @@ import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Farmacia;
 import uy.com.ucu.web.negocio.FarmaciaVM;
 import uy.com.ucu.web.negocio.Geolocalizacion;
+import uy.com.ucu.web.negocio.ItemInventario;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -129,7 +130,8 @@ public class ListadoFarmaciaBean implements Serializable {
 		for (Farmacia f : getFarmacias()) {
 			String nombreF = f.getNombreFarmacia();
 			String nombreLower = nombreF.toLowerCase();
-			if(nombreLower.contains(getValorBusqueda().toLowerCase())){
+			//Si el nombre de la farmacia es similar o existe algun producto con nombre similar al valor ingresado
+			if(nombreLower.contains(getValorBusqueda().toLowerCase())||productoEnFarmacia(getValorBusqueda().toLowerCase(), f) ){
 				busqueda.add(f);
 			}
 		}
@@ -142,6 +144,17 @@ public class ListadoFarmaciaBean implements Serializable {
 		}
 		
 		return null;
+	}
+	
+	public Boolean productoEnFarmacia(String nombreProducto, Farmacia f){
+		for (ItemInventario item : f.getInventario()) {
+			String nombreProductoItem = item.getProducto().getNombre();
+			String lowNombreProductoItem = nombreProductoItem.toLowerCase();
+			if(lowNombreProductoItem.contains(nombreProducto)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public String borrarBusqueda(){
@@ -183,6 +196,7 @@ public class ListadoFarmaciaBean implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+		
 	}
 
 	public void setDistanciasToDisplay(List<Double> distancias) {
