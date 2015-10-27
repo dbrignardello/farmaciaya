@@ -17,7 +17,7 @@
 					style="margin-bottom:10px;">		
 			    	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			        <h:outputStylesheet library="css" name="DataScroller.css"  />
-					    <p:dataScroller id="itemsCarrito" value="#{carrito.itemsCarrito}" var="itemCarrito" chunkSize="10">
+					    <p:dataScroller id="itemsCarrito" value="#{carrito.itemsCarrito}" var="itemCarrito" chunkSize="10" rendered="#{carrito.carritoNoVacio()}">
 					        <f:facet name="header">
 					            <h:outputText value="Productos en el carrito" style="font-weight: bold" />
 							</f:facet>
@@ -41,16 +41,25 @@
 						                    
 						                    <h:outputText value="Monto:" />
 						                    <h:outputText value="#{itemCarrito.calcularMonto()}" style="font-weight: bold"/>
+						                    
+						                    <p:commandButton 
+								            	icon="ui-icon-trash" 
+								            	title="Quitar del carrito"
+												action="#{carrito.quitarDelCarrito(itemCarrito)}" 
+												update="formCarrito">
+											</p:commandButton>
 						            </h:panelGrid>
 					            </p:outputPanel>
 					        </h:panelGrid>
 				    </p:dataScroller>
 				    
-				    <h:outputText value="Monto total: " />
-				    <h:outputText value="$#{carrito.calcularMontoTotal()}" style="font-weight: bold" />
-				    <br/><br/>
+				    <h:outputText value="Monto total: " rendered="#{carrito.carritoNoVacio()}" />
+				    <h:outputText value="$#{carrito.calcularMontoTotal()}" style="font-weight: bold" rendered="#{carrito.carritoNoVacio()}" />
+				    <h:outputText value="Carrito vacío" style="font-weight: bold" rendered="#{carrito.carritoVacio()}"/>
+				    <br/><br/>				    
+				    <p:link rendered="#{carrito.carritoVacio()}" href="home.xhtml">Volver al inicio</p:link>
 				    
-				    <p:commandButton value="Realizar compra" action="#{carrito.realizarCompra()}">
+				    <p:commandButton value="Realizar compra" action="#{carrito.realizarCompra()}" rendered="#{carrito.carritoNoVacio()}">
 				        <p:confirm header="Confirmación" message="Realizar compra?" icon="ui-icon-alert" />
 				    </p:commandButton>
 				 

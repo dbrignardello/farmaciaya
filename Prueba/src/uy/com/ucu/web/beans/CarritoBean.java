@@ -31,32 +31,47 @@ public class CarritoBean {
 	private SecurityUtilities securityUtilities;
 	private SessionUtilities sessionUtilities;
 	
+	private Producto productoAComprar;
+	private Farmacia farmaciaAComprar;
+	private int cantidadAComprar;
+	
 	public CarritoBean(){		
 		setSecurityUtilities(new SecurityUtilities());
 		setSessionUtilities(new SessionUtilities());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 	}
+	
+	public boolean carritoVacio(){
+		return itemsCarrito.isEmpty();
+	}
     
-    public void agregarAlCarrito(Producto p, Farmacia f, int c) {
-    	System.out.println(c);
-    	int cantidadFinal = c;
+	public boolean carritoNoVacio(){
+		return (!itemsCarrito.isEmpty());
+	}
+	
+    public void agregarAlCarrito() {
     	
-    	ItemInventario itemInventario = f.buscarItemInventario(p);
-    	
-    	ItemCarrito itemCarrito = productoExisteEnElCarrito(p, f);
-    	
-    	if (itemCarrito == null){
-    		itemCarrito = new ItemCarrito();
-    		itemCarrito.setFarmacia(f);
-        	itemCarrito.setProducto(p);
-        	itemCarrito.setPrecio(itemInventario.getPrecio());
-        	itemsCarrito.add(itemCarrito);	
-    	}else{
-    		cantidadFinal = itemCarrito.getCantidad() + c;
+    	if (cantidadAComprar > 0){
+    		int cantidadFinal = cantidadAComprar;
+        	
+        	ItemInventario itemInventario = farmaciaAComprar.buscarItemInventario(productoAComprar);
+        	
+        	ItemCarrito itemCarrito = productoExisteEnElCarrito(productoAComprar, farmaciaAComprar);
+        	
+        	if (itemCarrito == null){
+        		itemCarrito = new ItemCarrito();
+        		itemCarrito.setFarmacia(farmaciaAComprar);
+            	itemCarrito.setProducto(productoAComprar);
+            	itemCarrito.setPrecio(itemInventario.getPrecio());
+            	itemsCarrito.add(itemCarrito);	
+        	}else{
+        		cantidadFinal = itemCarrito.getCantidad() + cantidadAComprar;
+        	}
+        	    	
+        	itemCarrito.setCantidad(cantidadFinal);
+        	this.cantidadAComprar = 0;
     	}
     	
-    	itemCarrito.setCantidad(cantidadFinal);
-    	    	
     }
     
     public ItemCarrito productoExisteEnElCarrito(Producto p, Farmacia f){
@@ -184,5 +199,29 @@ public class CarritoBean {
 	
 	public EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	public Producto getProductoAComprar() {
+		return productoAComprar;
+	}
+
+	public void setProductoAComprar(Producto productoAComprar) {
+		this.productoAComprar = productoAComprar;
+	}
+
+	public Farmacia getFarmaciaAComprar() {
+		return farmaciaAComprar;
+	}
+
+	public void setFarmaciaAComprar(Farmacia farmaciaAComprar) {
+		this.farmaciaAComprar = farmaciaAComprar;
+	}
+
+	public int getCantidadAComprar() {
+		return cantidadAComprar;
+	}
+
+	public void setCantidadAComprar(int cantidadAComprar) {
+		this.cantidadAComprar = cantidadAComprar;
 	}
 }

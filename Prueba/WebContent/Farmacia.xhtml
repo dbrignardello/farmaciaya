@@ -12,7 +12,7 @@
     		Listado de Productos
    		</title>
     </h:head>
-    <h:body style="padding:2% 15%; background-image:url(http://localhost:8085/Prueba/resources/images/bg.jpg)">
+    <h:body style="padding:2% 15%; background-image:url(http://localhost:8080/Prueba/resources/images/bg.jpg)">
 	    	<h:form id="formBusqueda">
 			<p:panel id="panel" header="Buscar producto"
 				style="margin-bottom:10px;">
@@ -60,22 +60,34 @@
 			                    <h:outputText value="#{inv.precio}" style="font-weight: bold"/>
 			                    
 			                    <h:outputText value="Disponibilidad:" />
-			                    <h:outputText value="#{farmacia.farmacia.resultadoStock(inv.producto)}" style="font-weight: bold"/>
-			             
-			             		<p:outputLabel for="minMax" value="Cantidad: " />
-        						<p:spinner id="minMax" var="minMax" min="0" max="#{inv.cantidad}" />
+			                    <h:outputText value="#{farmacia.farmacia.resultadoStock(inv.producto)}" style="font-weight: bold"/>			             			             	
 			             </h:panelGrid>
 		            </p:outputPanel>            
         
-			            <p:commandButton 
+			            <p:commandButton onclick="PF('dlg').show();"
 			            	icon="ui-icon-cart" 
-			            	title="Agregar al carrito"
-							action="#{carrito.agregarAlCarrito(inv.producto, farmacia.farmacia, 1)}" 
-							update="formDataScroller:verCarrito">
+			            	title="Agregar al carrito" 
+							>
+							<f:setPropertyActionListener value="#{inv.producto}" target="#{carrito.productoAComprar}" />
+							<f:setPropertyActionListener value="#{farmacia.farmacia}" target="#{carrito.farmaciaAComprar}" />
 						</p:commandButton>
-					
+											
 		        </h:panelGrid>
-	    </p:dataScroller>z
+	    </p:dataScroller>
+	    
+	    <p:dialog id="dialog" widgetVar="dlg" modal="true" draggable="false" resizable="false">
+		    <h:outputText value="Cantidad a agregar:" />		                    
+			<br/>
+			<br/>
+			<h:outputLabel for="minMax" value="Unidades: " />
+        	<p:spinner id="minMax" value="#{carrito.cantidadAComprar}" min="0" max="100" />
+        	<br/>
+        	<br/>
+        	<p:commandButton value="Agregar al carrito" action="#{carrito.agregarAlCarrito()}" oncomplete="PF('dlg').hide()" update="formDataScroller"/>
+        	<p:commandButton value="Cancelar" oncomplete="PF('dlg').hide()" update="formDataScroller">
+        		<f:setPropertyActionListener value="0" target="#{carrito.cantidadAComprar}" />
+        	</p:commandButton>	
+ 		</p:dialog>					
 	    
 	    <br/>
 	    <h:commandButton 
