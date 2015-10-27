@@ -133,12 +133,21 @@ public class CarritoBean {
 		
 		//Modificar stock y vaciar carrito
 		if (compraExitosa){
+			
+			Farmacia f;
+			
+			beginTransaction();
+			
 			iterador = getItemsCarrito().iterator();
 			while (iterador.hasNext()){
 				item = iterador.next();
-				item.getFarmacia().modificarStock(item.getProducto(), item.getCantidad()*-1);		
+				f = item.getFarmacia();
+				f = getEntityManager().find(Farmacia.class, f.getIdFarmacia());
+				f.modificarStock(item.getProducto(), item.getCantidad()*-1);		
 				iterador.remove();
 			}
+			
+			endTransaction();
 			
 			HttpSession session = SessionUtilities.getSession();
 	        String username=(String) session.getAttribute("username");
@@ -165,6 +174,14 @@ public class CarritoBean {
 			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			return "Carrito.xhtml?faces-redirect=true";
 		}
+	}
+	
+	public void beginTransaction(){
+		getEntityManager().getTransaction().begin();
+	}
+	
+	public void endTransaction(){
+		getEntityManager().getTransaction().commit();
 	}
 	
 	//Getters & Setters
