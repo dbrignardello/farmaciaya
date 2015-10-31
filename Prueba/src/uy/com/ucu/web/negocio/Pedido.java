@@ -26,7 +26,7 @@ public class Pedido implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
-	private String rating;
+	private int rating;
 	
 	private String nombreFarmacia;
 
@@ -107,11 +107,11 @@ public class Pedido implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public String getRating() {
+	public int getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
 	}
 

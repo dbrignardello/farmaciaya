@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.event.RateEvent;
+
 import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Pedido;
 import uy.com.ucu.web.utilities.SecurityUtilities;
@@ -23,6 +25,7 @@ public class HistorialPedidosBean {
 
 	private List<Pedido> pedidos;
 	
+	
 	public HistorialPedidosBean(){
 		setSecurityUtilities(new SecurityUtilities());
 		setSessionUtilities(new SessionUtilities());
@@ -30,10 +33,16 @@ public class HistorialPedidosBean {
 		//Obtener el usuario logueado
 		HttpSession session = SessionUtilities.getSession();
 		String username=(String) session.getAttribute("username");
+		
+		beginTransaction();
 	    Usuario user = getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult();
+	    endTransaction();
+	    
 	    //Obtener pedidos de usuario
-	    setPedidos(user.getPedidos());	    		
+	    setPedidos(user.getPedidos());
+	    
 	}
+	
 	/*
 	 * Getters and setters
 	 */
@@ -64,6 +73,8 @@ public class HistorialPedidosBean {
 	public void setSessionUtilities(SessionUtilities sessionUtilities) {
 		this.sessionUtilities = sessionUtilities;
 	}
+	
+	
 	/*
 	 * Auxiliar methods
 	 */
@@ -74,8 +85,19 @@ public class HistorialPedidosBean {
 	public void endTransaction(){
 		getEntityManager().getTransaction().commit();
 	}
+	
+	
+	
+	
 	/*
 	 * Bean methods
 	 */
+	
+	//Actualiza el rating del pedido con la calificacion ingresada por el usuario
+	public void calificar(int idPedido, int calificacion){
+		
+	}
+
+	
 	
 }
