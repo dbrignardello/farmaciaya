@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:head>
+		<title>Historial de pedidos</title> 
+	</h:head>
+	<body>
+		<h:form>
+			<p:toolbar>
+		        <f:facet name="left">
+		            <p:outputLabel>FarmaciaYaaaaaaaa!</p:outputLabel>
+		            <p:graphicImage></p:graphicImage><!-- Aca iria el logo -->
+		 
+		            <span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		            </span>
+		 
+		        </f:facet>
+		 
+		        <f:facet name="right">
+		            <p:menuButton value="Hola #{listadoFarmacia.usuario.nombreCompleto}!">
+		            	<p:menuitem value="Cerrar sesión" icon="ui-icon-power" />
+		            </p:menuButton>
+		        </f:facet>
+		 
+		    </p:toolbar>
+	    </h:form>
+	    <h:outputStylesheet library="css" name="DataScroller.css" />
+	<p:dataScroller id="listaPedidos"
+		value="#{historialPedidos.pedidos}" var="pedido"
+		chunkSize="10">
+		<f:facet name="header">
+		            Historial de pedidos
+		        </f:facet>
+
+		<h:panelGrid columns="2" style="width:100%"
+			columnClasses="farmacia,productos">
+			<p:graphicImage name="images/farmaciaTrouville.png" width="120" height="120"/>
+
+			<p:outputPanel>
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:form>
+						<h:outputText value="Nombre: " />
+						<p:commandLink
+							action="#{farmacia.seleccionarFarmacia(pedido.farmacia)}">
+							<f:param name="nombreFarmacia"
+								value="#{pedido.farmacia.nombreFarmacia}" />
+							<h:outputText value="#{pedido.farmacia.nombreFarmacia}"
+								style="font-weight: bold" />
+						</p:commandLink>
+        				<p:rating value="#{pedido.rating}" readonly="false" />
+						<br></br>
+						<!-- Growl para avisar que se guardo el rating -->
+						<h:outputText value="Fecha: " />
+						<h:outputText value="#{pedido.fecha}"
+							style="font-weight: bold" />
+						<br></br>
+						<h:outputText value ="Objetos:"/>
+						<h:outputText value="#{pedido.objetos}"/> <!-- Probablemente sea una lista compuesta -->
+						<h:outputText value="Total: "/>
+						<h:outputText value="#{pedido.total}"/>
+
+					</h:form>
+
+				</h:panelGrid>
+			</p:outputPanel>
+		</h:panelGrid>
+	</p:dataScroller>
+	</body>
+</html>
