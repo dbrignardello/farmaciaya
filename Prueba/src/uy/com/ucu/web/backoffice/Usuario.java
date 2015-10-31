@@ -1,6 +1,7 @@
 package uy.com.ucu.web.backoffice;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import uy.com.ucu.web.negocio.ItemInventario;
+import uy.com.ucu.web.negocio.Pedido;
 
 /**
  * The persistent class for the usuario database table.
@@ -34,6 +39,7 @@ public class Usuario implements Serializable {
 	@Id
 	@Column(name="idusuario")
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	private
 	int idusuario;
 
 	@Column(name="password")
@@ -59,6 +65,10 @@ public class Usuario implements Serializable {
 	
 	@Column(name="validado")
 	Boolean validado;
+	
+	//bi-directional many-to-one association to Pedido
+	@OneToMany(mappedBy="usuario")
+	private List<Pedido> pedidos;
 	
 	public Usuario() {
 	}
@@ -195,6 +205,22 @@ public class Usuario implements Serializable {
 
 	public void setValidado(Boolean validado) {
 		this.validado = validado;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	public int getIdusuario() {
+		return idusuario;
+	}
+
+	public void setIdusuario(int idusuario) {
+		this.idusuario = idusuario;
 	}
 
 }
