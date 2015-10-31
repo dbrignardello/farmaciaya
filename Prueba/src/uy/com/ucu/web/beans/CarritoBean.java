@@ -1,6 +1,8 @@
 package uy.com.ucu.web.beans;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Farmacia;
 import uy.com.ucu.web.negocio.ItemCarrito;
 import uy.com.ucu.web.negocio.ItemInventario;
+import uy.com.ucu.web.negocio.Pedido;
 import uy.com.ucu.web.negocio.Producto;
+import uy.com.ucu.web.negocio.ProductoPedido;
 import uy.com.ucu.web.utilities.MailUtilities;
 import uy.com.ucu.web.utilities.SecurityUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
@@ -118,6 +122,12 @@ public class CarritoBean {
 		String listadoCarrito = "";
 		String montoTotal = this.calcularMontoTotal().toString();
 		
+		//Obtener el usuario: para agregar sus pedidos realizados y enviar el mail correspondiente.
+		HttpSession session = SessionUtilities.getSession();
+        String username=(String) session.getAttribute("username");
+        Usuario user = getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult();
+        Usuario usuario = getEntityManager().find(Usuario.class, user.getIdusuario());
+		
 		while (iterador.hasNext()){
 			item = iterador.next();
 			hayStock = item.getFarmacia().verificarStock(item.getProducto(), item.getCantidad());
@@ -131,7 +141,7 @@ public class CarritoBean {
 			listadoCarrito += "<li>" + item.getProducto().getNombre() + " (" + item.getCantidad().toString() + ") </li>";
 		}
 		
-		//Modificar stock y vaciar carrito
+		//Modificar stock, vaciar carrito y registrar pedido
 		if (compraExitosa){
 			
 			Farmacia f;
@@ -139,19 +149,51 @@ public class CarritoBean {
 			beginTransaction();
 			
 			iterador = getItemsCarrito().iterator();
+			List <ProductoPedido> productosPedidos = new ArrayList<ProductoPedido>();
+			Pedido p = new Pedido();
+			p.setFecha(new Date());
+			Double total = 0.0;
 			while (iterador.hasNext()){
 				item = iterador.next();
 				f = item.getFarmacia();
 				f = getEntityManager().find(Farmacia.class, f.getIdFarmacia());
-				f.modificarStock(item.getProducto(), item.getCantidad()*-1);		
+				f.modificarStock(item.getProducto(), item.getCantidad()*-1);
+				
+				//Registrar el pedido
+				
+				//Crear producto pedido a partir del producto y el itemcarrito
+				ProductoPedido pp = new ProductoPedido();
+				pp.setCantidad(item.getCantidad());
+				pp.setNombreProducto(item.getProducto().getNombre());
+				pp.setPedido(p);
+				
+				//Agrego al pedido el productoPedido creado, incremento el total de compra
+				p.setNombreFarmacia(f.getNombreFarmacia());
+				total += item.calcularMonto();
+				productosPedidos.add(pp);
+				
 				iterador.remove();
 			}
+			//Seteo los productosPedido del pedido nuevo y su total
+			p.setProductoPedidos(productosPedidos);
+			p.setTotal(total);
+			
+			//Aca ya tengo en el Pedido p todos los ProductoPedido agregados a su lista
+			for (ProductoPedido productoPedido : p.getProductoPedidos()) {
+				productoPedido.setPedido(p);
+				getEntityManager().persist(productoPedido);
+			}
+			
+			getEntityManager().persist(p);
+			
+			p.setUsuario(usuario);
+			List<Pedido> pedidosUsuario = usuario.getPedidos();
+			pedidosUsuario.add(p);
+			usuario.setPedidos(pedidosUsuario);
 			
 			endTransaction();
 			
-			HttpSession session = SessionUtilities.getSession();
-	        String username=(String) session.getAttribute("username");
-	        Usuario user = getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult();
+			
 						
 			MailUtilities.send(
 	                "login", "farmaciayaing3@gmail.com",
