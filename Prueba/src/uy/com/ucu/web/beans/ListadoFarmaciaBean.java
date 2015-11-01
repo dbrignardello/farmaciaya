@@ -26,6 +26,7 @@ import uy.com.ucu.web.negocio.Farmacia;
 import uy.com.ucu.web.negocio.FarmaciaVM;
 import uy.com.ucu.web.negocio.Geolocalizacion;
 import uy.com.ucu.web.negocio.ItemInventario;
+import uy.com.ucu.web.negocio.Pedido;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -54,6 +55,12 @@ public class ListadoFarmaciaBean implements Serializable {
 		 HttpSession session = SessionUtilities.getSession();
          String username=(String) session.getAttribute("username");
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
+		
+		beginTransaction();
+		//Get all pedidos
+		List<Pedido> allPedidos = getEntityManager().createNamedQuery("Pedido.findAll", Pedido.class).getResultList();	
+		endTransaction();
+		
 		beginTransaction();
 		try{
 			//Obtener usuario logueado y todas las farmacias
@@ -63,7 +70,6 @@ public class ListadoFarmaciaBean implements Serializable {
 		}catch(Exception e){
 			
 		}
-		
 		endTransaction();
 		farmaciasUsuario = new ArrayList<>();
 		busqueda = getFarmacias();
@@ -87,7 +93,6 @@ public class ListadoFarmaciaBean implements Serializable {
 			Double longitudFarmacia = gu.coordenadaDeGeolocacion(ubicacionFarmacia, "longitud");
 			Geolocalizacion geolocacion = new Geolocalizacion(latitudFarmacia, longitudFarmacia);
 			farmacia.setGeolocalizacion(geolocacion);
-			
 			Double distancia = gu.distanciaEntreUbicacionYFarmacia(geolocacionUser, farmacia);
 			distancias.put(distancia, farmacia);
 			
@@ -98,6 +103,8 @@ public class ListadoFarmaciaBean implements Serializable {
 			aux.add(farmacia);
 		}
 		this.setFarmacias(aux);
+		//
+		cargarRaitings(allPedidos);
 		
 		List<Double> aux1 = new ArrayList<Double>();
 		for(Double d : distancias.keySet()){
@@ -116,6 +123,26 @@ public class ListadoFarmaciaBean implements Serializable {
 		}
 		//Respaldar farmacias y distancias totales
 		setAllFarmaciasUsuario(getFarmaciasUsuario());
+
+	}
+	
+	public void cargarRaitings(List<Pedido> allPedidos){
+
+		//Para cada farmacia, recorrer todos sus pedidos y calcular rating promedio.
+		for (Farmacia farmacia : getFarmacias()) {
+			int numeroPedidos = 0;
+			int calificaciónTotal = 0;
+			for (Pedido pedido : allPedidos) {
+				if(pedido.getNombreFarmacia().equals(farmacia.getNombreFarmacia())){
+					numeroPedidos++;
+					calificaciónTotal += pedido.getRating();
+				}
+			}
+			int ratingFarmcia = calificaciónTotal/numeroPedidos;
+			farmacia.setRating(ratingFarmcia);
+		}	
+		
+		
 	}
 
 	
@@ -228,5 +255,6 @@ public class ListadoFarmaciaBean implements Serializable {
 	private void setAllFarmaciasUsuario(List<FarmaciaVM> allFarmaciasUsuario) {
 		this.allFarmaciasUsuario = allFarmaciasUsuario;
 	}
+	
 
 }
