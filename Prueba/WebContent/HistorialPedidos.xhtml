@@ -48,15 +48,16 @@
 					<h:form>
 						<h:outputText value="Nombre: " />
 						<p:commandLink
-							action="#{farmacia.seleccionarFarmacia(pedido.farmacia)}">
+							action="#{farmacia.seleccionarFarmacia(pedido.nombreFarmacia)}">
 							<f:param name="nombreFarmacia"
 								value="#{pedido.nombreFarmacia}" />
 							<h:outputText value="#{pedido.nombreFarmacia}"
 								style="font-weight: bold" />
 						</p:commandLink>
         				<p:rating value="#{pedido.rating}" readonly="false">
-				            <p:ajax event="rate" listener="#{historialPedidos.calificar(pedido.idpedido)}" />
-				            <p:ajax event="cancel" listener="#{historialPedidos.calificar(pedido.idpedido)}" />
+				            <p:ajax event="rate" listener="#{historialPedidos.calificar}" />
+				            <p:ajax event="cancel" listener="#{historialPedidos.calificar}" />
+				            <input type="hidden" name="selectedObj" value="#{pedido.idpedido}" />
         				</p:rating>
         				
 						<br></br>

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
@@ -94,8 +96,24 @@ public class HistorialPedidosBean {
 	 */
 	
 	//Actualiza el rating del pedido con la calificacion ingresada por el usuario
-	public void calificar(int idPedido, int calificacion){
+	public void calificar(RateEvent rateEvent){
+		//To implement
+		/*
+		 * Buscar el pedido por id (ver como recibirlo desde el frontend)
+		 * setearle al pedido el parametro calificacion
+		 * 
+		 */
+		String selectedObjID = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("selectedObj");
+		int idPedido = Integer.parseInt(selectedObjID);
+		int calificacion = ((Integer) rateEvent.getRating()).intValue();
 		
+		beginTransaction();
+		Pedido pedidoToRate = getEntityManager().find(Pedido.class, idPedido);
+		pedidoToRate.setRating(calificacion);
+		getEntityManager().flush();
+		endTransaction();
+		
+
 	}
 
 	

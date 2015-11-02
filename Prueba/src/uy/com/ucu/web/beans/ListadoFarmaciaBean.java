@@ -12,7 +12,9 @@ import java.util.TreeMap;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -31,7 +33,7 @@ import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
 @ManagedBean(name="listadoFarmacia") 
-@SessionScoped
+@ViewScoped
 public class ListadoFarmaciaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private EntityManager entityManager;
@@ -52,8 +54,13 @@ public class ListadoFarmaciaBean implements Serializable {
 	
 	public ListadoFarmaciaBean() {
 		
-		 HttpSession session = SessionUtilities.getSession();
-         String username=(String) session.getAttribute("username");
+		 loadBean();
+
+	}
+	
+	public void loadBean(){
+		HttpSession session = SessionUtilities.getSession();
+        String username=(String) session.getAttribute("username");
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
 		
 		beginTransaction();
@@ -123,7 +130,6 @@ public class ListadoFarmaciaBean implements Serializable {
 		}
 		//Respaldar farmacias y distancias totales
 		setAllFarmaciasUsuario(getFarmaciasUsuario());
-
 	}
 	
 	public void cargarRaitings(List<Pedido> allPedidos){
