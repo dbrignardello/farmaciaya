@@ -18,7 +18,7 @@ import uy.com.ucu.web.utilities.SecurityUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
 @ManagedBean(name="historialPedidos")
-@SessionScoped
+@ViewScoped
 public class HistorialPedidosBean {
 	
 	private EntityManager entityManager;

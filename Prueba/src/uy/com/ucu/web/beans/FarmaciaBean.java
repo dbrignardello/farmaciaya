@@ -23,6 +23,7 @@ import uy.com.ucu.web.backoffice.Usuario;
 import uy.com.ucu.web.negocio.Farmacia;
 import uy.com.ucu.web.negocio.FarmaciaVM;
 import uy.com.ucu.web.negocio.ItemInventario;
+import uy.com.ucu.web.negocio.Pedido;
 import uy.com.ucu.web.utilities.GeolocationUtilities;
 import uy.com.ucu.web.utilities.SessionUtilities;
 
@@ -40,7 +41,8 @@ public class FarmaciaBean implements Serializable {
 	
 
 	public FarmaciaBean() {
-		
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
+
 	}
 	
 	
@@ -80,6 +82,16 @@ public class FarmaciaBean implements Serializable {
 		busquedaReciente = new ArrayList<>();
 		busquedaReciente= getFarmacia().getInventario();
 		return "Farmacia.xhtml?faces-redirect=true";
+	}
+	
+	public String seleccionarFarmacia(String nombreFarmacia){
+		beginTransaction();
+		Farmacia f = getEntityManager().createNamedQuery("Farmacia.findByName", Farmacia.class).
+				setParameter("nombreFarmacia", nombreFarmacia).
+				getSingleResult();
+		endTransaction();
+		return seleccionarFarmacia(f);
+		
 	}
 	
 	//Getters & setters
