@@ -12,6 +12,10 @@
 	
 	<h:outputStylesheet library="css" name="Global.css"  />
     <h:body>
+	 
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	    <p:graphicImage name="/images/loading.gif" />
+	</p:dialog>
 		<h:form style="margin: auto;"> 
 			<p:growl id="msgGeneral" showDetail="true" sticky="true" /> 
 			<p:panel header="Registro de usuario" style="margin-bottom:10px;">
@@ -77,7 +81,8 @@
 				  	<p:message for="celular" id="msgCelular"/>
 				  	
 				  	<f:facet name="footer" >
-				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" update="msgGeneral" immediate="false" />
+				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" update="msgGeneral" immediate="false" 
+				  		onclic="PF('statusDialog').show()"/>
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>

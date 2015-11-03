@@ -13,6 +13,11 @@
 
 <h:outputStylesheet library="css" name="Global.css"  />
 <h:body>
+<p:ajaxStatus onstart="PF('statusDialog').show()" />
+	 
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	    <p:graphicImage name="/images/loading.gif" />
+	</p:dialog>
 	<h:form>
 		<p:toolbar>
 	        <f:facet name="left">
@@ -50,14 +55,15 @@
 				</p:inputText>
 				<p:message for="txt1" />
 				<h:outputText value="" />
-				<p:commandButton action="#{listadoFarmacia.buscar}"
+				<p:commandButton action="#{listadoFarmacia.buscar}" oncomplete="PF('statusDialog').hide()"
 					value="Buscar" update=":listaFarmacias" icon="ui-icon-search"> 
 					<f:param name="valorBusqueda"
 						value="#{listadoFarmacia.valorBusqueda}" />
 				</p:commandButton>
 				<p:commandButton
 					action="#{listadoFarmacia.borrarBusqueda}" value="Ver todas"
-					update=":listaFarmacias">
+					update=":listaFarmacias"
+					oncomplete="PF('statusDialog').hide()">
 				</p:commandButton>
 			</h:panelGrid>
 		</p:panel>

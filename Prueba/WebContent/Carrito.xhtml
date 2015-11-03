@@ -14,6 +14,9 @@
     
 	<h:outputStylesheet library="css" name="Global.css"  />
     <h:body>
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	    <p:graphicImage name="/images/loading.gif" />
+	</p:dialog>
     <h:form>
 		<p:toolbar>
 	        <f:facet name="left">
@@ -84,7 +87,8 @@
 				    <br/><br/>				    
 				    <p:link rendered="#{carrito.carritoVacio()}" href="home.xhtml">Volver al inicio</p:link>
 				    
-				    <p:commandButton value="Realizar compra" action="#{carrito.realizarCompra()}" rendered="#{carrito.carritoNoVacio()}">
+				    <p:commandButton value="Realizar compra" action="#{carrito.realizarCompra()}" rendered="#{carrito.carritoNoVacio()}"
+				    onclick="PF('statusDialog').show()">
 				        <p:confirm header="Confirmación" message="Realizar compra?" icon="ui-icon-alert" />
 				    </p:commandButton>
 				 

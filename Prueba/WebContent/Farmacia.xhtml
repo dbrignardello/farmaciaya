@@ -14,6 +14,10 @@
     </h:head>
 	<h:outputStylesheet library="css" name="Global.css"  />
     <h:body>
+	 
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	    <p:graphicImage name="/images/loading.gif" />
+	</p:dialog>
 	    <h:form id="formBanner">
 			<p:toolbar>
 		        <f:facet name="left">
@@ -26,7 +30,8 @@
 		            <p:commandButton 
 			    	id="verCarrito"
 			    	value="Ver carrito (#{carrito.obtenerCantidadItemsCarrito()})" 
-			    	action="Carrito.xhtml?faces-redirect=true" icon="ui-icon-cart" />
+			    	action="Carrito.xhtml?faces-redirect=true" icon="ui-icon-cart" 
+			    	onclick="PF('statusDialog').show()"/>
 		        </f:facet>
 		 
 		        <f:facet name="right">

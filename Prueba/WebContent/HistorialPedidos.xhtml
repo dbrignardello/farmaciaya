@@ -12,6 +12,11 @@
 	</h:head>
 	<h:outputStylesheet library="css" name="Global.css"  />
 	<body>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" />
+	 
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	    <p:graphicImage name="/images/loading.gif" />
+	</p:dialog>
 		<h:form>
 			<p:toolbar>
 		        <f:facet name="left">
