@@ -112,8 +112,20 @@ public class HistorialPedidosBean {
 		pedidoToRate.setRating(calificacion);
 		getEntityManager().flush();
 		endTransaction();
+	
+	}
+	
+	public void cancelar(){
+		//Setea 0 a la calificacion
+		String selectedObjID = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("selectedObj");
+		int idPedido = Integer.parseInt(selectedObjID);
+		int calificacion = 0;
 		
-
+		beginTransaction();
+		Pedido pedidoToRate = getEntityManager().find(Pedido.class, idPedido);
+		pedidoToRate.setRating(calificacion);
+		getEntityManager().flush();
+		endTransaction();
 	}
 
 	
