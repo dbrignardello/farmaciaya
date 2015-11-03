@@ -88,7 +88,7 @@ public class UsuarioBean implements Serializable{
 	public String logout() {
 	      HttpSession session = getSessionUtilities().getSession();
 	      session.invalidate();
-	      return "failedLoginURL";
+	      return "Hello.xhtml?faces-redirect=true";
 	}
 	
 	public String userRegistration(){
