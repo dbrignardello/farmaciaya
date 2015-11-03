@@ -59,7 +59,7 @@ public class ItemInventario implements Serializable {
 			int stockFinal = cantidad + movimiento;
 				
 			//No se pueden remover más de los que hay
-			if (stockFinal > 0){
+			if (stockFinal >= 0){
 				setCantidad(stockFinal);
 				return true;
 			}							

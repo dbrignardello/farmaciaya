@@ -37,6 +37,7 @@ public class CarritoBean {
 	
 	private Producto productoAComprar;
 	private Farmacia farmaciaAComprar;
+	private int stockMaximo;
 	private int cantidadAComprar;
 	
 	public CarritoBean(){		
@@ -51,6 +52,16 @@ public class CarritoBean {
     
 	public boolean carritoNoVacio(){
 		return (!itemsCarrito.isEmpty());
+	}
+	
+	public Integer obtenerStock(){
+		Integer retorno;
+		if (this.getFarmaciaAComprar() == null || this.getProductoAComprar() == null){
+			retorno = 0;
+		}else{
+			retorno = this.getFarmaciaAComprar().obtenerStock(this.getProductoAComprar());
+		}
+		return retorno;
 	}
 	
     public void agregarAlCarrito() {
@@ -99,6 +110,10 @@ public class CarritoBean {
     		tamanio += item.getCantidad(); 
     	}
     	return tamanio;
+    }
+    
+    public Integer obtenerStockMaximo(){
+    	return getFarmaciaAComprar().obtenerStock(productoAComprar);
     }
 
 	public Double calcularMontoTotal(){
@@ -191,9 +206,7 @@ public class CarritoBean {
 			pedidosUsuario.add(p);
 			usuario.setPedidos(pedidosUsuario);
 			
-			endTransaction();
-			
-			
+			endTransaction();					
 						
 			MailUtilities.send(
 	                "login", "farmaciayaing3@gmail.com",
@@ -282,5 +295,13 @@ public class CarritoBean {
 
 	public void setCantidadAComprar(int cantidadAComprar) {
 		this.cantidadAComprar = cantidadAComprar;
+	}
+	
+	public int getStockMaximo() {
+		return stockMaximo;
+	}
+
+	public void setStockMaximo(int stockMaximo) {
+		this.stockMaximo = stockMaximo;
 	}
 }

@@ -10,17 +10,21 @@
 	<h:head>
 		<title>Historial de pedidos</title> 
 	</h:head>
+	<h:outputStylesheet library="css" name="Global.css"  />
 	<body>
 		<h:form>
 			<p:toolbar>
 		        <f:facet name="left">
-		            <p:outputLabel>FarmaciaYaaaaaaaa!</p:outputLabel>
+		            <p:commandLink action="home.xhtml?faces-redirect=true">FarmaciaYaaaaaaaa!</p:commandLink>
 		            <p:graphicImage></p:graphicImage><!-- Aca iria el logo -->
 		 
 		            <span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		            </span>
-		 
+		 			<p:commandButton 
+			    	id="verCarrito"
+			    	value="Ver carrito (#{carrito.obtenerCantidadItemsCarrito()})" 
+			    	action="Carrito.xhtml?faces-redirect=true" icon="ui-icon-cart" />
 		        </f:facet>
 		 
 		        <f:facet name="right">
@@ -56,7 +60,7 @@
 						</p:commandLink>
         				<p:rating value="#{pedido.rating}" readonly="false">
 				            <p:ajax event="rate" listener="#{historialPedidos.calificar}" />
-				            <p:ajax event="cancel" listener="#{historialPedidos.calificar}" />
+				            <p:ajax event="cancel" listener="#{historialPedidos.cancelar}" />
 				            <input type="hidden" name="selectedObj" value="#{pedido.idpedido}" />
         				</p:rating>
         				
