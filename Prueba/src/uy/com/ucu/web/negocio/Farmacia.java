@@ -82,6 +82,15 @@ public class Farmacia implements Serializable {
 		return resultado;
 	}
 	
+	public Integer obtenerStock(Producto p){
+		int resultado = 0;
+		ItemInventario item = buscarItemInventario(p);
+		if (item != null){
+			resultado = item.getCantidad();
+		}
+		return resultado;
+	}
+	
 	//Getters & Setters
 
 	public Geolocalizacion getGeolocalizacion() {
