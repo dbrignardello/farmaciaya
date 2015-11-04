@@ -68,6 +68,7 @@
 						validatorMessage="Formato inválido" value="#{usuario.direccion}">
 						<p:ajax update="msgDireccion" event="blur" />
 					</p:inputText>
+					<p:watermark for="direccion" value="Calle y número de puerta" id="watermark" />
 				  	<p:message for="direccion" id="msgDireccion"/>
 				  	
 				  	<h:outputLabel for="celular" value="Celular:" />
@@ -82,7 +83,8 @@
 				  	
 				  	<f:facet name="footer" >
 				  		<p:commandButton value="Aceptar" action="#{usuario.userRegistration()}" update="msgGeneral" immediate="false" 
-				  		onclic="PF('statusDialog').show()"/>
+				  		onclic="PF('statusDialog').show()"
+				  		onclick="PrimeFaces.cleanWatermarks();" oncomplete="PrimeFaces.showWatermarks();"/>
 				  	</f:facet>
 				</h:panelGrid>
 			</p:panel>
