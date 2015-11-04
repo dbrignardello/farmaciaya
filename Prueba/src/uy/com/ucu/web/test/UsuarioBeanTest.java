@@ -120,7 +120,13 @@ public class UsuarioBeanTest {
 		
 		//Carga el usuario válido en el bean y lo registra en la base de datos
 		loadValidUser(usuarioBean);
-		usuarioBean.userRegistration();		
+		usuarioBean.userRegistration();
+		
+		usuarioBean.beginTransaction();
+		usuarioBean.getEntityManager().createNamedQuery("Usuario.activate")
+			.setParameter("username", usernameValido)
+			.executeUpdate();
+		usuarioBean.endTransaction();		
 	}
 
 	@AfterClass

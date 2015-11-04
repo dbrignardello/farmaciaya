@@ -30,6 +30,7 @@ import uy.com.ucu.web.negocio.Pedido;
 @NamedQuery(name="Usuario.findByUsername", query="SELECT u FROM Usuario u WHERE u.username = :username"),
 @NamedQuery(name="Usuario.findByEmail", query="SELECT u FROM Usuario u WHERE u.email = :email"),
 @NamedQuery(name="Usuario.deleteByUsername", query="DELETE FROM Usuario u WHERE u.username = :username"),
+@NamedQuery(name="Usuario.activate", query="UPDATE Usuario u SET u.validado = true WHERE u.username = :username"),
 @NamedQuery(name="Usuario.control", query="SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password and u.validado = true")
 })
 
