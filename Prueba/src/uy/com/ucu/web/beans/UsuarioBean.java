@@ -61,6 +61,7 @@ public class UsuarioBean implements Serializable{
 	public String login(){		
 		
 		String result = failedLoginURL;
+		FacesContext context = FacesContext.getCurrentInstance();
 		
 		beginTransaction();
 		
@@ -75,10 +76,10 @@ public class UsuarioBean implements Serializable{
             
             result = successfulLoginURL;
 		}catch(Exception e){
-			RequestContext.getCurrentInstance().update("msg");
-			FacesContext context = FacesContext.getCurrentInstance();
+			//RequestContext.getCurrentInstance().update("msg");
+			RequestContext.getCurrentInstance().execute("PF('statusDialog').hide()");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nombre de usuario o contrasena invalidos"));
-		}
+		}		
 		
 		endTransaction();
 		return result;

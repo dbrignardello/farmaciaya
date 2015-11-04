@@ -36,17 +36,17 @@ public class GeolocationUtilitiesTest {
 		
 		String address = "Av. 8 de Octubre 2738, Montevideo, Uruguay";
 		
-		System.out.println("~~~~~~~~~~");
+		//System.out.println("~~~~~~~~~~");
 		String response = gu.pedidoGeolocacion(address);
-		System.out.println("raw response:\n" + response);
+		//System.out.println("raw response:\n" + response);
 
 		Double latitud = gu.coordenadaDeGeolocacion(response, "latitud");
 		Double longitud = gu.coordenadaDeGeolocacion(response, "longitud");
 		
-		System.out.println("latitud:\n" + latitud.toString());
-		System.out.println("longitud:\n" + longitud.toString());
-		System.out.println("~~~~~~~~~~");
-		System.out.println();
+		//System.out.println("latitud:\n" + latitud.toString());
+		//System.out.println("longitud:\n" + longitud.toString());
+		//System.out.println("~~~~~~~~~~");
+		//System.out.println();
 	}
 	
 	@Test
@@ -60,10 +60,10 @@ public class GeolocationUtilitiesTest {
 		Double latitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "latitud");
 		Double longitudUsuario = gu.coordenadaDeGeolocacion(ubicacionUsuario, "longitud");
 		Geolocalizacion geolocacionUsuario = new Geolocalizacion(latitudUsuario, longitudUsuario);
-		System.out.println("Lat usuario (UCU)");
-		System.out.println(latitudUsuario);
-		System.out.println("Lon usuario (UCU)");
-		System.out.println(longitudUsuario);
+		//System.out.println("Lat usuario (UCU)");
+		//System.out.println(latitudUsuario);
+		//System.out.println("Lon usuario (UCU)");
+		//System.out.println(longitudUsuario);
 		
 		//Mi casa
 		String direccionFarmacia1 = "General Urquiza 3039, Montevideo, Uruguay";
@@ -71,10 +71,10 @@ public class GeolocationUtilitiesTest {
 		Double latitudFarmacia1 = gu.coordenadaDeGeolocacion(ubicacionFarmacia1, "latitud");
 		Double longitudFarmacia1 = gu.coordenadaDeGeolocacion(ubicacionFarmacia1, "longitud");
 		Geolocalizacion geolocacion1 = new Geolocalizacion(latitudFarmacia1, longitudFarmacia1);
-		System.out.println("Lat Farmacia1 (Casa de Marce)");
-		System.out.println(latitudFarmacia1);
-		System.out.println("Lon Farmacia1 (Casa de Marce)");
-		System.out.println(longitudFarmacia1);
+		//System.out.println("Lat Farmacia1 (Casa de Marce)");
+		//System.out.println(latitudFarmacia1);
+		//System.out.println("Lon Farmacia1 (Casa de Marce)");
+		//System.out.println(longitudFarmacia1);
 		
 		//Nuevocentro
 		String direccionFarmacia2 = "Avenida Luis Alberto de Herrera 3469, Montevideo, Uruguay";
@@ -82,10 +82,10 @@ public class GeolocationUtilitiesTest {
 		Double latitudFarmacia2 = gu.coordenadaDeGeolocacion(ubicacionFarmacia2, "latitud");
 		Double longitudFarmacia2 = gu.coordenadaDeGeolocacion(ubicacionFarmacia2, "longitud");
 		Geolocalizacion geolocacion2 = new Geolocalizacion(latitudFarmacia2, longitudFarmacia2);
-		System.out.println("Lat Farmacia2 (Nuevocentro)");
-		System.out.println(latitudFarmacia2);
-		System.out.println("Lon Farmacia2 (Nuevocentro)");
-		System.out.println(longitudFarmacia2);
+		//System.out.println("Lat Farmacia2 (Nuevocentro)");
+		//System.out.println(latitudFarmacia2);
+		//System.out.println("Lon Farmacia2 (Nuevocentro)");
+		//System.out.println(longitudFarmacia2);
 		
 		Farmacia f1 = new Farmacia();
 		f1.setGeolocalizacion(geolocacion1);
@@ -93,11 +93,11 @@ public class GeolocationUtilitiesTest {
 		Farmacia f2 = new Farmacia();
 		f2.setGeolocalizacion(geolocacion2);
 		
-		System.out.println("Distancias");
-		System.out.println("Usuario y Farmacia 1 (UCU y casa de Marce)");
-		System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f1) + "km");
-		System.out.println("Usuario y Farmacia 2 (UCU y Nuevocentro)");
-		System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f2) + "km");
+		//System.out.println("Distancias");
+		//System.out.println("Usuario y Farmacia 1 (UCU y casa de Marce)");
+		//System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f1) + "km");
+		//System.out.println("Usuario y Farmacia 2 (UCU y Nuevocentro)");
+		//System.out.println(gu.distanciaEntreUbicacionYFarmacia(geolocacionUsuario, f2) + "km");
 		
 		
 		
