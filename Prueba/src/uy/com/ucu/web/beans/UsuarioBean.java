@@ -129,13 +129,14 @@ public class UsuarioBean implements Serializable{
 		}catch(Exception e){
 			Usuario toInsert = new Usuario();
 			toInsert.setCelular(getCelular());
-			toInsert.setDireccion(getDireccion());
 			toInsert.setEmail(getEmail());
 			toInsert.setNombreCompleto(getNombreCompleto());
 			toInsert.setPassword(getSecurityUtilities().hash(getPassword()));
 			toInsert.setUsername(getUsername());
 			toInsert.setValidado(false);
 			toInsert.setCodigo(getSecurityUtilities().hash(getUsername()));
+			String direccion = getDireccion() + ", Montevideo" + ", Uruguay ";
+			toInsert.setDireccion(direccion);
 			getEntityManager().persist(toInsert);
 			
 			MailUtilities.send(
