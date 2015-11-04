@@ -144,8 +144,13 @@ public class ListadoFarmaciaBean implements Serializable {
 					calificaciónTotal += pedido.getRating();
 				}
 			}
-			int ratingFarmcia = calificaciónTotal/numeroPedidos;
-			farmacia.setRating(ratingFarmcia);
+			if (numeroPedidos == 0){
+				farmacia.setRating(0);
+			}else{
+				int ratingFarmcia = calificaciónTotal/numeroPedidos;
+				farmacia.setRating(ratingFarmcia);
+			}
+			
 		}	
 		
 		
