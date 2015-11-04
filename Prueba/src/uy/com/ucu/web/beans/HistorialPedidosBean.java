@@ -2,6 +2,7 @@ package uy.com.ucu.web.beans;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -111,7 +112,9 @@ public class HistorialPedidosBean {
 		pedidoToRate.setRating(calificacion);
 		getEntityManager().flush();
 		endTransaction();
-	
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación", "Used calificó: " + ((Integer) rateEvent.getRating()).intValue());
+	    FacesContext.getCurrentInstance().addMessage(null, message);	
 	}
 	
 	public void cancelar(){
@@ -125,6 +128,9 @@ public class HistorialPedidosBean {
 		pedidoToRate.setRating(calificacion);
 		getEntityManager().flush();
 		endTransaction();
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación", "Calificación anulada");
+        FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	
