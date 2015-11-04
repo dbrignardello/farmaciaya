@@ -13,7 +13,7 @@
     <h:body>
 		<f:metadata>
 		    <f:viewParam name="codigo" value="#{validacionBean.codigo}" />
-		    <f:event type="preRenderView" listener="#{validacionBean.Validar}"/>
+		    <f:event type="preRenderView" listener="#{validacionBean.validar}"/>
 		</f:metadata>
 		<p:panel>
 			<p:outputLabel value="#{validacionBean.resultado}"></p:outputLabel>

@@ -40,7 +40,7 @@ public class ValidacionBean implements Serializable{
 		
 	}
 	
-	public void Validar(ComponentSystemEvent event){
+	public void validar(ComponentSystemEvent event){
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 		beginTransaction();
 		try{

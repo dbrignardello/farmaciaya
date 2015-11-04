@@ -47,7 +47,6 @@ public class UsuarioBean implements Serializable{
 	
 	public UsuarioBean(){		
 		setSecurityUtilities(new SecurityUtilities());
-		setSessionUtilities(new SessionUtilities());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 	}
 	
@@ -86,7 +85,7 @@ public class UsuarioBean implements Serializable{
 	}
 	
 	public String logout() {
-	      HttpSession session = getSessionUtilities().getSession();
+	      HttpSession session = SessionUtilities.getSession();
 	      session.invalidate();
 	      return "Hello.xhtml?faces-redirect=true";
 	}

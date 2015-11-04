@@ -53,11 +53,14 @@ public class Pedido implements Serializable {
 	}
 
 	public Date getFecha() {
-		return this.fecha;
+		if (this.fecha == null){
+			return null;
+		}
+		return (Date) this.fecha.clone();
 	}
 
 	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+		this.fecha = new Date(fecha.getTime());
 	}
 
 

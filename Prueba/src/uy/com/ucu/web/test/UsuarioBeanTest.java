@@ -171,7 +171,7 @@ public class UsuarioBeanTest {
 	}
 
 	@Test
-	public void testSuccessfulRegistration_existingUser() {		
+	public void testSuccessfulRegistrationExistingUser() {		
 		loadValidUser(usuarioBean);
 		TypedQuery<Usuario> retrievedUsuarios = usuarioBean.getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class)
 		.setParameter("username",usernameValido);
@@ -185,7 +185,7 @@ public class UsuarioBeanTest {
 	
 	@Test
 	//Reescribir este código, conceptualmente erróneo
-	public void testFailedRegistration_nonExistingUser() {		
+	public void testFailedRegistrationNonExistingUser() {		
 		loadInvalidUser(usuarioBean);
 		TypedQuery<Usuario> retrievedUsuarios = usuarioBean.getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class)
 		.setParameter("username",usernameInvalido);

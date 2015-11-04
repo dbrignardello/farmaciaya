@@ -30,7 +30,6 @@ public class HistorialPedidosBean {
 	
 	public HistorialPedidosBean(){
 		setSecurityUtilities(new SecurityUtilities());
-		setSessionUtilities(new SessionUtilities());
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());	
 		//Obtener el usuario logueado
 		HttpSession session = SessionUtilities.getSession();

@@ -41,8 +41,7 @@ public class CarritoBean {
 	private int cantidadAComprar;
 	
 	public CarritoBean(){		
-		setSecurityUtilities(new SecurityUtilities());
-		setSessionUtilities(new SessionUtilities());
+		setSecurityUtilities(new SecurityUtilities());		
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 	}
 	
@@ -134,7 +133,7 @@ public class CarritoBean {
 		ItemCarrito item;
 		
 		//String para email
-		String listadoCarrito = "";
+		String listadoCarrito;
 		String montoTotal = this.calcularMontoTotal().toString();
 		
 		//Obtener el usuario: para agregar sus pedidos realizados y enviar el mail correspondiente.
@@ -143,6 +142,7 @@ public class CarritoBean {
         Usuario user = getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult();
         Usuario usuario = getEntityManager().find(Usuario.class, user.getIdusuario());
 		
+        StringBuffer buf = new StringBuffer();
 		while (iterador.hasNext()){
 			item = iterador.next();
 			hayStock = item.getFarmacia().verificarStock(item.getProducto(), item.getCantidad());
@@ -153,8 +153,10 @@ public class CarritoBean {
 			compraExitosa = compraExitosa && hayStock;
 			
 			//Email
-			listadoCarrito += "<li>" + item.getProducto().getNombre() + " (" + item.getCantidad().toString() + ") </li>";
+			buf.append("<li>" + item.getProducto().getNombre() + " (" + item.getCantidad().toString() + ") </li>");
 		}
+		
+		listadoCarrito = buf.toString();
 		
 		//Modificar stock, vaciar carrito y registrar pedido
 		if (compraExitosa){

@@ -53,7 +53,6 @@ public class GeolocationUtilitiesTest {
 	public void testFarmaciasCercanas() {
 		
 		GeolocationUtilities gu = new GeolocationUtilities();
-		ParserUtilities pu = new ParserUtilities();
 		
 		//UCU
 		String direccionUsuario = "Av. 8 de Octubre 2738, Montevideo, Uruguay";

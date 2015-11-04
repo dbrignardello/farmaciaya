@@ -8,6 +8,9 @@ public class ItemCarrito {
 	Integer cantidad;
 	
 	public double calcularMonto(){
+		if (cantidad == null){
+			return 0;
+		}
 		return cantidad*precio;
 	}
 	

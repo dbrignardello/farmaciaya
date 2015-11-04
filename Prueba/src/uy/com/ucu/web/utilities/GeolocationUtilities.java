@@ -1,9 +1,11 @@
 package uy.com.ucu.web.utilities;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.json.JSONObject;
 
@@ -20,6 +22,7 @@ public class GeolocationUtilities {
 	// HTTP GET request
 	public String pedidoGeolocacion(String address) {
 
+		BufferedReader in = null;
 		try{			
 			String url = geolocationService + "search?" + "q=" + address.replace(" ", "%20") + "&format=" + format;
 			System.out.println(url);
@@ -29,7 +32,6 @@ public class GeolocationUtilities {
 			// optional default is GET
 			con.setRequestMethod("GET");
 			
-
 			//add request header
 			//con.setRequestProperty("User-Agent", USER_AGENT);
 
@@ -37,8 +39,8 @@ public class GeolocationUtilities {
 			//System.out.println("\nSending 'GET' request to URL : " + url);
 			//System.out.println("Response Code : " + responseCode);
 
-			BufferedReader in = new BufferedReader(
-			        new InputStreamReader(con.getInputStream()));
+			in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
 
@@ -50,7 +52,13 @@ public class GeolocationUtilities {
 			return(response.toString());
 			
 		}catch(Exception e){
-			
+			if (in != null){
+				try {
+					in.close();
+				} catch (IOException e1) {
+					
+				}
+			}
 		}
 		
 		return "";
@@ -80,9 +88,9 @@ public class GeolocationUtilities {
 			dist = Math.acos(dist);
 			dist = rad2deg(dist);
 			dist = dist * 60 * 1.1515;
-			if (unit == "K") {
+			if (unit.equals("K")) {
 				dist = dist * 1.609344;
-			} else if (unit == "N") {
+			} else if (unit.equals("N")) {
 				dist = dist * 0.8684;
 			}
 
