@@ -140,8 +140,10 @@ public class ListadoFarmaciaBean implements Serializable {
 			int calificaciónTotal = 0;
 			for (Pedido pedido : allPedidos) {
 				if(pedido.getNombreFarmacia().equals(farmacia.getNombreFarmacia())){
-					numeroPedidos++;
-					calificaciónTotal += pedido.getRating();
+					if(pedido.getRating() != null){
+						calificaciónTotal += pedido.getRating();
+						numeroPedidos++;
+					}
 				}
 			}
 			if (numeroPedidos == 0){
