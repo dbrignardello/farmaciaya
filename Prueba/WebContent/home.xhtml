@@ -45,7 +45,7 @@
 	<h:form id="listado">
 		<p:panel id="panel" header="Buscar medicamento o farmacia"
 			style="margin-bottom:10px;">
-			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<p:messages id="messages" showDetail="true" autoUpdate="false" closable="true" />
 
 			<h:panelGrid columns="6" cellpadding="5">
 				<h:outputLabel for="txt1" value="Medicamento/Faramacia : " />
@@ -56,13 +56,13 @@
 				<p:message for="txt1" />
 				<h:outputText value="" />
 				<p:commandButton action="#{listadoFarmacia.buscar}" oncomplete="PF('statusDialog').hide()"
-					value="Buscar" update=":listaFarmacias" icon="ui-icon-search"> 
+					value="Buscar" update=":listaFarmacias listado" icon="ui-icon-search"> 
 					<f:param name="valorBusqueda"
 						value="#{listadoFarmacia.valorBusqueda}" />
 				</p:commandButton>
 				<p:commandButton
 					action="#{listadoFarmacia.borrarBusqueda}" value="Ver todas"
-					update=":listaFarmacias"
+					update=":listaFarmacias listado"
 					oncomplete="PF('statusDialog').hide()">
 				</p:commandButton>
 			</h:panelGrid>
