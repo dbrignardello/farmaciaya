@@ -28,7 +28,6 @@ public class HistorialPedidosBean {
 
 	private List<Pedido> pedidos;
 	
-	private String nombreCompleto;
 	
 	public HistorialPedidosBean(){
 		setSecurityUtilities(new SecurityUtilities());
@@ -36,7 +35,6 @@ public class HistorialPedidosBean {
 		//Obtener el usuario logueado
 		HttpSession session = SessionUtilities.getSession();
 		String username=(String) session.getAttribute("username");
-		setNombreCompleto(username);
 		beginTransaction();
 	    Usuario user = getEntityManager().createNamedQuery("Usuario.findByUsername", Usuario.class).setParameter("username",username).getSingleResult();
 	    endTransaction();
@@ -134,13 +132,7 @@ public class HistorialPedidosBean {
         FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public String getNombreCompleto() {
-		return nombreCompleto;
-	}
 
-	public void setNombreCompleto(String nombreCompleto) {
-		this.nombreCompleto = nombreCompleto;
-	}
 
 	
 	

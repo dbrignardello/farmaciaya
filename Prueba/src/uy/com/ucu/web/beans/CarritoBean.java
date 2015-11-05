@@ -40,13 +40,12 @@ public class CarritoBean {
 	private int stockMaximo;
 	private int cantidadAComprar;
 	
-	private String nombreCompleto;
+
 	
 	public CarritoBean(){		
 		setSecurityUtilities(new SecurityUtilities());		
 		setSessionUtilities(new SessionUtilities());
-		HttpSession session = SessionUtilities.getSession();
-		setNombreCompleto((String) session.getAttribute("username"));
+
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
 	}
 	
@@ -312,11 +311,5 @@ public class CarritoBean {
 		this.stockMaximo = stockMaximo;
 	}
 
-	public String getNombreCompleto() {
-		return nombreCompleto;
-	}
-
-	public void setNombreCompleto(String nombreCompleto) {
-		this.nombreCompleto = nombreCompleto;
-	}
+	
 }

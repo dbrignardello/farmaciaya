@@ -40,13 +40,11 @@ public class FarmaciaBean implements Serializable {
 	private String valorBusqueda;
 	private EntityManager entityManager;
 	
-	private String nombreCompleto;
 
 	public FarmaciaBean() {
 		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());
 		setSessionUtilities(new SessionUtilities());
-		HttpSession session = SessionUtilities.getSession();
-		setNombreCompleto((String) session.getAttribute("username"));
+
 
 	}
 	
@@ -136,14 +134,7 @@ public class FarmaciaBean implements Serializable {
 	}
 
 
-	public String getNombreCompleto() {
-		return nombreCompleto;
-	}
 
-
-	public void setNombreCompleto(String nombreCompleto) {
-		this.nombreCompleto = nombreCompleto;
-	}
 	public SessionUtilities getSessionUtilities() {
 		return sessionUtilities;
 	}
