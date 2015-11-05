@@ -5,3 +5,13 @@ body{
 .ui-panel, .ui-datascroller{
 	margin:2% 15%; 
 }
+
+.ui-toolbar-group-left{
+	padding-left: 2%;
+    background-image: url("/Prueba/javax.faces.resource/images/fylogo.png.xhtml");
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    height: 100%;
+}
+

@@ -38,7 +38,7 @@ public class UsuarioBean implements Serializable{
 	private String failedLoginURL = "";
 	private String successfulRegistrationURL = "Hello.xhtml?faces-redirect=true";
 	private String failedRegistrationURL = "";
-	private String validationURL = "http://localhost:8080/Prueba/Validacion.xhtml?codigo="; //Cambiar dependiendo del servidor a utilizar
+	private String validationURL = "http://52.26.248.104:8080/Prueba/Validacion.xhtml?codigo="; //Cambiar dependiendo del servidor a utilizar
 	
 	private EntityManager entityManager;
 	

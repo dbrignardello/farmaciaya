@@ -21,8 +21,8 @@
 	    <h:form id="formBanner">
 			<p:toolbar>
 		        <f:facet name="left">
-		            <p:commandLink action="home.xhtml?faces-redirect=true">FarmaciaYaaaaaaaa!</p:commandLink>
-		            <p:graphicImage></p:graphicImage><!-- Aca iria el logo -->
+		        <p:graphicImage name="images/fylogo.png" width="3%" height="5%"></p:graphicImage>
+		            <p:commandLink action="home.xhtml?faces-redirect=true">FarmaciaYa!</p:commandLink>
 		 
 		            <span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -35,7 +35,7 @@
 		        </f:facet>
 		 
 		        <f:facet name="right">
-		            <p:menuButton value="Hola #{usuario.username}!">
+		            <p:menuButton value="Hola #{usuario.nombreCompleto}!">
 		                <p:menuitem value="Mis pedidos" icon="ui-icon-note" action="HistorialPedidos.xhtml?faces-redirect=true"/>
 	                	<p:menuitem value="Cerrar sesión" icon="ui-icon-power" action="#{usuario.logout()}" />
 		            </p:menuButton>
