@@ -17,18 +17,24 @@
 	    <p:graphicImage name="/images/loading.gif" />
 	</p:dialog>
 	
-		<h:form style="margin: 10% auto; width: 50%;">
-	 		<p:growl id="msg" showDetail="true" sticky="true" /> 
-			<p:panel header="Login de usuario" style="margin-bottom:10px;" styleClass="mini-panel panel-grid tr panel-grid td panel-hover panel-header-title-small">
-				<h:panelGrid columns="2" cellpadding="5" style="margin: auto;">
+		<div class="ui-fluid">
+		<h:form style="margin: 10% auto; max-width: 400px;">
+		
+	 		<p:growl id="msg" showDetail="true" sticky="true" />
+			<!-- <p:panel header="Login de usuario" style="margin-bottom:10px;" >
+			</p:panel> -->
+			
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
+				  	<f:facet name="header"><h:outputLabel value="Login de usuario" /></f:facet>
 				  	<h:outputLabel for="username" value="Usuario:" />
 				  	<p:inputText id="username" value="#{usuario.username}"/>
 				  	<h:outputLabel for="password" value="Contraseña:" />
 				  	<p:password id="password" value="#{usuario.password}"/>
 					<p:link href="UserInfo.xhtml">Registrarse</p:link>
 			  		<p:commandButton style="text-align:right;" value="Login" action="#{usuario.login()}" update="msg" immediate="false" />
-				</h:panelGrid>
-			</p:panel>
+				</p:panelGrid>
+		
 		</h:form>
+		</div>
 	</h:body>
 </html>

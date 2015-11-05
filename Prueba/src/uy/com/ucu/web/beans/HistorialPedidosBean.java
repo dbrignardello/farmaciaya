@@ -113,7 +113,7 @@ public class HistorialPedidosBean {
 		getEntityManager().flush();
 		endTransaction();
 		
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación", "Used calificó: " + ((Integer) rateEvent.getRating()).intValue());
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación", "Usted calificó: " + ((Integer) rateEvent.getRating()).intValue());
 	    FacesContext.getCurrentInstance().addMessage(null, message);	
 	}
 	
