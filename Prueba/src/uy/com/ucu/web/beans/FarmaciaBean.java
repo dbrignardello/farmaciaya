@@ -31,6 +31,7 @@ import uy.com.ucu.web.utilities.SessionUtilities;
 @SessionScoped
 public class FarmaciaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private SessionUtilities sessionUtilities;
 
 	private Farmacia farmacia;
 	
@@ -39,9 +40,13 @@ public class FarmaciaBean implements Serializable {
 	private String valorBusqueda;
 	private EntityManager entityManager;
 	
+	private String nombreCompleto;
 
 	public FarmaciaBean() {
-		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());		
+		setEntityManager(Persistence.createEntityManagerFactory("prueba").createEntityManager());
+		setSessionUtilities(new SessionUtilities());
+		HttpSession session = SessionUtilities.getSession();
+		setNombreCompleto((String) session.getAttribute("username"));
 
 	}
 	
@@ -128,6 +133,23 @@ public class FarmaciaBean implements Serializable {
 
 	public void setBusquedaReciente(List<ItemInventario> busquedaReciente) {
 		this.busquedaReciente = busquedaReciente;
+	}
+
+
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+	public SessionUtilities getSessionUtilities() {
+		return sessionUtilities;
+	}
+
+	public void setSessionUtilities(SessionUtilities sessionUtilities) {
+		this.sessionUtilities = sessionUtilities;
 	}
 
 }
